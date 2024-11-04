@@ -1,0 +1,288 @@
+{% extends 'maindashboard-students.html' %}
+{% block title %}
+Student Dashboard | Upgraded 
+{% endblock title %}
+{% block body %}
+<main id="main" class="main">
+<section class="section dashboard">
+  <div class="row">
+    <!-- Left side columns -->
+    <div class="col-lg-8">
+        <div class="row">
+          <!-- My courses Card -->
+          <div class="col-xxl-4 col-xl-12">
+              <div class="card info-card sales-card">
+                <div class="card-body">
+                    <h5 class="card-title ">My Lessons</span></h5>
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                          <i class="bi bi-mortarboard"></i>
+                      </div>
+                      <div class="ps-3">
+                          <h6>{{ enrolled_lessons[0] }}</h6>
+                      </div>
+                    </div>
+                </div>
+              </div>
+          </div>
+          <!-- End  My Courses Card -->
+
+          <!-- In Progress Card -->
+          <div class="col-xxl-4 col-xl-12">
+              <div class="card info-card customers-card">
+                <div class="card-body">
+                    <h5 class="card-title">In Progress</h5>
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                          <i class="bi bi-calendar-week-fill"></i>
+                      </div>
+                      <div class="ps-3">
+                          <h6>{{inprogress_lesson[0]}}</h6>
+                      </div>
+                    </div>
+                </div>
+              </div>
+          </div>
+          <!-- End Progress Card -->
+          <!-- Completed Card -->
+           <div class="col-xxl-4 col-xl-12">
+              <div class="card info-card revenue-card">
+                <div class="card-body">
+                    <h5 class="card-title">Completed</h5>
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                          <i class="bi bi-check-circle-fill"></i>
+                      </div>
+                      <div class="ps-3">
+                          <h6>{{completed_lessons[0]}}</h6>
+                      </div>
+                    </div>
+                </div>
+              </div>
+          </div>
+          <!-- End Completed Card -->
+          
+          
+
+        {% if limited_recommend_lessons and limited_recommend_lessons|length > 0 %}
+    <!-- Continue watching card -->
+    <div class="card-body">
+        <div class="page-title d-flex justify-content-between align-items-center">
+            <h5 class="card-title mt-0 p-0">Suggested Lessons for you</h5>
+            <div>
+                <a href="{{'/Explore-New/Lessons'}}" type="button" class="btn btn-primary">
+                    <span><i class="bi bi-eye-fill"></i></span>
+                    View All
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- -------------------- -->
+
+    {% for limited_recommend_lesson in limited_recommend_lessons %}
+        <div class="col-xxl-4 col-lg-6">
+            <div class="card info-card card-suggestion">
+                <!-- Image for the lesson -->
+                <img src="{{ limited_recommend_lesson[11] }}" class="card-img-top img-fluid lesson-card" alt="..."/>
+
+                <div class="card-body card-suggest">
+                    <!-- Truncate the title if it's too long -->
+                    <a href="#" class="card-title fw-5 suggest-title">
+                        {{ limited_recommend_lesson[2] }}
+                    </a>
+
+                    <!-- Flexbox layout for consistent alignment -->
+                    <div class="d-flex align-items-center mt-3">
+                        <!-- Profile image with fixed size -->
+                        <img src="{{ limited_recommend_lesson[20] }}" alt="" 
+                            class="rounded-circle me-2" 
+                            style="width:36px; height:36px;">
+
+                        <!-- Teacher details -->
+                        <div>
+                            <p class="m-0 video-p1 text-opacity-75">
+                                <b>{{ limited_recommend_lesson[18] }} {{ limited_recommend_lesson[19] }}</b>
+                            </p>
+                            <p class="text-opacity-75 m-0 video-p1">Teacher</p>
+                        </div>
+                    </div>
+
+                    <!-- Buttons: Save and Start -->
+                    <div class="container mt-4">
+                        <div class="d-flex">
+                            <!-- Save Button -->
+                            <form action="{{ url_for('take_lesson') }}" method="POST" class="d-inline me-3">
+                                <input type="hidden" name="lesson_id" value="{{ limited_recommend_lesson[0] }}">
+                                <input type="hidden" name="lesson_group_id" value="{{ limited_recommend_lesson[9] }}">
+                                <button type="submit" class="lesson-btn-save" name="action" value="save">
+                                    <i class="bi bi-bookmark bookmark-icon"></i> Save
+                                </button>
+                            </form>
+
+                            <!-- Start Button -->
+                            <form action="{{ url_for('get_lesson') }}" method="POST" class="d-inline ms-4">
+                                <input type="hidden" name="lesson_id" value="{{ limited_recommend_lesson[0] }}">
+                                <input type="hidden" name="lesson_group_id" value="{{ limited_recommend_lesson[9] }}">
+                                <button type="submit" class="lesson-btn" name="action" value="start">
+                                    <i class="bi bi-play"></i> Start
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}
+
+
+        
+        {% if  my_lessons_data  and  my_lessons_data | length >= 0 %}
+            
+    
+          <!-- Top Selling -->
+          <div class="col-12">
+              <div class="card top-selling overflow-auto">
+                <div class="card-body pb-0">
+                    <h5 class="card-title">My Lessons</h5>
+                    <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col">Preview</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Status</th>
+                           
+                          </tr>
+                      </thead>
+                      <tbody>
+                        
+                        {% for my_lessons_data in my_lessons_data %}
+                          <tr>
+                            <th scope="row"><a href="#"><img src="{{my_lessons_data[11]}}" alt=""></a></th>
+                            <td>{{my_lessons_data[2]}}</td>
+                            <td>{{my_lessons_data[6]}}</td>
+                            <td>
+                              <span class="{% if my_lessons_data[19] == 'Completed' %}badge bg-success
+                                            {% elif my_lessons_data[19] == 'In Progress' %}badge bg-info
+                                            {% elif my_lessons_data[19] == 'Unenrolled' %}badge bg-danger
+                                            {% elif my_lessons_data[19] == 'Not Started' %}badge bg-warning
+                                            {% endif %}">
+                                  {{ my_lessons_data[19] }}
+                              </span>
+                            </td>   
+                            
+                          </tr>
+                        {% endfor %}
+                        
+                        
+                      </tbody>
+                    </table>
+                </div>
+              </div>
+          </div>
+
+        {% endif %}
+          <!-- End Top Selling -->
+        </div>
+    </div>
+    <!-- End Left side columns -->
+    <!-- Right side columns -->
+    <div class="col-lg-4">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Video Lesson Topics</h5>
+                <!-- Donut Chart -->
+                <div id="donutChart" style="min-height: 475px;" class="echart"></div>
+                <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                        var chartData = {{ chart_data | tojson }};  // Ensure this line is correctly placed
+                        echarts.init(document.querySelector("#donutChart")).setOption({
+                            tooltip: {
+                                trigger: 'item'
+                            },
+                            legend: {
+                                top: '2%', 
+                                left: 'center', 
+                                itemGap: 10, 
+                            },
+                            series: [{
+                                type: 'pie',
+                                radius: ['50%', '75%'],
+                                avoidLabelOverlap: false,
+                                center: ['50%', '60%'], 
+                                label: {
+                                    show: false,
+                                    position: 'center'
+                                },
+                                emphasis: {
+                                    label: {
+                                        show: true,
+                                        fontSize: '10',
+                                        fontWeight: 'bold'
+                                    }
+                                },
+                                labelLine: {
+                                    show: false
+                                },
+                                data: chartData  
+                            }]
+                        });
+                    });
+                </script>
+                <!-- End Donut Chart -->
+            </div>
+        </div>
+
+           
+
+            {% if my_lessons_data and my_lessons_data|length > 0 %}
+            <!-- Continue Learning -->
+            <div class="card">
+                <div class="card-body m-2">
+                    <h5 class="card-title mb-2">Continue Learning</h5>
+                
+                    {% for lesson in my_lessons_data %}
+                        <div class="row">
+                            <div class="col-12 continue-card mt-2"> 
+                                <div class="col-12 d-flex align-items-center"> 
+                                    <img src="{{ lesson[11] }}" class="rounded-2 continue_img" alt="">
+                                  <span class="continue-p text-center ms-3 fw-bold"> <a href="/Student/My-Lesson">{{ lesson[2] }}</a> </span>
+
+                                    {% set last_watched_time = lesson[20] %}
+                                    {% set duration = lesson[14] %}
+                                    {% set percentage = (last_watched_time / duration) * 100 %}
+
+
+                                    <!-- Progress Circle -->
+                                    <div class="progress-circle ms-4" data-percentage="{{ percentage|round(0) }}"> <!-- Dynamic percentage here -->
+                                        <svg width="60" height="60">
+                                            <circle cx="30" cy="30" r="25" class="background" />
+                                            <circle class="progress" cx="30" cy="30" r="25" 
+                                                style="stroke-dasharray: 157; stroke-dashoffset: {{ 157 - (percentage * 157 / 100) }}" /> <!-- Adjusted stroke-dashoffset based on percentage -->
+                                        </svg>
+                                        <div class="percentage">{{ percentage|round(0) }}%</div> <!-- Displayed percentage -->
+                                    </div>  
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        
+
+        </div>
+        </div><!-- End Continue Learning -->
+    </div>
+</div>
+
+
+    <!-- End Right side columns -->
+  </div>
+</section>
+{% endblock %}
+
+

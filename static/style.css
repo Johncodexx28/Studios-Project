@@ -1,0 +1,340 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700");
+* {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  height: 100%;
+  overflow-x: hidden;
+  justify-content: center;
+  width: auto;
+  padding-top: 70px;
+}
+
+.h2 {
+  color: darkgreen;
+  margin-bottom: 20px;
+}
+.p {
+  max-width: 800px;
+  font-size: 12px;
+}
+
+.custom-color {
+  /* background: linear-gradient(to top, #0ba360 0%, #3cba92 100%); */
+  background-color: #d4e8db;
+}
+
+.custom-color .nav-link {
+  color: #000000 !important;
+}
+
+.custom-color .nav-link:hover {
+  color: #0a7022 !important;
+}
+
+.custom-color .navbar-brand {
+  color: #006d1f !important;
+}
+
+.custom-color .navbar-brand:hover {
+  color: #0a7022 !important;
+}
+
+/* role-join-login-btn */
+
+#customLoginbtn {
+  color: rgb(0, 0, 0);
+  border: 2px solid rgb(28, 83, 10);
+}
+
+#customJointbn {
+  color: #ffffff;
+  background-color: rgb(28, 83, 10);
+  transition: transform 0.3s ease;
+}
+#customJointbn:hover {
+  background-color: #087043;
+}
+
+.role_form {
+  border-radius: 15px;
+}
+
+.role_btn:hover {
+  transform: scale(1.05);
+  background-color: rgb(28, 83, 10);
+}
+
+.role_img {
+  width: 500px;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 10px;
+  transition: opacity 0.5s ease-in-out, transform 0.3s ease;
+  opacity: 1;
+}
+
+.role_img:hover {
+  transform: scale(1.05);
+}
+
+.role_img.hidden {
+  opacity: 0;
+}
+
+.dash_btn {
+  background-color: rgb(17, 17, 17);
+  color: #ffffff;
+  border-radius: 20px;
+  width: 100px;
+  height: 40px;
+  transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  border: none;
+}
+
+.dash_btn:hover {
+  background-color: #9c3e41;
+  transition: scale(1.06);
+}
+.about_p {
+  font-size: medium;
+}
+
+/* Home page hero section */
+
+.c-item {
+  height: 480px;
+}
+
+.c-img {
+  height: 120%;
+  object-fit: cover;
+  filter: brightness(0.8);
+}
+
+.c-h1 {
+  background: radial-gradient(
+    circle at 10% 30%,
+    rgb(4, 159, 100) 0%,
+    hwb(61 2% 0%) 90.1%
+  );
+  background-clip: text; /* Standard property */
+  -webkit-background-clip: text; /* WebKit-specific prefix for older browser versions */
+  -webkit-text-fill-color: transparent; /* WebKit-specific for text transparency */
+
+  text-shadow: 2px 4px 4px rgba(52, 51, 51, 0.2);
+}
+
+.c-h2 {
+  background: radial-gradient(
+    circle at 10% 30%,
+    rgb(4, 159, 100) 0%,
+    hwb(61 2% 0%) 90.1%
+  );
+  background-clip: text; /* Standard property */
+  -webkit-background-clip: text; /* WebKit-specific prefix for older browser versions */
+  -webkit-text-fill-color: transparent; /* WebKit-specific for text transparency */
+
+  text-shadow: 2px 4px 4px rgba(52, 51, 51, 0.2);
+}
+
+.c-img3 {
+  margin-top: 100px;
+}
+
+.c-p {
+  text-shadow: 2px 4px 4px rgba(0, 0, 0, 0.2),
+    0px -5px 10px rgba(255, 255, 255, 0.15);
+}
+.cc-container {
+  width: fit-content;
+}
+
+.cc-container {
+  text-align: left; /* Align everything in the caption to the left */
+}
+
+.cc-container .btn {
+  display: inline-block; /* Ensure the button is treated as an inline element */
+  margin-top: 10px; /* Add space above the button if needed */
+}
+
+.text-green {
+  color: #cc6633;
+  text-shadow: 2px 4px 4px rgba(0, 0, 0, 0.2),
+    0px -5px 10px rgba(255, 255, 255, 0.15);
+}
+
+.text-yellow {
+  color: #fcdc01;
+  text-shadow: 2px 4px 4px rgba(0, 0, 0, 0.2),
+    0px -5px 10px rgba(255, 255, 255, 0.15);
+}
+
+/* partners section */
+.partner-logo {
+  width: 80%; /* The logo will take up 80% of its parent container's width */
+  max-width: 150px; /* Maximum width to prevent the logos from being too large */
+  height: auto; /* Maintain aspect ratio */
+}
+
+.small-logo {
+  width: 90px; /* Adjust this value to change the size */
+  height: auto; /* Maintain aspect ratio */
+  transition: transform 0.3s ease;
+}
+.small-logo:hover {
+  transform: scale(1.1);
+}
+
+.partners_sec {
+  background: linear-gradient(to top, #0ba360 0%, #3cba92 100%);
+}
+
+/* popular courses section */
+
+.pop-card {
+  width: 18rem;
+  margin-bottom: 20px;
+}
+
+.pop-card-top {
+  height: 100%;
+  object-fit: cover;
+}
+
+/* flash message */
+
+.flash-messages {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 50px;
+  max-width: 300px;
+  z-index: 1000;
+}
+
+.flash-messages .alert {
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
+  font-family: "Poppins", sans-serif;
+  opacity: 1;
+  animation: fadeout 6s ease-out forwards;
+}
+
+@keyframes fadeout {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.flash-messages .alert-success {
+  background-color: #28a745;
+}
+
+.flash-messages .alert-danger {
+  background-color: #dc3545;
+}
+
+.flash-messages .alert-warning {
+  background-color: #ffc107;
+}
+
+.flash-messages .alert-info {
+  background-color: #17a2b8;
+}
+
+@media (max-width: 720px) {
+  .card-img-top {
+    height: 300px;
+  }
+}
+
+/* sign-up form  */
+
+/*------------ Login container ------------*/
+
+.box-area {
+  width: 930px;
+}
+
+/*------------ Right box ------------*/
+
+.right-box {
+  padding: 40px 30px 40px 40px;
+}
+
+/*------------ Custom Placeholder ------------*/
+
+::placeholder {
+  font-size: 16px;
+}
+
+.rounded-4 {
+  border-radius: 20px;
+}
+.rounded-5 {
+  border-radius: 30px;
+}
+
+/*------------ For small screens------------*/
+
+@media only screen and (max-width: 768px) {
+  .box-area {
+    margin: 0 10px;
+  }
+  .left-box {
+    height: 100px;
+    overflow: hidden;
+  }
+  .right-box {
+    padding: 20px;
+  }
+}
+
+/* Target placeholder Input field */
+
+input::placeholder {
+  font-size: 0.8rem;
+}
+
+textarea::placeholder {
+  font-size: 0.8rem;
+}
+
+.mb-3 select option {
+  font-size: 0.8rem;
+}
+
+.mb-3 selected:disabled {
+  font-size: 0.8rem;
+}
+
+.form-select {
+  font-size: 0.8rem;
+}
+
+footer a {
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline; /* Optional: to add underline on hover */
+}

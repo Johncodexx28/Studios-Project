@@ -1,0 +1,373 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700");
+:root {
+  scroll-behavior: smooth;
+
+  /* Color styles */
+
+  --primary: #037d70;
+  --primary-light: #42b4aa;
+  --pale-pastel: #e9f7f8;
+
+  /* Font size */
+  --header-1: 64px;
+  --header-2: 48px;
+  --header-3: 42px;
+  --header-4: 32px;
+
+  --text-medium: 18px;
+  --text-regular: 16px;
+  --text-light: 13px;
+
+  /* font-weight */
+  --font-weight-bold: 700;
+  --font-weight-semi-bold: 680;
+  --font-weight-medium: 500;
+  --font-weight-regular: 400;
+  --font-weight-light: 300;
+
+  /* section margin */
+  --margin-top-regular: 60px;
+  --margin-top-medium: 80px;
+  --margin-top-semi: 100px;
+  --margin-top-big: 120px;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--pale-pastel);
+  overflow-x: hidden;
+  background-color: linear-gradient(#e9f7f8, white);
+}
+
+/* flash message */
+
+.flash-messages {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 50px;
+  max-width: 300px;
+  z-index: 1000;
+}
+
+.flash-messages .alert {
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
+  font-family: "Poppins", sans-serif;
+  opacity: 1;
+  animation: fadeout 6s ease-out forwards;
+}
+
+@keyframes fadeout {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.flash-messages .alert-success {
+  background-color: #28a745;
+}
+
+.flash-messages .alert-danger {
+  background-color: #dc3545;
+}
+
+.flash-messages .alert-warning {
+  background-color: #ffc107;
+}
+
+.flash-messages .alert-info {
+  background-color: #17a2b8;
+}
+
+@media (max-width: 720px) {
+  .card-img-top {
+    height: 300px;
+  }
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: var(--text-medium);
+  font-weight: var(--font-weight-medium);
+}
+
+.btn-close {
+  font-size: 10px;
+}
+
+input::placeholder {
+  font-size: 12px; /* Adjust the size as needed */
+}
+
+.form-select {
+  font-size: 12px;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  font-size: var(--text-light);
+  border: none;
+}
+
+.btn-primary:fucos {
+  background-color: var(--primary-light);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-light);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  border: 2px solid #037d70;
+  font-size: var(--text-light);
+  color: var(--primary);
+}
+.btn-secondary:hover {
+  background-color: var(--primary-light);
+  border: 2px solid #42b4aa;
+}
+
+.btn-arrow {
+  background-color: transparent;
+  font-size: var(--text-light);
+  color: var(--primary);
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn-arrow:hover {
+  background-color: transparent;
+  font-size: var(--text-light);
+  color: var(--primary);
+  border: 2px solid #037d70;
+}
+
+.arrow-icon {
+  font-size: 15px;
+  margin-left: 8px;
+  color: var(--primary-regular);
+}
+
+.arrow-icon:hover {
+  font-size: 15px;
+  margin-left: 8px;
+  color: var(--primary-light);
+}
+
+.role-btn {
+  background-color: transparent;
+  font-size: var(--text-light);
+  color: var(--primary);
+  border: 2px solid #037d70;
+  padding: 20px;
+  width: 100%;
+  font-size: 15px;
+  height: 100px;
+}
+
+.role-icon {
+  font-size: 40px;
+  margin: 10px;
+  margin-top: 0;
+}
+
+.role-btn:hover {
+  background-color: var(--primary-light);
+  border: 2px solid #42b4aa;
+  color: white;
+}
+
+.back-btn {
+  background-color: white;
+  /* border: 2px solid #42b4aa; */
+  color: var(--primary-light);
+}
+
+.back-btn:hover {
+  /* background-color: var(--primary-light); */
+  /* border: 2px solid #42b4aa; */
+  color: white;
+}
+
+.btn-noacc {
+  background-color: transparent;
+  text-decoration: underline;
+  border: none;
+}
+
+/* Navbar */
+
+.navbar-brand img {
+  height: 40px;
+  width: auto;
+}
+
+.navbar-brand span {
+  font-weight: var(--font-weight-bold);
+  color: var(--primary);
+}
+
+.navbar {
+  padding: 40px 0;
+}
+
+a.nav-link {
+  font-size: var(--text-regular);
+  font-weight: var(--font-weight-regular);
+  color: black !important;
+}
+
+.nav-item {
+  margin-right: 25px;
+}
+
+.nav-item:last-child {
+  margin-right: 0;
+}
+
+/* HERO */
+
+.hero img {
+  width: 100%;
+}
+
+.text-hero-bold,
+.text-hero-regular {
+  margin: 24px 24px 24px 0;
+}
+
+.text-label {
+  color: var(--primary);
+  font-size: var(--text-regular);
+  font-weight: var(--font-weight-regular);
+  line-height: 31px;
+}
+
+.text-hero-bold {
+  color: var(--primary);
+  font-size: var(--header-2);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+}
+
+.text-hero-semi-bold {
+  color: var(--primary);
+  font-size: var(--header-4);
+  font-weight: var(--font-weight-semi-bold);
+  line-height: 1.2;
+}
+
+.text-hero-medium {
+  color: var(--primary);
+  font-size: var(--header-4);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.2;
+}
+
+.text-hero-regular {
+  color: black;
+  font-size: var(--text-regular);
+  font-weight: var(--font-weight-regular);
+  line-height: 25px;
+}
+
+.nav-transparent {
+  background-color: transparent !important;
+}
+
+/* Upload Process */
+.upload-process {
+  margin-top: var(--margin-top-big);
+}
+
+.process-img {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: start;
+  max-width: 300px; /* Adjust as needed */
+  display: inline-block; /* Ensure images and text are inline */
+}
+
+.process-img img {
+  width: 100%; /* Ensures image is responsive */
+  height: auto;
+  margin-bottom: 10px; /* Adds space below the image */
+}
+
+.card-text-semi-bold {
+  font-weight: 600;
+  font-size: 19px;
+  margin-bottom: 5px;
+}
+
+/* Seamless Content */
+.seamless-content {
+  padding: 50px;
+  background-color: white;
+  margin-top: var(--margin-top-medium);
+}
+
+.top-video-lesson {
+  margin-top: var(--margin-top-medium);
+}
+
+/* card */
+.card-img-top {
+  width: 100%; /* Make the image responsive */
+  height: auto; /* Maintain aspect ratio */
+}
+
+/* Top video lessons */
+
+.top-video-lessons {
+  margin-top: var(--margin-top-big);
+}
+
+/* empower cta */
+.empower-cta {
+  margin-top: var(--margin-top-big);
+  padding: 20px;
+  background-image: url("/static/images/UI-Front-scaled.jpg");
+}
+
+/* blogs */
+.blogs {
+  margin-top: var(--margin-top-big);
+  padding: 50px;
+  background-color: white;
+}
+
+.hidden {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+#slider {
+  transition: opacity 0.4s ease;
+}
+
+.image-container-modal {
+  background-color: aquamarine;
+  background-image: url("/static/images/UI-FACADE.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+/* footer */
+.footer {
+  background-color: var(--pale-pastel);
+}

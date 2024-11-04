@@ -1,0 +1,42 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+    height: 100%;
+    overflow-x: hidden;
+    justify-content: center;
+    width: auto;
+    font-family: "Poppins",sans-serif;
+    background-color: rgb(223, 250, 215);
+    
+}
+
+.min-vh-100 {
+min-height: 100vh;
+}
+
+.form-control {
+border-radius: 0.25rem;
+}
+
+.btn-primary {
+border-radius: 0.25rem;
+}
+
+.custom-shape-divider-top-1725200103 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+
+.custom-svg path {
+  fill: #00563B; /* Tomato color */
+}

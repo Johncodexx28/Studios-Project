@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Teacher Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/dash.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>  
+</head>
+<body>
+    <div class="sidebar">
+        <a href="#" class="navbar-brand d-flex align-items-center justify-content-center fw-bolder">
+            <span class="nav-item">PhinmaEduHub</span>
+        </a>
+        <a href="{{url_for('dashboard_teacher')}}">
+            <i class="fas fa-home"></i>
+            <span class="nav-item">Dashboard Overview</span>
+        </a>
+        <a href="#">
+            <i class="fas fa-user"></i>
+            <span class="nav-item">My Profile</span>
+        </a>
+        <a href="#">
+            <i class="fas fa-pencil-alt"></i>
+            <span class="nav-item">Manage Quizzes</span>
+        </a>
+        <a href="#">
+            <i class="fas fa-tasks"></i>
+            <span class="nav-item">Manage Assignments</span>
+        </a>
+        <a href="{{url_for('dash_teach_tools')}}">
+            <i class="fas fa-tools"></i>
+            <span class="nav-item">Teaching Resources</span>
+        </a>
+        <a href="#">
+            <i class="fas fa-chart-line"></i>
+            <span class="nav-item">Student Performance</span>
+        </a>
+        <a href="#">
+            <i class="fas fa-cogs"></i>
+            <span class="nav-item">Account Settings</span>
+        </a>
+        <a href="#">
+            <i class="fas fa-question-circle"></i>
+            <span class="nav-item">Help & Support</span>
+        </a>
+    
+        <div class="logout-container">
+            <form action="{{ url_for('logout') }}" method="post">
+                <button type="submit" class="btn btn-logout w-100 mt-5">
+                    <span>Log Out</span> 
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+<!-- 
+    <div class="main-content">
+        <section class="main">
+            <div class="mt-1">
+                <div class="container d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Teaching Resources</h4>
+                    Add Tool Link
+                    <button class="btn btn-success btn-sm"  data-bs-toggle="modal"
+                    data-bs-target="#AddToolModal">Add Tool</button>
+                </div>
+                <div class="mt-4">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th scope="col" class="text-center">Id</th>
+                                    <th scope="col" class="text-center">Tool name</th>
+                                    <th scope="col" class="text-center">Description</th>
+                                    <th scope="col" class="text-center">Tool type</th>
+                                    <th scope="col" class="text-center">Availability</th>
+                                    <th scope="col" class="text-center">Download</th>
+                                    <th scope="col" class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for tool in tool %}
+                                    <tr>
+                                        <form action="/updatetools" method="post" return="showalert()">
+                                            <td class="text-center">
+                                                <label>{{ tool[0] }}</label>
+                                                <input type="hidden" name="tID" value="{{ tool[0] }}">
+                                            </td>
+                                            <td class="text-center">
+                                                <label>{{ tool[1] }}</label>
+                                                <input type="hidden" name="tnm" value="{{ tool[1] }}">
+                                            </td>
+                                            <td class="text-center">
+                                                <label>{{ tool[2] }}</label>
+                                                <input type="hidden" name="descr" value="{{ tool[2] }}">
+                                            </td>
+                                            <td class="text-center">
+                                                <label>{{ tool[3] }}</label>
+                                                <input type="hidden" name="tooltype" value="{{ tool[3] }}">
+                                            </td>
+                                            <td class="text-center">
+                                                <label>{{ tool[4] }}</label>
+                                                <input type="hidden" name="avail" value="{{ tool[4] }}">
+                                            </td>
+                                            <td class="text-center">
+                                                <a href="#" class="btn btn-primary btn-sm">Download</a>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex justify-content-center mx-2 table_btn">
+                                                    <button type="button" class="btn btn-warning btn-sm mr-2 table_btn" data-bs-toggle="modal"
+                                                    data-bs-target="#updateToolModal" value="updater" name="action">Update</button>
+                                                    <button type="submit" class="btn btn-danger btn-sm mr-2" value="deleter" name="action">Delete</button>
+                                                </div>
+                                            </td>
+                                        </tr>     
+                                    </form>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div> -->
+
+<!-- Main Content -->
+<div class="container-fluid mt-3 px-0">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-10 px-0">
+            <section class="main table-container StudentList-table">
+                <h5 class="mb-4 text-center">Educational Tools and Resources</h5>
+                <div class="d-flex justify-content-center mb-3">
+                    <button class="btn btn-success btn-sm" data-bs-toggle="modal"
+                    data-bs-target="#AddToolModal">Add Tools</button>
+                </div>
+                <hr>
+
+                <!-- Responsive Table Wrapper -->
+                <div class="table-responsive">
+                    <table id="reportTable" class="table table-striped text-center" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-center">Id</th>
+                                <th scope="col" class="text-center">Tool name</th>
+                                <th scope="col" class="text-center">Description</th>
+                                <th scope="col" class="text-center">Tool type</th>
+                                <th scope="col" class="text-center">Availability</th>
+                                <th scope="col" class="text-center">Download</th>
+                                <th scope="col" class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for tool in tool %}
+                            <tr>
+                                <form action="/updatetools" method="post" return="showalert()">
+                                    <td class="text-center">
+                                        <label>{{ tool[0] }}</label>
+                                        <input type="hidden" name="tID" value="{{ tool[0] }}">
+                                    </td>
+                                    <td class="text-center">
+                                        <label>{{ tool[1] }}</label>
+                                        <input type="hidden" name="tnm" value="{{ tool[1] }}">
+                                    </td>
+                                    <td class="text-center">
+                                        <label>{{ tool[2] }}</label>
+                                        <input type="hidden" name="descr" value="{{ tool[2] }}">
+                                    </td>
+                                    <td class="text-center">
+                                        <label>{{ tool[3] }}</label>
+                                        <input type="hidden" name="tooltype" value="{{ tool[3] }}">
+                                    </td>
+                                    <td class="text-center">
+                                        <label>{{ tool[4] }}</label>
+                                        <input type="hidden" name="avail" value="{{ tool[4] }}">
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="#" class="btn btn-primary btn-sm">Download</a>
+                                    </td>
+                                    <td>
+                                        <div class="button-group-horizontal">
+                                            <button class="btn btn-icon btn-danger" value="deleter" name="action">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+
+                                            <a class="btn btn-icon btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#updateToolModal" value="updater" name="action">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        </div>
+                                    </td>        
+                                </tr>     
+                            </form>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div> <!-- End of Responsive Table -->
+            </section>
+        </div>
+    </div>
+    <div class="container mt-3">
+        <div class="row justify-content-center">
+            <div class="col-2" style="background-color: aqua;">
+                <p>Col</p>
+            </div>
+            <div class="col-2" style="background-color: aqua;">
+                <p>Col</p>
+            </div>
+            <div class="col-2" style="background-color: aqua;">
+                <p>Col</p>
+            </div>
+            <div class="col-2" style="background-color: aqua;">
+                <p>Col</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    {% for tool in tool %}
+    <!-- Update-Modal-Tool -->
+    <div class="modal fade" id="updateToolModal" tabindex="-1" aria-labelledby="updateToolModalLabel" aria-hidden="true">
+        <div class="modal-dialog mt-5">
+            <form action="/update_process" method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="updateToolModalLabel">Update</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Tool Id -->
+                        <div class="mb-3">
+                            <label for="toolID" class="form-label">Tool Id</label>
+                            <input type="text" class="form-control" name="tool_id" maxlength="10" value="{{ tool[0] }}" readonly required>
+                        </div>
+                        <!-- Tool name -->
+                        <div class="mb-3">
+                            <label for="toolname" class="form-label">Study Tool Name</label>
+                            <input type="text" class="form-control" name="new_name" maxlength="50" value="{{ tool[1] }}" required>
+                        </div>
+                        <!-- Description -->
+                        <div class="mb-3">
+                            <label for="desc" class="form-label">Description</label>
+                            <input type="text" class="form-control" maxlength="100" name="new_desc" value="{{ tool[2] }}" required>
+                        </div>
+                        <!-- Tool type -->
+                        <div class="mb-3">
+                            <label for="tooltype" class="form-label">Tool Type</label>
+                            <input type="text" class="form-control" maxlength="50" name="new_type" value="{{ tool[3] }}">
+                        </div>
+                        <!-- Availability -->
+                        <div class="mb-3">
+                            <label for="avl" class="form-label">Availability</label>
+                            <select class="form-select" name="new_avl" required>
+                                <option value="Available" {% if tool[4] == "Available" %}selected{% endif %}>Available</option>
+                                <option value="Not Available" {% if tool[4] == "Not Available" %}selected{% endif %}>Not Available</option>
+                            </select>
+                        </div>
+                        <div class="centered-container">
+                            <button type="submit" class="btn btn-success mt-3 w-100">Update</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div> 
+    {% endfor %}
+    <!-- Add-Modal-Tool -->
+    <div class="modal fade" id="AddToolModal" tabindex="-1" aria-labelledby="AddToolModalLabel" aria-hidden="true">
+    <div class="modal-dialog mt-5">
+    <form action="/addtools" method="post">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="AddToolModalLabel">Add</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">            
+            <!-- Tool name -->
+            <div class="mb-3">
+                <label for="toolname" class="form-label">Study Tool Name</label>
+                <input type="text" class="form-control" id="toolname" name="tool_name" maxlength="50" required>
+            </div>
+
+            <!-- Description -->
+            <div class="mb-3">
+                <label for="desc" class="form-label">Description</label>
+                <input type="text" class="form-control" id="desc" maxlength="100" name="description" placeholder="Enter 20-word description" required>
+            </div>
+
+            <!-- Tool type -->
+            <div class="mb-3">
+                <label for="tooltype" class="form-label">Tool Type</label>
+                <input type="text" class="form-control" id="tooltype" maxlength="50" name="tool_type">
+            </div>
+
+            <!-- Availability -->
+            <div class="mb-3">
+                <label for="avl" class="form-label">Availability</label>
+                <select class="form-select" id="avl" name="availability" required>
+                    <option value="Available" selected>Available</option>
+                    <option value="Not Available">Not Available</option>
+                </select>
+            </div>
+
+            <!-- Submit Button -->     
+            <div class="d-grid gap-2 text-center">
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+            </div>
+        </div>
+    </form>
+    </div>
+</div>
+
+
+
+   
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

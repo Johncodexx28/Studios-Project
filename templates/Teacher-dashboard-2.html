@@ -1,0 +1,316 @@
+{% extends 'maindashboard-Teachers.html' %}
+
+
+
+{% block title %}
+  Teacher Dashboard | Upgraded 
+{% endblock title %}
+
+
+{% block body %}
+  
+  <main id="main" class="main">
+    
+    <section class="section dashboard">
+      <div class="row">
+
+        <!-- Left side columns -->
+        <div class="col-lg-8">
+          <div class="row">
+
+            <!-- Uploaded Card -->
+            <div class="col-xl-4 col-md-6">
+              <div class="card info-card sales-card">
+                <div class="card-body">
+                  <h5 class="card-title">Uploaded Lesson</span></h5>
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-mortarboard"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6>{{ num_lesson[0] }}</h6>                 
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- End Uploaded Card -->
+
+            <!-- Lesson Enrollees Card -->
+            <div class="col-xl-4 col-md-6">
+              <div class="card info-card customers-card">
+
+                <div class="card-body">
+                  <h5 class="card-title">Lesson Enrollees </h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-person-fill"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6>{{ total_enrollees[0] }}</h6>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- Lesson Enrollees Card -->
+
+            <!-- Completers Card -->
+            <div class="col-xl-4 col-md-6">
+
+              <div class="card info-card revenue-card">
+
+
+                <div class="card-body">
+                  <h5 class="card-title">Completers</span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-check-circle-fill"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6>{{completers_count[0]}}</h6>
+                    </div>
+                  </div>
+                    
+                </div>
+              </div>
+
+            </div><!-- End Customers Card -->
+            
+            <!-- Continue watching card -->
+          <div class="card-body">
+              <div class="page-title d-flex justify-content-between align-items-center">
+                <h5 class="card-title mt-0 p-0">Recent Uploads</h5>
+                <div>
+                    <a href="/Uploaded/Lessons" type="button" class="btn btn-primary">
+                        <span><i class="bi bi-eye-fill"></i></span>
+                        View All
+                    </a>
+                </div>
+              </div>
+          </div>
+          <!-- -------------------- -->
+
+         {% for recent_uploads in recent_uploads %}
+
+       
+
+            <div class="col-lg-4 col-sm-6">
+               <form action="/view_lesson/teacher" method="POST">
+                  <input type="hidden" name="lesson_id" value="{{ recent_uploads [0]}}">
+                  <input type="hidden" name="lesson_group_id" value="{{ recent_uploads[9] }}">
+                <div class="card info-card card-suggestion">
+                    <a href="#">
+                        <img src="{{recent_uploads[11]}}"
+                            class="card-img-top img-fluid lesson-card"
+                            alt="..."/>
+                    </a>
+                    <div class="card-body card-suggest">
+                        <!-- Truncate the title if it's too long -->
+                        <a href="#" class="card-title fw-5 suggest-title">
+                            {{recent_uploads[2]}}
+                        </a>
+                        
+                        <!-- Bootstrap Flexbox layout for consistent alignment -->
+                        <div class="d-flex align-items-center mt-3">
+                            <!-- Profile image with fixed size -->
+                            <img src="{{recent_uploads[18]}}" alt="" 
+                                class="rounded-circle me-2 flex-shrink-0"
+                                style="width:36px; height:36px;">
+
+                            <!-- Teacher details (Bootstrap column classes) -->
+                            <div class="flex-grow-1">
+                                <p class="m-0 video-p1 text-opacity-75"><b>{{recent_uploads[15]}} {{recent_uploads[17]}}</b></p>
+                                <p class="text-opacity-75 m-0 video-p1">Teacher</p>
+                            </div>
+                        </div>
+                        <div class="text-center justify-content-center">
+                            <button type="submit" class="mt-3 lesson-btn w-100  ">Watch</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+        {% endfor %}
+
+
+            <!-- Top Selling -->
+            <div class="col-12">
+              <div class="card top-selling overflow-auto">
+
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+
+                    <li><a class="dropdown-item" href="#">Today</a></li>
+                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                  </ul>
+                </div>
+
+                <div class="card-body pb-0">
+                  <h5 class="card-title">My Uploaded Lessons</h5>
+
+                  <table class="table table-borderless">
+                    <thead>
+                      <tr>
+                        <th scope="col">Preview</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Category</th>
+                        
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for  my_uploaded_lessons in  my_uploaded_lessons %}
+                        
+                     
+                        <th scope="row"><a href="#"><img src="{{ my_uploaded_lessons[11] }}" alt=""></a></th>
+                        <td> {{ my_uploaded_lessons[2] }} </td>
+                        <td>{{my_uploaded_lessons[6]}}</td>
+                        
+                     
+                      </tr>
+                    
+                      {% endfor %}
+                  </table>
+
+                </div>
+
+              </div>
+            </div><!-- End Top Selling -->
+
+
+
+
+          </div>
+        </div><!-- End Left side columns -->
+
+        <!-- Right side columns -->
+        <div class="col-lg-4">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Enrollees Per Year Level</h5>
+
+              <!-- Donut Chart -->
+              <div id="donutChart" style="min-height: 400px;" class="echart"></div>
+
+              <script>
+                const chart_data = {{ chart_data|safe }};
+
+                document.addEventListener("DOMContentLoaded", () => {
+                  echarts.init(document.querySelector("#donutChart")).setOption({
+                    tooltip: {
+                      trigger: 'item'
+                    },
+                    legend: {
+                      top: '5%',
+                      left: 'center'
+                    },
+                    series: [{
+                      name: 'Enrollees Per Year Level',
+                      type: 'pie',
+                      center: ['50%', '55%'], 
+                      radius: ['50%', '80%'],
+                      avoidLabelOverlap: false,
+                      label: {
+                        show: false,
+                        position: 'center'
+                      },
+                      emphasis: {
+                        label: {
+                          show: true,
+                          fontSize: '18',
+                          fontWeight: 'bold'
+                        }
+                      },
+                      labelLine: {
+                        show: false
+                      },
+                      data: chart_data
+                    }]
+                  });
+                });
+              </script>
+              <!-- End Donut Chart -->
+             <!-- View Enrollees Table Button -->
+                <div class="text-center mt-3">
+                  <a href="/Student-Performance/Teacher" class="btn btn-primary">
+                    <i class="bi bi-eye-fill"></i>
+                    View Enrollees Table
+                  </a>
+                </div>
+            </div>
+          </div>
+
+
+      <!-- Top Uploader -->
+      <div class="card">
+        <div class="filter">
+          <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+            <li class="dropdown-header text-start">
+              <h6>Filter</h6> 
+            </li>
+            <li><a class="dropdown-item" href="#">Today</a></li>
+            <li><a class="dropdown-item" href="#">This Month</a></li>
+            <li><a class="dropdown-item" href="#">This Year</a></li>
+          </ul>
+        </div>
+
+     
+       
+        <div class="card-body">
+          <h5 class="card-title mb-3 text-center">
+            <i class="bi bi-trophy-fill me-1" style="color: gold;"></i>
+            Top Uploaders</h5>
+
+        {% for top_uploaders in top_uploaders %}
+          <div class="top-uploads mt-2">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="d-flex align-items-center p-2">
+                <div class="activite-label">
+                  <img src=" {{top_uploaders[2]}}" class="rounded-circle profilepic_nav" alt="">
+                </div>
+                <div class="ms-3 d-inline-block">
+                  {{top_uploaders[0]}}  {{top_uploaders[1]}}
+                  <div>
+                  <small class="text-muted">
+                      {% if top_uploaders[3] == 1 %}
+                          1 Upload
+                      {% else %}
+                          {{ top_uploaders[3] }} Uploads
+                      {% endif %}
+                  </small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="top-uploads-button me-4">
+                <button>
+                  <i class="bi bi-eye top-uploads-icon"></i>
+                </button>
+              </div>
+            </div><!-- End activity item -->
+          </div>
+
+        {% endfor %}
+
+        </div>
+      </div><!-- End Top Uploader -->
+
+
+
+
+        </div><!-- End Right side columns -->
+
+      </div>
+    </section>
+    
+{% endblock %}

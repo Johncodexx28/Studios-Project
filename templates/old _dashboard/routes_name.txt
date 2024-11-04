@@ -1,0 +1,46 @@
+
+# Teacher Section Routes
+
+#----------Teacher Login Route----------
+#----------Teacher Signup Route----------
+#----------Teacher Dashboard Route----------
+#----------Teacher Profie Route----------
+#----------Teacher ManageQuizzes Route----------
+#----------Teacher TeachingResources Route----------
+#----------Teacher StudentPerformance Route----------
+#----------Teacher Account Settings Route----------
+
+
+
+# Students Section Routes
+
+#----------Student Login Route----------
+#----------Student Signup Route----------
+#----------Student Dashboard Route----------
+#----------Student Profie Route----------
+#----------Student MyQuizzes Route----------
+#----------Student Learning  Materials Route----------
+#----------Student My Performance Route----------
+#----------Student Account Settings Route----------
+#----------Help & Support Route----------
+
+
+#Admin Section Routes
+
+#----------Admin Login Route----------
+#----------Admin Signup Route----------
+#----------Admin Dashboard Route----------
+#----------Admin ManageStudents Route----------
+#----------Admin ManageFaculty Route----------
+#----------Admin CourseManagement Route----------
+#----------Admin Educational Tools Route----------
+#----------Admin Support & Inquiries Route----------
+#----------Admin System Settings Route----------
+
+
+#Other Routes
+# ----------HomePage Courses Route----------
+# ----------HomePage About Us Route----------
+# ----------HomePage Contact Route----------
+# ----------Logout Process Route----------
+# ----------HomePage Blog Route----------

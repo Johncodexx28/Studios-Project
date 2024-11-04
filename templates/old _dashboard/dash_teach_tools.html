@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools Dashboard</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>  
+    
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/dash.css">
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 250px;
+            background-color: #f8f9fa;
+            overflow-y: auto;
+        }
+
+        .sidebar.collapsed {
+            width: 0;
+            overflow: hidden;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        .main-content.collapsed {
+            margin-left: 0;
+        }
+
+        @media (max-width: 1224px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                display: none;
+            }
+
+            .sidebar.active {
+                display: block;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            #sidebarToggle {
+                display: block;
+            }
+        }
+
+        @media (min-width: 769px) {
+            #sidebarToggle {
+                display: none;
+            }
+        }
+
+        #sidebarToggle {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 999;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .header-left h3, .header-left small {
+            margin: 0;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 10px;
+        }
+
+        .logout-container {
+            margin-top: auto;
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Toggle Button -->
+    <button id="sidebarToggle" class="btn btn-primary">
+        <i class="fas fa-bars"></i>
+    </button>
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+    <!-- Sidebar -->
+    <div class="sidebar sticky-sidebar">
+        <a href="#" class="navbar-brand d-flex align-items-center justify-content-center fw-bolder">
+            <span class="nav-item">PhinmaEduHub</span>
+        </a>
+        <a href="{{url_for('dashboard_teacher')}}">
+            <i class="fas fa-home"></i>
+            <span class="nav-item">Dashboard Overview</span>
+        </a>
+        <a href="#">
+            <i class="fas fa-user"></i>
+            <span class="nav-item">My Profile</span>
+        </a>
+        <a href="#">
+            <i class="fas fa-pencil-alt"></i>
+            <span class="nav-item">Manage Quizzes</span>
+        </a>
+        <a href="#">
+            <i class="fas fa-tasks"></i>
+            <span class="nav-item">Manage Assignments</span>
+        </a>
+        <a href="{{url_for('dash_teach_tools')}}">
+            <i class="fas fa-tools"></i>
+            <span class="nav-item">Teaching Resources</span>
+        </a>
+        <a href="#">
+            <i class="fas fa-chart-line"></i>
+            <span class="nav-item">Student Performance</span>
+        </a>
+        <a href="#">
+            <i class="fas fa-cogs"></i>
+            <span class="nav-item">Account Settings</span>
+        </a>
+        <a href="#">
+            <i class="fas fa-question-circle"></i>
+            <span class="nav-item">Help & Support</span>
+        </a>
+
+        <div class="logout-container">
+            <form action="{{ url_for('logout') }}" method="post">
+                <button type="submit" class="btn btn-logout w-100 mt-5">
+                    <span>Log Out</span> 
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header-section">
+            <!-- Left Side: Greeting -->
+            <div class="header-left">
+                <h3>Hello, John</h3>
+                <small>Good morning! Let's start learning.</small>
+            </div>
+
+            <!-- Right Side: Search, Notification, Profile Dropdown -->
+            <div class="header-right">
+                <input type="text" class="form-control form-control-sm" placeholder="Search"> <i></i>
+                <button class="btn btn-light">
+                    <i class="fas fa-envelope"></i>
+                </button>  
+                <button class="btn btn-light">
+                    <i class="fas fa-bell"></i>
+                </button>  
+                <div class="dropdown">
+                    <button class="btn btn-light dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user-circle"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="profileDropdown">
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><a class="dropdown-item" href="#">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="container mb-3">
+            <div class="justify-content-center text-center">
+                <div class="row">
+                    <div class="col-sm-3" style="background-color: aqua;">
+                        <p>time</p>
+                    </div>
+                    <div class="col-sm-3" style="background-color: aqua;">
+                        <p>Recent upload</p>
+                    </div>
+                    <div class="col-sm-3" style="background-color: aqua;">
+                        <p>Number of tools</p>
+                    </div>
+                    <div class="col-sm-3" style="background-color: aqua;">
+                        <p>Calendar</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table Section -->
+        <section class="main table-container StudentList-table">
+            <h5 class="mb-4 text-start">Educational Tools and Resources</h5>
+            <div class="d-flex justify-content-start mb-3">
+                <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#AddToolModal">Add Tools</button>
+            </div>
+            <hr>
+
+            <!-- Responsive Table Wrapper -->
+            <div class="table-responsive">
+                <table id="reportTable" class="table table-striped text-center" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-center">Id</th>
+                            <th scope="col" class="text-center">Tool name</th>
+                            <th scope="col" class="text-center">Description</th>
+                            <th scope="col" class="text-center">Tool type</th>
+                            <th scope="col" class="text-center">Availability</th>
+                            <th scope="col" class="text-center">Download</th>
+                            <th scope="col" class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for tool in tool %}
+                        <tr>
+                            <form action="/updatetools" method="post" return="showalert()">
+                                <td class="text-center">
+                                    <label>{{ tool[0] }}</label>
+                                    <input type="hidden" name="tID" value="{{ tool[0] }}">
+                                </td>
+                                <td class="text-center">
+                                    <label>{{ tool[1] }}</label>
+                                    <input type="hidden" name="tnm" value="{{ tool[1] }}">
+                                </td>
+                                <td class="text-center">
+                                    <label>{{ tool[2] }}</label>
+                                    <input type="hidden" name="descr" value="{{ tool[2] }}">
+                                </td>
+                                <td class="text-center">
+                                    <label>{{ tool[3] }}</label>
+                                    <input type="hidden" name="tooltype" value="{{ tool[3] }}">
+                                </td>
+                                <td class="text-center">
+                                    <label>{{ tool[4] }}</label>
+                                    <input type="hidden" name="avail" value="{{ tool[4] }}">
+                                </td>
+                                <td class="text-center">
+                                    <a href="#" class="btn btn-primary btn-sm">Download</a>
+                                </td>
+                                <td>
+                                    <div class="button-group-horizontal">
+                                        <button class="btn btn-icon btn-danger" value="deleter" name="action">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+
+                                        <a class="btn btn-icon btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#updateToolModal" value="updater" name="action">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </div>
+                                </td>        
+                            </tr>     
+                        </form>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div> <!-- End of Responsive Table -->
+        </section>
+    </div>
+</div>
+
+{% for tool in tool %}
+<!-- Update-Modal-Tool -->
+
+<div class="modal fade" id="updateToolModal" tabindex="-1" aria-labelledby="updateToolModalLabel" aria-hidden="true">
+    <div class="modal-dialog mt-5">
+        <form action="/update_process" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="updateToolModalLabel">Update</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Tool Id -->
+                    <div class="mb-3">
+                        <label for="toolID" class="form-label">Tool Id</label>
+                        <input type="text" class="form-control" name="tool_id" maxlength="10" value="{{ tool[0] }}" readonly required>
+                    </div>
+                    <!-- Tool name -->
+                    <div class="mb-3">
+                        <label for="toolname" class="form-label">Study Tool Name</label>
+                        <input type="text" class="form-control" name="new_name" maxlength="50" value="{{ tool[1] }}" required>
+                    </div>
+                    <!-- Description -->
+                    <div class="mb-3">
+                        <label for="desc" class="form-label">Description</label>
+                        <input type="text" class="form-control" maxlength="100" name="new_desc" value="{{ tool[2] }}" required>
+                    </div>  
+                    <!-- Tool type -->
+                    <div class="mb-3">
+                        <label for="tooltype" class="form-label">Tool Type</label>
+                        <select class="form-select" id="tooltype" name="tool_type">
+                            <option disabled selected>Please Select</option>
+                            <option value="Pdf file" {% if tool[3] == "Pdf file" %}selected{% endif %}>Pdf file</option>
+                            <option value="Video" {% if tool[3] == "Video" %}selected{% endif %}>Video</option>
+                            <option value="Module Copy" {% if tool[3] == "Module Copy" %}selected{% endif %}>Module Copy</option>
+                            <option value="Quiz Handouts" {% if tool[3] == "Quiz Handouts" %}selected{% endif %}>Quiz Handouts</option>
+                        </select>
+                    </div>
+                    <!-- Availability -->                           z   
+                    <div class="mb-3">
+                        <label for="avl" class="form-label">Availability</label>
+                        <select class="form-select" name="new_avl" required>
+                            <option value="Available" {% if tool[4] == "Available" %}selected{% endif %}>Available</option>
+                            <option value="Not Available" {% if tool[4] == "Not Available" %}selected{% endif %}>Not Available</option>
+                        </select>
+                    </div>
+                    <div class="centered-container">
+                        <button type="submit" class="btn btn-success mt-3 w-100">Update</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endfor %}
+
+
+    
+    <!-- Add-Modal-Tool -->
+    <div class="modal fade" id="AddToolModal" tabindex="-1" aria-labelledby="AddToolModalLabel" aria-hidden="true">
+    <div class="modal-dialog mt-5">
+    <form action="/addtools" method="post">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="AddToolModalLabel">Add</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">            
+            <!-- Tool name -->
+            <div class="mb-3">
+                <label for="toolname" class="form-label">Study Tool Name</label>
+                <input type="text" class="form-control" id="toolname" name="tool_name" maxlength="50" required>
+            </div>
+
+            <!-- Description -->
+            <div class="mb-3">
+                <label for="desc" class="form-label">Description</label>
+                <input type="text" class="form-control" id="desc" maxlength="100" name="description" placeholder="Enter 20-word description" required>
+            </div>
+
+
+
+            <!-- File Upload -->
+            <div class="mb-3">
+                <form action="/upload" method="post" enctype="multipart/form-data">
+                    <div>
+                        <label for="fileUpload">Choose a file:</label>
+                        <input type="file" id="fileUpload" name="fileUpload">
+                    </div>
+                </form>
+            </div>
+
+            <!-- Tool type -->
+                <div class="mb-3">
+                    <label for="tooltype" class="form-label">Tool Type</label>
+                    <select class="form-select" id="tooltype" name="tool_type">
+                        <option disabled selected >Please Select</option>
+                        <option value="Pdf file">Pdf file</option>
+                        <option value="Video">Video</option>
+                        <option value="Module Copy">Module Copy</option>
+                        <option value="Quiz Handouts">Quiz Handouts</option>
+                    </select>
+                </div>
+
+
+            <!-- Availability -->
+            <div class="mb-3">
+                <label for="avl" class="form-label">Availability</label>
+                <select class="form-select" id="avl" name="availability" required>
+                    <option value="Available" selected>Available</option>
+                    <option value="Not Available">Not Available</option>
+                </select>
+            </div>
+
+            <!-- Submit Button -->     
+            <div class="d-grid gap-2 text-center">
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+            </div>
+        </div>
+    </form>
+    </div>
+</div>
+
+
+    <!-- Bootstrap and DataTables JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#reportTable').DataTable();
+        });
+
+        // Sidebar Toggle Function
+        $('#sidebarToggle').click(function() {
+            $('.sidebar').toggleClass('collapsed');
+            $('.main-content').toggleClass('collapsed');
+        });
+    </script>
+</body>
+</html>

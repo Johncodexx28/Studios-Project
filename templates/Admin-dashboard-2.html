@@ -1,0 +1,227 @@
+{% extends 'maindashboard-admin.html' %} {% block title %} Admin Dashboard |
+Upgraded {% endblock title %} {% block body %}
+
+<main id="main" class="main">
+  <section class="section dashboard">
+    <div class="row">
+      <!-- Left side columns -->
+      <div class="col-lg-8">
+        <div class="row">
+          <!-- Total StudentsCard -->
+          <div class="col-l-4 col-md-6">
+            <div class="card info-card sales-card">
+              <div class="card-body text-center">
+                <!-- Icon at the top -->
+                <div
+                  class="card-icon rounded-circle d-flex align-items-center justify-content-center mx-auto mt-4"
+                >
+                  <i class="bi bi-person-workspace"></i>
+                </div>
+                <!-- Title in the middle -->
+                <h5 class="card-title">Total Students</h5>
+                <!-- Number at the bottom -->
+                <div>
+                  <h6>{{ student_number }}</h6>
+                  <!-- Displays the student count -->
+                </div>
+                <a
+                  href="{{'/Manage-Students/Admin'}}"
+                  class="btn btn-primary text-center mt-4 fs-6"
+                  >View all students</a
+                >
+              </div>
+            </div>
+          </div>
+          <!-- End Total Students -->
+
+          <!--  Toal Teacher Card -->
+
+          <div class="col-l-4 col-md-6">
+            <div class="card info-card revenue-card">
+              <div class="card-body text-center">
+                <!-- Icon at the top -->
+                <div
+                  class="card-icon rounded-circle d-flex align-items-center justify-content-center mx-auto mt-4"
+                >
+                  <i class="bi bi-person-video3"></i>
+                </div>
+                <!-- Title in the middle -->
+                <h5 class="card-title">Total Teachers</h5>
+                <!-- Number at the bottom -->
+                <div>
+                  <h6>{{number_teacher}}</h6>
+                  <a
+                    href="/Manage-faculty/Admin"
+                    class="btn btn-success text-center mt-4 fs-6"
+                    >View all teachers</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Sales Card -->
+
+          <!-- Total Courses Card -->
+          <div class="col-xl-4 col-xl-12">
+            <div class="card info-card customers-card">
+              <div class="card-body text-center">
+                <!-- Icon at the top -->
+                <div
+                  class="card-icon rounded-circle d-flex align-items-center justify-content-center mx-auto mt-4"
+                >
+                  <i class="bi bi-play-btn"></i>
+                </div>
+                <!-- Title in the middle -->
+                <h5 class="card-title">Total Video Lessons</h5>
+                <!-- Number at the bottom -->
+                <div>
+                  <h6>{{ number_lessons }}</h6>
+                  <a
+                    href="/Lesson-Management/Admin"
+                    class="btn btn-warning text-center mt-4 fs-6"
+                    >View all Lessons
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Sales Card -->
+        </div>
+      </div>
+      <!-- End Left side columns -->
+
+      <!-- Right side columns -->
+      <div class="col-lg-4">
+        <!-- Website Traffic -->
+        <div class="card">
+          <div class="filter">
+            <a class="icon" href="#" data-bs-toggle="dropdown"
+              ><i class="bi bi-three-dots"></i
+            ></a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+              <li class="dropdown-header text-start">
+                <h6>Filter</h6>
+              </li>
+
+              <li><a class="dropdown-item" href="#">Today</a></li>
+              <li><a class="dropdown-item" href="#">This Month</a></li>
+              <li><a class="dropdown-item" href="#">This Year</a></li>
+            </ul>
+          </div>
+
+          <div class="card-body">
+            <h5 class="card-title">No. of Students per Year</h5>
+
+            <!-- Doughnut Chart -->
+            <canvas id="doughnutChart" style="max-height: 400px"></canvas>
+            <script>
+
+              document.addEventListener("DOMContentLoaded", () => {
+
+                  const studentsPerYear = {{ students_per_year | tojson }};
+                  const labels = Object.keys(studentsPerYear);
+                  const data = Object.values(studentsPerYear);
+
+
+              new Chart(document.querySelector('#doughnutChart'), {
+                  type: 'doughnut',
+                  data: {
+                  labels: [
+                      '1st year',
+                      '2nd year',
+                      '3rd year',
+                      '4th year',
+                  ],
+                  datasets: [{
+                      label: 'Enrolled ',
+                      data: data,
+                      backgroundColor: [
+                      'rgb(0, 255, 0)',
+                      'rgb(255, 99, 132)',
+                      'rgb(54, 162, 235)',
+                      'rgb(255, 205, 86)'
+                      ],
+                      hoverOffset: 4
+                  }]
+                  }
+              });
+              });
+            </script>
+            <!-- End donut CHart -->
+          </div>
+        </div>
+        <!-- End Website Traffic -->
+
+        <!-- End Recent Activity -->
+      </div>
+      <!-- End Right side columns -->
+
+      <div class="col-12">
+        <!-- Top Selling -->
+        <div class="col-12">
+          <div class="card top-selling overflow-auto">
+            <div class="filter">
+              <a class="icon" href="#" data-bs-toggle="dropdown"
+                ><i class="bi bi-three-dots"></i
+              ></a>
+              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                <li class="dropdown-header text-start">
+                  <h6>Filter</h6>
+                </li>
+
+                <li><a class="dropdown-item" href="#">Today</a></li>
+                <li><a class="dropdown-item" href="#">This Month</a></li>
+                <li><a class="dropdown-item" href="#">This Year</a></li>
+              </ul>
+            </div>
+
+            <div class="card-body pb-0">
+              <h5 class="card-title m-auto">New Students</h5>
+
+              <table class="table table-striped text-nowrap text-center">
+                <thead class="nowarp">
+                  <tr>
+                    <th scope="col">Profile</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Course</th>
+                    <th scope="col">Year level</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for enrolees_list in enrolees_list[:4] %}
+
+                  <tr>
+                    <th scope="row">
+                      <a href="#"
+                        ><img
+                          src="{{enrolees_list[10]}}"
+                          class="rounded-circle profile_pic"
+                          style="max-width: 36px; max-height: 36px"
+                          alt=""
+                      /></a>
+                    </th>
+
+                    <td>
+                      <a href="#" class="text-dark fw-bold">
+                        {{enrolees_list[1]}} {{enrolees_list[3]}}</a
+                      >
+                    </td>
+
+                    <td class="text-center">{{enrolees_list[7]}}</td>
+
+                    <td class="text-center">{{enrolees_list[8]}}</td>
+                  </tr>
+
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- End Top Selling -->
+      </div>
+    </div>
+  </section>
+
+  {% endblock body %}
+</main>

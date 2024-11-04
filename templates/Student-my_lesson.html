@@ -1,0 +1,681 @@
+{% extends 'maindashboard-students.html' %} {% block title %} Student My Lessons
+| Upgraded {% endblock title %} {% block body %}
+<main class="main" id="main">
+  <section class="section profile">
+    <div class="row">
+      <div class="col-xl-8">
+        <!-- <h2 class="fw-bolder" style="font-family: 'Poppins', Montserrat">
+          MY LESSONS
+        </h2> -->
+        <!-- <p class="card-title mb-2">Continue Learning</p>
+        <div class="d-flex flex-row">
+          {% for _ in range(5) %}
+          <div class="video-container me-3 shadow-lg">
+            <img
+              src="/static/images/html.jpg"
+              alt="Video Thumbnail"
+              class="thumbnail"
+            />
+            <video
+              class="video"
+              data-lesson-id="{{ lesson_id }}"
+              controls
+              autoplay
+              muted
+            >
+              <source src="your-video.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+          {% endfor %}
+        </div> -->
+
+        <div class="card mt-3">
+          <div class="card-body pt-3">
+            <!-- Bordered Tabs -->
+            <ul class="nav nav-tabs nav-tabs-bordered">
+              <li class="nav-item">
+                <button
+                  class="nav-link active"
+                  data-bs-toggle="tab"
+                  data-bs-target="#profile-overview"
+                >
+                  All Lessons
+                </button>
+              </li>
+              <li class="nav-item">
+                <button
+                  class="nav-link"
+                  data-bs-toggle="tab"
+                  data-bs-target="#profile-edit"
+                >
+                  In Progress
+                </button>
+              </li>
+              <li class="nav-item">
+                <button
+                  class="nav-link"
+                  data-bs-toggle="tab"
+                  data-bs-target="#profile-settings"
+                >
+                  Not Started
+                </button>
+              </li>
+              <li class="nav-item">
+                <button
+                  class="nav-link"
+                  data-bs-toggle="tab"
+                  data-bs-target="#profile-change-password"
+                >
+                  Completed
+                </button>
+              </li>
+            </ul>
+
+            <div class="tab-content pt-2">
+              <div
+                class="tab-pane fade show active profile-overview"
+                id="profile-overview"
+              >
+                <!-- Display Lessons -->
+                <div class="col-md-12 col-lg-12">
+                  {% for my_lessons_data in my_lessons_data %}
+                  <div
+                    class="d-flex align-items-center justify-content-between mt-2"
+                  >
+                    <div class="d-flex align-items-center flex-grow-1 me-3">
+                      <img
+                        src="{{ my_lessons_data[11] }}"
+                        alt="Lesson Thumbnail"
+                        style="
+                          max-width: 90px;
+                          height: 80px;
+                          border-radius: 10px;
+                        "
+                        class="me-3"
+                      />
+                      <div class="col col-6">
+                        <p class="video-p4 mb-0">{{ my_lessons_data[2] }}</p>
+                        <p class="video-p4 m-0 text-muted">
+                          {% if my_lessons_data[18] <= 1 %} {{
+                          my_lessons_data[18] }} part {% else %} {{
+                          my_lessons_data[18] }} parts {% endif %}
+                        </p>
+                        <small class="video-p1"
+                          >{{ my_lessons_data[15] }} {{ my_lessons_data[16]
+                          }}</small
+                        >
+                      </div>
+
+                      {% set last_watched_time = my_lessons_data[20] %} 
+                      {% set duration = my_lessons_data[14] %} 
+                      {% set percentage = (last_watched_time / duration) * 100 %}
+
+                      <!-- Progress Circle -->
+                      <div
+                        class="progress-circle ms-5"
+                        data-percentage="{{ percentage|round(0) }}"
+                      >
+                        <!-- Dynamic percentage here -->
+                        <svg width="60" height="60">
+                          <circle cx="30" cy="30" r="25" class="background" />
+                          <circle
+                            class="progress"
+                            cx="30"
+                            cy="30"
+                            r="25"
+                            style="stroke-dasharray: 157; stroke-dashoffset: {{ 157 - (percentage * 157 / 100) }}"
+                          />
+                          <!-- Adjusted stroke-dashoffset based on percentage -->
+                        </svg>
+                        <div class="percentage">{{ percentage|round(0) }}%</div>
+                        <!-- Displayed percentage -->
+                      </div>
+                    </div>
+
+                    <!-- Form for Viewing Lesson -->
+                    <form action="/view_lesson" method="POST" class="me-2">
+                      <div class="d-flex justify-content-end">
+                        <button
+                          class="lesson-btn"
+                          style="width: 100px"
+                          type="submit"
+                          name="action"
+                          value="start"
+                        >
+                          <i class="bi bi-play"></i>
+                          {% if my_lessons_data[19] == 'In Progress' %} Continue
+                          {% elif my_lessons_data[19] == 'Not Started' %} Play
+                          {% else %} Rewatch {% endif %}
+                        </button>
+
+                        <input
+                          type="hidden"
+                          name="lesson_id"
+                          value="{{ my_lessons_data[0] }}"
+                        />
+                        <input
+                          type="hidden"
+                          name="lesson_group_id"
+                          value="{{ my_lessons_data[9] }}"
+                        />
+                      </div>
+                    </form>
+
+                    <!-- Form for Unenroll Lesson -->
+                    <form
+                      action="/Unenroll-Lesson"
+                      method="post"
+                      class="dropdown"
+                    >
+                      <div class="d-flex justify-content-end me-3">
+                        <button
+                          class="btn btn-link"
+                          type="button"
+                          id="kebabMenuButton"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <i class="bi bi-three-dots-vertical"></i>
+                        </button>
+                        <input
+                          type="hidden"
+                          name="lesson_id"
+                          value="{{ my_lessons_data[0] }}"
+                        />
+                        <input
+                          type="hidden"
+                          name="lesson_group_id"
+                          value="{{ my_lessons_data[9] }}"
+                        />
+                        <ul
+                          class="dropdown-menu dropdown-menu-end text-center m-0"
+                          aria-labelledby="dropdownMenuButton"
+                        >
+                          <li>
+                            <button
+                              class="dropdown-item d-flex align-items-center drp-delete"
+                              type="submit"
+                            >
+                              <i class="bi bi-person-x-fill"></i>
+                              <span>Unenroll</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                    </form>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+
+              <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+                <!-- inprogress Lessons -->
+                <div class="col-md-12 col-lg-12">
+                  {% for my_lessons_data_inprogress in
+                  my_lessons_data_inprogress %}
+                  <div
+                    class="d-flex align-items-center justify-content-between mt-2"
+                  >
+                    <div class="d-flex align-items-center flex-grow-1 me-3">
+                      <img
+                        src="{{  my_lessons_data_inprogress[11] }}"
+                        alt="Lesson Thumbnail"
+                        style="
+                          max-width: 90px;
+                          height: 80px;
+                          border-radius: 10px;
+                        "
+                        class="me-3"
+                      />
+                      <div class="col col-6">
+                        <p class="video-p4 mb-0">
+                          {{ my_lessons_data_inprogress[2] }}
+                        </p>
+                        <p class="video-p4 m-0 text-muted">
+                          {% if my_lessons_data_inprogress[18] <= 1 %} {{
+                          my_lessons_data_inprogress[18] }} part {% else %} {{
+                          my_lessons_data_inprogress[18] }} parts {% endif %}
+                        </p>
+                        <small class="video-p1"
+                          >{{ my_lessons_data_inprogress[15] }} {{
+                          my_lessons_data_inprogress[16] }}</small
+                        >
+                      </div>
+
+                      {% set last_watched_time = my_lessons_data_inprogress[20]
+                      %} {% set duration = my_lessons_data_inprogress[14] %} {%
+                      set percentage = (last_watched_time / duration) * 100 %}
+
+                      <!-- Progress Circle -->
+                      <div
+                        class="progress-circle ms-5"
+                        data-percentage="{{ percentage|round(0) }}"
+                      >
+                        <!-- Dynamic percentage here -->
+                        <svg width="60" height="60">
+                          <circle cx="30" cy="30" r="25" class="background" />
+                          <circle
+                            class="progress"
+                            cx="30"
+                            cy="30"
+                            r="25"
+                            style="stroke-dasharray: 157; stroke-dashoffset: {{ 157 - (percentage * 157 / 100) }}"
+                          />
+                          <!-- Adjusted stroke-dashoffset based on percentage -->
+                        </svg>
+                        <div class="percentage">{{ percentage|round(0) }}%</div>
+                        <!-- Displayed percentage -->
+                      </div>
+                    </div>
+
+                    <!-- Form for Viewing Lesson -->
+                    <form action="/view_lesson" method="POST" class="me-2">
+                      <div class="d-flex justify-content-end">
+                        <button
+                          class="lesson-btn"
+                          style="width: 100px"
+                          type="submit"
+                        >
+                          <i class="bi bi-play"></i>
+                          {% if my_lessons_data_inprogress[19] == 'In Progress'
+                          %} Continue {% else %} Play {% endif %}
+                        </button>
+                        <input
+                          type="hidden"
+                          name="lesson_id"
+                          value="{{  my_lessons_data_inprogress[0] }}"
+                        />
+                        <input
+                          type="hidden"
+                          name="lesson_group_id"
+                          value="{{  my_lessons_data_inprogress[9] }}"
+                        />
+                      </div>
+                    </form>
+
+                    <!-- Form for Unenroll Lesson -->
+                    <form
+                      action="/Unenroll-Lesson"
+                      method="post"
+                      class="dropdown"
+                    >
+                      <div class="d-flex justify-content-end me-3">
+                        <button
+                          class="btn btn-link"
+                          type="button"
+                          id="kebabMenuButton"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <i class="bi bi-three-dots-vertical"></i>
+                        </button>
+                        <input
+                          type="hidden"
+                          name="lesson_id"
+                          value="{{  my_lessons_data_inprogress[0] }}"
+                        />
+                        <input
+                          type="hidden"
+                          name="lesson_group_id"
+                          value="{{  my_lessons_data_inprogress[9] }}"
+                        />
+                        <ul
+                          class="dropdown-menu dropdown-menu-end text-center"
+                          aria-labelledby="kebabMenuButton"
+                        >
+                          <li>
+                            <button
+                              class="dropdown-item d-flex align-items-center drp-delete"
+                              type="submit"
+                            >
+                              <i class="bi bi-person-x-fill"></i>
+                              <span>Unenroll</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                    </form>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="tab-pane fade pt-3" id="profile-settings">
+                <!-- inprogress Lessons -->
+                <div class="col-md-12 col-lg-12">
+                  {% for my_lessons_data_notstarted in
+                  my_lessons_data_notstarted %}
+                  <div
+                    class="d-flex align-items-center justify-content-between mt-2"
+                  >
+                    <div class="d-flex align-items-center flex-grow-1 me-3">
+                      <img
+                        src="{{  my_lessons_data_notstarted[11] }}"
+                        alt="Lesson Thumbnail"
+                        style="
+                          max-width: 90px;
+                          height: 80px;
+                          border-radius: 10px;
+                        "
+                        class="me-3"
+                      />
+                      <div class="col col-6">
+                        <p class="video-p4 mb-0">
+                          {{ my_lessons_data_notstarted[2] }}
+                        </p>
+                        <p class="video-p4 m-0 text-muted">
+                          {% if my_lessons_data_notstarted[18] <= 1 %} {{
+                          my_lessons_data_notstarted[18] }} part {% else %} {{
+                          my_lessons_data_notstarted[18] }} parts {% endif %}
+                        </p>
+                        <small class="video-p1"
+                          >{{ my_lessons_data_notstarted[15] }} {{
+                          my_lessons_data_notstarted[16] }}</small
+                        >
+                      </div>
+                      {% set last_watched_time = my_lessons_data_notstarted[20]
+                      %} {% set duration = my_lessons_data_notstarted[14] %} {%
+                      set percentage = (last_watched_time / duration) * 100 %}
+
+                      <!-- Progress Circle -->
+                      <div
+                        class="progress-circle ms-5"
+                        data-percentage="{{ percentage|round(0) }}"
+                      >
+                        <!-- Dynamic percentage here -->
+                        <svg width="60" height="60">
+                          <circle cx="30" cy="30" r="25" class="background" />
+                          <circle
+                            class="progress"
+                            cx="30"
+                            cy="30"
+                            r="25"
+                            style="stroke-dasharray: 157; stroke-dashoffset: {{ 157 - (percentage * 157 / 100) }}"
+                          />
+                          <!-- Adjusted stroke-dashoffset based on percentage -->
+                        </svg>
+                        <div class="percentage">{{ percentage|round(0) }}%</div>
+                        <!-- Displayed percentage -->
+                      </div>
+                    </div>
+
+                    <!-- Form for Viewing Lesson -->
+                    <form action="/view_lesson" method="POST" class="me-2">
+                      <div class="d-flex justify-content-end">
+                        <button
+                          class="lesson-btn"
+                          style="width: 100px"
+                          type="submit"
+                        >
+                          <i class="bi bi-play"></i>
+                          {% if my_lessons_data_notstarted[19] == 'In Progress'
+                          %} Continue {% else %} Play {% endif %}
+                        </button>
+                        <input
+                          type="hidden"
+                          name="lesson_id"
+                          value="{{  my_lessons_data_notstarted[0] }}"
+                        />
+                        <input
+                          type="hidden"
+                          name="lesson_group_id"
+                          value="{{  my_lessons_data_notstarted[9] }}"
+                        />
+                      </div>
+                    </form>
+
+                    <!-- Form for Unenroll Lesson -->
+                    <form
+                      action="/Unenroll-Lesson"
+                      method="post"
+                      class="dropdown"
+                    >
+                      <div class="d-flex justify-content-end me-3">
+                        <button
+                          class="btn btn-link"
+                          type="button"
+                          id="kebabMenuButton"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <i class="bi bi-three-dots-vertical"></i>
+                        </button>
+                        <input
+                          type="hidden"
+                          name="lesson_id"
+                          value="{{  my_lessons_data_notstarted[0] }}"
+                        />
+                        <input
+                          type="hidden"
+                          name="lesson_group_id"
+                          value="{{  my_lessons_data_notstarted[9] }}"
+                        />
+                        <ul
+                          class="dropdown-menu dropdown-menu-end text-center"
+                          aria-labelledby="kebabMenuButton"
+                          style="height: 50px"
+                        >
+                          <li>
+                            <button
+                              class="dropdown-item d-flex align-items-center drp-delete"
+                              type="submit"
+                            >
+                              <i class="bi bi-person-x-fill"></i>
+                              <span>Unenroll</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                    </form>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="tab-pane fade pt-3" id="profile-change-password">
+                <div class="col-md-12 col-lg-12">
+                  {% for my_lessons_data_completed in my_lessons_data_completed
+                  %}
+                  <div
+                    class="d-flex align-items-center justify-content-between mt-2"
+                  >
+                    <div class="d-flex align-items-center flex-grow-1 me-3">
+                      <img
+                        src="{{  my_lessons_data_completed [11] }}"
+                        alt="Lesson Thumbnail"
+                        style="
+                          max-width: 90px;
+                          height: 80px;
+                          border-radius: 10px;
+                        "
+                        class="me-3"
+                      />
+                      <div class="col col-6">
+                        <p class="video-p4 mb-0">
+                          {{ my_lessons_data_completed [2] }}
+                        </p>
+                        <p class="video-p4 m-0 text-muted">
+                          {% if my_lessons_data_completed [18] <= 1 %} {{
+                          my_lessons_data_completed [18] }} part {% else %} {{
+                          my_lessons_data_completed [18] }} parts {% endif %}
+                        </p>
+                        <small class="video-p1"
+                          >{{ my_lessons_data_completed [15] }} {{
+                          my_lessons_data_completed [16] }}</small
+                        >
+                      </div>
+                      {% set last_watched_time = my_lessons_data_completed [20]
+                      %} {% set duration = my_lessons_data_completed [14] %} {%
+                      set percentage = (last_watched_time / duration) * 100 %}
+
+                      <!-- Progress Circle -->
+                      <div
+                        class="progress-circle ms-5"
+                        data-percentage="{{ percentage|round(0) }}"
+                      >
+                        <!-- Dynamic percentage here -->
+                        <svg width="60" height="60">
+                          <circle cx="30" cy="30" r="25" class="background" />
+                          <circle
+                            class="progress"
+                            cx="30"
+                            cy="30"
+                            r="25"
+                            style="stroke-dasharray: 157; stroke-dashoffset: {{ 157 - (percentage * 157 / 100) }}"
+                          />
+                          <!-- Adjusted stroke-dashoffset based on percentage -->
+                        </svg>
+                        <div class="percentage">{{ percentage|round(0) }}%</div>
+                        <!-- Displayed percentage -->
+                      </div>
+                    </div>
+
+                    <!-- Form for Viewing Lesson -->
+                    <form action="/view_lesson" method="POST" class="me-2">
+                      <div class="d-flex justify-content-end">
+                        <button
+                          class="lesson-btn"
+                          style="width: 100px"
+                          type="submit"
+                        >
+                          <i class="bi bi-play"></i>
+                          {% if my_lessons_data[19] == 'In Progress' %} Continue
+                          {% elif my_lessons_data[19] == 'Not Started' %} Play
+                          {% else %} Rewatch {% endif %}
+                        </button>
+                        <input
+                          type="hidden"
+                          name="lesson_id"
+                          value="{{   my_lessons_data_completed [0] }}"
+                        />
+                        <input
+                          type="hidden"
+                          name="lesson_group_id"
+                          value="{{   my_lessons_data_completed [9] }}"
+                        />
+                      </div>
+                    </form>
+
+                    <!-- Form for Unenroll Lesson -->
+                    <form
+                      action="/Unenroll-Lesson"
+                      method="post"
+                      class="dropdown"
+                    >
+                      <div class="d-flex justify-content-end me-3">
+                        <button
+                          class="btn btn-link"
+                          type="button"
+                          id="kebabMenuButton"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <i class="bi bi-three-dots-vertical"></i>
+                        </button>
+                        <input
+                          type="hidden"
+                          name="lesson_id"
+                          value="{{  my_lessons_data_completed [0] }}"
+                        />
+                        <input
+                          type="hidden"
+                          name="lesson_group_id"
+                          value="{{   my_lessons_data_completed [9] }}"
+                        />
+                        <ul
+                          class="dropdown-menu dropdown-menu-end text-center"
+                          aria-labelledby="kebabMenuButton"
+                          style="height: 50px"
+                        >
+                          <li>
+                            <button
+                              class="dropdown-item d-flex align-items-center drp-delete"
+                              type="submit"
+                            >
+                              <i class="bi bi-person-x-fill"></i>
+                              <span>Unenroll</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                    </form>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+            <!-- End Bordered Tabs -->
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-4">
+        <div class="card">
+          <div
+            class="card-body profile-card pt-4 d-flex flex-column align-items-center"
+          >
+            <img
+              src="{{ student_records[0][10] }}"
+              alt="Profile"
+              class="rounded-circle profile_pic"
+            />
+            <h2>{{ student_records[0][1] }} {{ student_records[0][3] }}</h2>
+            <small class="badge bg-warning mt-2"
+              >{{ student_records[0][7] }}</small
+            >
+            <div class="col-xl-12">
+              <div class="row gap-1 d-flex justify-content-center mt-4">
+                <div class="col-md-5 p-2">
+                  <div
+                    class="my-lesson-label-light d-flex flex-column text-center"
+                  >
+                    <p class="m-0 fs-3">{{ enrolled_lessons[0] }}</p>
+                    <small>All Lessons</small>
+                  </div>
+                </div>
+                <div class="col-md-5 p-2">
+                  <div
+                    class="my-lesson-label-primary d-flex flex-column text-center"
+                  >
+                    <p class="m-0 fs-3">{{ inprogress_lesson[0] }}</p>
+                    <small>In Progress</small>
+                  </div>
+                </div>
+                <div class="col-md-5 p-2">
+                  <div
+                    class="my-lesson-label-primary d-flex flex-column text-center"
+                  >
+                    <p class="m-0 fs-3">{{ notstarted_lesson[0] }}</p>
+                    <small>Not Started</small>
+                  </div>
+                </div>
+                <div class="col-md-5 p-2">
+                  <div
+                    class="my-lesson-label-light d-flex flex-column text-center"
+                  >
+                    <p class="m-0 fs-3">{{ completed_lessons[0] }}</p>
+                    <small>Completed</small>
+                  </div>
+                </div>
+                <div class="col-xl-12">
+                  <div class="card card-explore mb-1 mt-3">
+                    <div class="text-center card-explore-center">
+                      <div class="mb-2">
+                        <img src="/static/images/rocket.png" alt="" />
+                      </div>
+                      <a href="/Explore-New/Lessons">
+                        <span class="fs-5 fw-bolder card-explore-btn"
+                          >Explore new lessons</span
+                        >
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock body %}

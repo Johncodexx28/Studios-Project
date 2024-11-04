@@ -1,0 +1,254 @@
+{% extends 'maindashboard-admin.html' %}
+
+{% block title %}
+    Manage Student | Upgraded
+{% endblock title %}
+
+{% block body %}
+<main id="main" class="main">
+    <section class="section dashboard">
+        <div class="row">
+            <!-- Left side columns -->
+            <div class="pagetitle d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h1>Manage Students</h1>
+                </div>
+                <!-- Add Course and Print buttons -->
+                <div>
+                    <button class="btn btn-success btn-sm me-1" data-bs-toggle="modal" data-bs-target="#AddStudentModal"><i class="bi bi-plus-circle"></i> Add Student</button>
+                    <!-- <button class="btn btn-primary btn-sm"><i class="bi bi-printer"></i> Print</button> -->
+                </div>
+            </div><!-- End Page Title -->
+            <div class="col-lg-12">
+                <div class="row">
+                    <!-- List of Students -->
+                    <div class="col-12">
+                        <div class="card recent-sales overflow-auto">
+                            <div class="card-body">
+                                <h5 class="card-title">List of Students</h5>
+
+                                <!-- Year Level Dropdown -->
+                                <div class="mb-3">
+                                    <label for="yearLevelFilter" class="form-label">Filter by Year Level</label>
+                                    <select id="yearLevelFilter" class="form-select">
+                                        <option value="">All</option>
+                                        <option value="1st year">1st Year</option>
+                                        <option value="2nd year">2nd Year</option>
+                                        <option value="3rd year">3rd Year</option>
+                                        <option value="4th year">4th Year</option>
+                                    </select>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table class="table table-striped datatable text-nowrap">
+                                        <thead class="table-success">
+                                            <tr>
+                                                <th scope="col">ID Number</th>
+                                                <th scope="col">First Name</th>
+                                                <th scope="col">Middle Name</th>
+                                                <th scope="col">Last Name</th>
+                                                <th scope="col">Gender</th>
+                                                <th scope="col">Email</th>
+                                                <th scope="col">password</th>
+                                                <th scope="col">Course</th>
+                                                <th scope="col">Year Level</th>
+                                                <th scope="col">Section</th>
+                                                <th scope="col">Delete</th>
+                                                <th scope="col">Update</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for student in students %}
+                                                <tr>
+                                                    <input type="hidden" name="stud_id" value="{{ student[0] }}">
+                                                    <td>
+                                                        <label> {{ student[0] }} </label>
+                                                        <input type="hidden" name="stud_id" value="{{ student[0] }}">
+                                                    </td>
+                                                    <td>
+                                                        <label> {{ student[1] }} </label>
+                                                        <input type="hidden" name="firstname" value="{{ student[1] }}">
+                                                    </td>
+                                                    <td>
+                                                        <label> {{ student[2] }} </label>
+                                                        <input type="hidden" name="middlename" value="{{ student[2] }}">
+                                                    </td>
+                                                    <td>
+                                                        <label> {{ student[3] }} </label>
+                                                        <input type="hidden" name="lastname" value="{{ student[3] }}">
+                                                    </td>
+                                                    <td>
+                                                        <label> {{ student[4] }} </label>
+                                                        <input type="hidden" name="gender" value="{{ student[4] }}">
+                                                    </td>
+                                                    <td>
+                                                        <label> {{ student[5] }} </label>
+                                                        <input type="hidden" name="email" value="{{ student[5] }}">
+                                                    </td>
+                                                    <td>
+                                                        <label> {{ '*' * student[6]|length }} </label>
+                                                        <input type="hidden" name="password" value="{{ student[6] }}">
+                                                    </td>
+                                                    <td>
+                                                        <label> {{ student[7] }} </label>
+                                                        <input type="hidden" name="course" value="{{ student[7] }}">
+                                                    </td>
+                                                    <td>
+                                                        <label> {{ student[8] }} </label>
+                                                        <input type="hidden" name="year_level" value="{{ student[8] }}">
+                                                    </td>
+                                                    <td>
+                                                        <label> {{ student[9] }} </label>
+                                                        <input type="hidden" name="section" value="{{ student[9] }}">
+                                                    </td>
+                                                    <td>
+                                                        <form action="/studentDelete" method="post">
+                                                            <input type="hidden" name="stud_id" value="{{ student[0] }}">
+                                                            <button type="submit" class="btn btn-icon btn-danger" value="Deleter" name="action"><i class="fas fa-trash-alt"></i></button> 
+                                                        </form>                                                       
+                                                    </td>   
+                                                    <td>
+                                                        <a  class="btn btn-icon btn-primary" value="Updater" name="action" data-bs-toggle="modal" data-bs-target="#UpdateStudentModal{{student[0]}}"> <i class="fas fa-edit"></i></a>
+                                                    </td>
+                                                </tr>
+                                            
+                                                <!-- Update-Student-Modal -->
+                                                <div class="modal fade" id="UpdateStudentModal{{student[0]}}" tabindex="-1" aria-labelledby="UpdateStudentModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog mt-5">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="UpdateStudentModalLabel">Update Student:</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form action="/studentUpdate_process" method="post">
+                                                                    <input type="hidden" name="stud_id" value="{{ student[0] }}">
+
+                                                                <div class="container text-center">
+                                                                <div class="row align-items-start">
+                                                                    <div class="col-md-12 .ms-auto">
+                                                                        <img src="{{ student[10]}}" class="rounded-circle mb-3 profile_pic" alt="">
+                                                                    </div>
+                                                                    <div class="col-md-12 .ms-auto">
+                                                                        <div class="input-group mb-3">
+                                                                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-badge"></i></span>
+                                                                            <input type="text" class="form-control" placeholder="Student Id" name="stud_id" value="{{student[0]}}" maxlength="14" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6 .ms-auto">
+                                                                        <div class="input-group mb-3">
+                                                                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+                                                                            <input type="text" class="form-control" placeholder="First name" value="{{student[1]}}" name="new_name" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="input-group mb-3">
+                                                                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+                                                                            <input type="text" class="form-control" placeholder="Middle name" value="{{student[2]}}" name="new_middlename" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="input-group mb-3">
+                                                                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+                                                                            <input type="text" class="form-control" placeholder="Last name" value="{{student[3]}}" name="new_lastname" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="input-group mb-3">
+                                                                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+                                                                            <select class="form-select" aria-label="Gender" aria-describedby="basic-addon1" value="{{student[4]}}"  name="new_gender" required>
+                                                                                <option selected disabled>Gender</option> <!-- Default placeholder -->
+                                                                                <option value="Male" {% if student[4] == "Male" %}selected{% endif %}>Male</option>
+                                                                                <option value="Female"{% if student[4] == "Female" %}selected{% endif %}>Female</option>
+                                                                                <option value="Other"{% if student[4] == "Other" %}selected{% endif %}>Other</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="input-group mb-3">
+                                                                        <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
+                                                                        <input type="email" class="form-control" placeholder="Email" name="new_email" value="{{student[5]}}" required>
+                                                                    </div>
+                                                                    <div class="input-group mb-3">
+                                                                        <span class="input-group-text"><i class="bi bi-shield-lock-fill"></i></span>
+                                                                        <input type="password" class="form-control readonly-input" placeholder="Password" name="new_password" value="{{student[6]}}" onclick="alert('This section is not editable.')" readonly>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="input-group mb-3">
+                                                                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-book-fill"></i></span> <!-- Icon for course -->
+                                                                            <select class="form-select" aria-label="Course" aria-describedby="basic-addon1" name="new_course" required>
+                                                                                <option selected disabled>Select Course</option> <!-- Placeholder option -->
+                                                                                <option value="BS Information Technology" {% if student[7] == "BS Information Technology" %}selected{% endif %} >BS Information Technology</option>
+                                                                                <option value="BS Business Administration" {% if student[7] == "BS Business Administration" %}selected{% endif %}>BS Business Administration</option>
+                                                                                <option value="BS Electronics Engineering"{% if student[7] == "BS Electronics Engineering" %}selected{% endif %}>BS Electronics Engineering</option>
+                                                                                <option value="BS Education" {% if student[7] == "BS Education" %}selected{% endif %}>BS Education</option>
+                                                                                <!-- Add more options as needed -->
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                    
+                                                                    <div class="col-md-6">
+                                                                        <div class="input-group mb-3">
+                                                                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+                                                                            <select class="form-select" aria-label="new_yearlevel" aria-describedby="basic-addon1" name="new_yearLevel" required>
+                                                                                <option selected disabled>Year level</option> <!-- Default placeholder -->
+                                                                                <option value="1st year" {% if student[8] == "1st year" %}selected{% endif %}>1st year</option>
+                                                                                <option value="2nd year" {% if student[8] == "2nd year" %}selected{% endif %}>2nd year</option>
+                                                                                <option value="3rd year" {% if student[8] == "3rd year" %}selected{% endif %}>3rd year</option>
+                                                                                <option value="4th year" {% if student[8] == "4th year" %}selected{% endif %}>4th year</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- <div class="col-md">
+                                                                        <div class="input-group mb-3">
+                                                                            <span class="input-group-text" id="basic-addon1"><i class=" bi-diagram-3-fill"></i></span>
+                                                                            <select class="form-select" aria-label="yearlevel" aria-describedby="basic-addon1" name="yearlevel" onchange="document.getElementById('yearLevelForm').submit();">
+                                                                                <option selected disabled>Section</option>
+                                                                                <option value="">FC1-BSIT 1-1</option>
+                                                                                <option value="">FC1-BSIT 1-2</option>
+                                                                                <option value="">FC1-BSIT 1-3</option>
+                                                                                <option value="">FC1-BSIT 1-3</option>
+                                                                            </select>
+                                                                        </div>  
+                                                                    </div> -->
+                                                                    <div class="col-md">
+                                                                        <div class="input-group mb-3">
+                                                                            <span class="input-group-text" id="basic-addon1"><i class=" bi-diagram-3-fill"></i></span>
+                                                                            <select class="form-select" name="new_section">
+                                                                                <option selected disabled>Section</option> 
+                                                                                <option value="FC1-BSIT-2-1" {% if student[9] == "FC1-BSIT-2-1" %}selected{% endif %}>FC1-BSIT 2-1</option>
+                                                                                <option value="FC1-BSIT 2-2" {% if student[9] == "FC1-BSIT 2-2" %}selected{% endif %}>FC1-BSIT 2-2</option>
+                                                                                <option value="FC1-BSIT 2-3" {% if student[9] == "FC1-BSIT 2-3" %}selected{% endif %}>FC1-BSIT 2-3</option>
+                                                                                <option value="FC1-BSIT 2-4" {% if student[9] == "FC1-BSIT 2-4" %}selected{% endif %}>FC1-BSIT 2-4</option>
+                                                                                <option value="FC1-BSIT 2-5" {% if student[9] == "FC1-BSIT 2-5" %}selected{% endif %}>FC1-BSIT 2-5</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                    
+                                                                <!-- Submit Button -->     
+                                                                <div class="d-grid gap-2 text-center">
+                                                                    <button type="submit" class="btn btn-success">Submit</button>
+                                                                </div>
+                                                                </div>
+                                                            </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- End Update Student Modal -->
+                                            {% endfor %}
+                                        </tbody>                                        
+                                    </table>
+                                </div> <!-- End of table-responsive -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+
+{% endblock body %}
+
+

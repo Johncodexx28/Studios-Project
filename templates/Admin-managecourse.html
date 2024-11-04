@@ -1,0 +1,610 @@
+{% extends 'maindashboard-admin.html' %} {% block title %} Manage Lessons |
+Upgraded {% endblock title %} {% block body %}
+<main class="main" id="main">
+  {{ course }}
+  <section class="section dashboard">
+    <div class="row">
+      <!-- Left side columns -->
+      <div
+        class="pagetitle d-flex justify-content-between align-items-center mb-3"
+      >
+        <div>
+          <h1>Manage Video Lessons</h1>
+        </div>
+        <!-- Add Course and Print buttons -->
+        <!-- <div>
+            <button class="btn btn-success btn-sm me-1" data-bs-toggle="modal" data-bs-target="#AddCourseModal">
+                <i class="bi bi-plus-circle"></i> Add Lesson
+            </button>
+           
+              
+            <button class="btn btn-primary btn-sm">
+                <i class="bi bi-printer"></i> Print
+            </button>
+        </div> -->
+      </div>
+      <!-- End Page Title -->
+
+      <div class="col-lg-12">
+        <div class="row">
+          <!-- List of Tools -->
+          <div class="col-12">
+            <div class="card recent-sales overflow-auto">
+              <div class="card-body">
+                <h5 class="card-title">List of Video Lessons</h5>
+                <!-- Year Level Dropdown -->
+                <div class="mb-3">
+                  <label for="yearLevelFilter" class="form-label"
+                    >Filter by Status</label
+                  >
+                  <select id="yearLevelFilter" class="form-select">
+                    <option value="">All</option>
+                    <option value="Available">Available</option>
+                    <option value=" Not Available">Not Available</option>
+                    <option value="Pending">Pending</option>
+                  </select>
+                </div>
+
+                <div class="table-responsive">
+                  <table class="table table-striped datatable text-nowrap">
+                    <thead class="table-success">
+                      <tr class="text-center">
+                        <th scope="col">Lesson Id</th>
+                        <th scope="col">Teacher Name</th>
+                        <th scope="col">Lesson Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Department</th>
+                        <th scope="col">category</th>
+                        <th scope="col">Uploaded Time</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Delete</th>
+                        <th scope="col">Update</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      {% for video_lessons in video_lessons %}
+                      <tr>
+                        <input
+                          type="hidden"
+                          name="course_id"
+                          value="{{ video_lessons[0] }}"
+                        />
+                        <td>
+                          <label> {{ video_lessons[0] }} </label>
+                          <input
+                            type="hidden"
+                            name="course_id"
+                            value="{{ video_lessons[0] }}"
+                          />
+                        </td>
+                        <td>
+                          <label> {{ video_lessons[1] }} </label>
+                          <input
+                            type="hidden"
+                            name="uploader_name"
+                            value="{{ video_lessons[1] }}"
+                          />
+                        </td>
+                        <td>
+                          <label> {{ video_lessons[2] }} </label>
+                          <input
+                            type="hidden"
+                            name="course_name"
+                            value="{{ video_lessons[2] }}"
+                          />
+                        </td>
+                        <td>
+                          <label>
+                            <textarea
+                              name="description"
+                              rows="4"
+                              cols="50"
+                              readonly
+                              style="
+                                border: none;
+                                resize: none;
+                                outline: none;
+                                background: transparent;
+                              "
+                            >
+{{ video_lessons[3] }}</textarea
+                            >
+                          </label>
+                        </td>
+                        <td>
+                          <label>{{ video_lessons[4]}}</label>
+                          <input
+                            type="hidden"
+                            name="department"
+                            value="{{ video_lessons[4] }}"
+                          />
+                        </td>
+                        <td>
+                          <div class="text-wrap">
+                            <label>{{ video_lessons [5]}}</label>
+                            <input
+                              type="hidden"
+                              name="category"
+                              value="{{ video_lessons [5] }}"
+                            />
+                          </div>
+                        </td>
+                        <td>
+                          <label>{{ video_lessons[6] }}</label>
+                          <input
+                            type="hidden"
+                            name="uploaded_time"
+                            value="{{ video_lessons [6] }}"
+                          />
+                        </td>
+                        <td>
+                          <span
+                            class="{% if video_lessons[-1] == 'Available' %}badge bg-success{% elif video_lessons[-1] == 'Unavailable' %}badge bg-danger{% else %}badge bg-warning{% endif %}"
+                          >
+                            {{ video_lessons[-1] }}
+                          </span>
+                          <input
+                            type="hidden"
+                            name="status"
+                            value="{{ video_lessons[8] }}"
+                          />
+                        </td>
+                        <td>
+                          <form action="/deletetool" method="post">
+                            <input
+                              type="hidden"
+                              name="tool_id"
+                              value="{{ video_lessons[0] }}"
+                            />
+                            <button
+                              type="submit"
+                              class="btn btn-icon btn-danger"
+                            >
+                              <i class="fas fa-trash-alt"></i>
+                            </button>
+                          </form>
+                        </td>
+                        <td>
+                          <button
+                            class="btn btn-icon btn-primary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#UpdateToolModal{{video_lessons[0]}}"
+                          >
+                            <i class="fas fa-edit"></i>
+                          </button>
+                        </td>
+                      </tr>
+
+                      <!-- Update-Tool-Modal -->
+                      <div
+                        class="modal fade"
+                        id="UpdateToolModal{{video_lessons[0]}}"
+                        tabindex="-1"
+                        aria-labelledby="UpdateToolModalLabel"
+                        aria-hidden="true"
+                      >
+                        <div class="modal-dialog mt-5">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="UpdateToolModalLabel">
+                                Update Lesson
+                              </h5>
+                              <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                              ></button>
+                            </div>
+                            <div class="modal-body">
+                              <form action="/updatetool_process" method="post">
+                                <input
+                                  type="hidden"
+                                  name="new_teacherid"
+                                  value="{{ video_lessons[0] }}"
+                                />
+
+                                <div class="container text-center">
+                                  <div class="row align-items-start">
+                                    <div class="col-md-12 .ms-auto">
+                                      <!-- <img
+                                        src="/static/images/html.jpg"
+                                        class="rounded-0 mb-3"
+                                        alt=""
+                                        style="max-width: 120px"
+                                      /> -->
+                                      <!-- <div class="mb-3">
+                                        <a
+                                          href="#"
+                                          class="btn btn-primary btn-sm"
+                                          title="Upload new profile image"
+                                          ><i class="bi bi-upload"></i
+                                        ></a>
+                                        <a
+                                          href="#"
+                                          class="btn btn-danger btn-sm"
+                                          title="Remove my profile image"
+                                          ><i class="bi bi-trash"></i
+                                        ></a>
+                                      </div> -->
+                                    </div>
+                                    <div class="col-md-12 .ms-auto"></div>
+                                    <div class="input-group mb-3">
+                                      <span
+                                        class="input-group-text"
+                                        id="basic-addon1"
+                                        ><i class="bi bi-person-badge"></i
+                                      ></span>
+                                      <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Tool Id"
+                                        name="tool_id"
+                                        value="{{video_lessons[0]}}"
+                                        maxlength="14"
+                                        readonly
+                                      />
+                                    </div>
+                                  </div>
+                                  <div class="col-md-12 .ms-auto">
+                                    <div class="input-group mb-3">
+                                      <span
+                                        class="input-group-text"
+                                        id="basic-addon1"
+                                        ><i class="bi bi-person-badge"></i
+                                      ></span>
+                                      <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Tool name"
+                                        name="new_toolname"
+                                        value="{{video_lessons[2]}}"
+                                        maxlength="50"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div>
+                                    <div class="input-group mb-3">
+                                      <textarea
+                                        class="form-control"
+                                        placeholder="Write a short description about this Tool"
+                                        name="description"
+                                        rows="4"
+                                        cols="50"
+                                        required
+                                      >
+{{ video_lessons[3] }}</textarea
+                                      >
+                                    </div>
+                                  </div>
+                                  <!-- <div class="input-group mb-3">
+                                                                    <span class="input-group-text" id="basic-addon1">
+                                                                        <i class="bi bi-person-fill"></i>
+                                                                    </span>
+                                                                    <select class="form-select" name="new_type" required>
+                                                                        <option value="Powerpoint" {% if video_lessons[5] == 'Powerpoint' %}video_lessons{% endif %}>PowerPoint</option>
+                                                                        <option value="Video" {% if video_lessons[5] == 'Video' %}selected{% endif %}>Video</option>
+                                                                        <option value="eBook" {% if video_lessons[5] == 'eBook' %}selected{% endif %}>eBook</option>
+                                                                        <option value="Worksheet" {% if video_lessons[5] == 'Worksheet' %}selected{% endif %}>Worksheet</option>
+                                                                        <option value="Quiz" {% if video_lessons[5] == 'Quiz' %}selected{% endif %}>Quiz</option>
+                                                                        <option value="Interactive Module" {% if video_lessons[5] == 'Interactive Module' %}selected{% endif %}>Interactive Module</option>
+                                                                        <option value="Image" {% if video_lessons[5] == 'Image' %}selected{% endif %}>Image</option>
+                                                                        <option value="Document" {% if video_lessons[5] == 'Document' %}selected{% endif %}>Document</option>
+                                                                        <option value="Spreadsheet" {% if video_lessons[5] == 'Spreadsheet' %}selected{% endif %}>Spreadsheet</option>
+                                                                        <option value="Web Link" {% if video_lessons[5] == 'Web Link' %}selected{% endif %}>Web Link</option>
+                                                                        <option value="Lecture Notes" {% if video_lessons[5] == 'Lecture Notes' %}selected{% endif %}>Lecture Notes</option>
+                                                                        <option value="Other" {% if video_lessons[5] == 'Other' %}selected{% endif %}>Other</option>
+                                                                    </select>
+                                                                </div> -->
+
+                                  <!-- <div class="col">
+                                                                    <div class="input-group mb-3">
+                                                                        <span class="input-group-text" id="basic-addon1">
+                                                                            <i class="bi bi-person-fill"></i>
+                                                                        </span>
+                                                                        <select class="form-select" name="new_status" required>
+                                                                            <option value="Available" {% if video_lessons[6] == 'Available' %}selected{% endif %}>Available</option>
+                                                                            <option value="Unavailable" {% if video_lessons[6] == 'Unavailable' %}selected{% endif %}>Unavailable</option>
+                                                                            <option value="Pending" {% if video_lessons[6] == 'Pending' %}selected{% endif %}>Pending</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    
+                                                                </div> -->
+
+                                  <!-- Submit Button -->
+                                  <div class="d-grid gap-2 text-center">
+                                    <button
+                                      type="submit"
+                                      class="btn btn-success"
+                                    >
+                                      Submit
+                                    </button>
+                                  </div>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- End Update Student Modal -->
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <!-- End of table-responsive -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Add-Course-Modal -->
+
+  <div
+    class="modal fade"
+    id="AddCourseModal"
+    tabindex="-1"
+    aria-labelledby="AddToolCourseLabel"
+    aria-hidden="true"
+  >
+    <div
+      class="modal-dialog modal-dialog-centered d-flex align-items-center mt-5"
+    >
+      <form
+        action="/adminCourse_Upload"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="AddToolCourseLabel">
+              Add New Lesson
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="container text-center">
+              <div class="row align-items-start">
+                <div class="col-md-12">
+                  <img
+                    src="/static/images/html.jpg"
+                    class="rounded-2 mb-3"
+                    alt=""
+                    style="max-width: 200px"
+                  />
+                </div>
+                <div class="col-md-12">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"
+                      ><i class="bi bi-person-badge"></i
+                    ></span>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Course name"
+                      name="course_name"
+                      maxlength="50"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text">
+                      <i class="bi bi-person-fill"></i>
+                    </span>
+                    <select
+                      id="teacherSelect"
+                      name="teacher_id"
+                      class="form-select"
+                      required
+                    >
+                      <option value="Select" selected disabled>
+                        Select Teacher
+                      </option>
+                      {% for teacher in teacher_list %}
+                      <option value="{{ teacher[0] }}">
+                        {{ teacher[1]}} {{teacher[3] }}
+                      </option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"
+                      ><i class="bi bi-book-fill"></i
+                    ></span>
+                    <select
+                      class="form-select"
+                      aria-label="Course"
+                      aria-describedby="basic-addon1"
+                      name="department"
+                      required
+                    >
+                      <option selected disabled>Select Department</option>
+                      <option value="CITE">CITE</option>
+                      <option value="COME">COME</option>
+                      <option value="CAS">CAS</option>
+                      <option value="CAHS">CAHS</option>
+                      <option value="CCJE">CCJE</option>
+                      <option value="COM">COM</option>
+                      <option value="COE">COE</option>
+                      <option value="COA">COA</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">
+                      <i class="bi bi-person-fill"></i>
+                    </span>
+                    <select class="form-select" name="category" required>
+                      <option value="Category" disabled selected>
+                        Category
+                      </option>
+                      <option value="Arts & Humanities">
+                        Arts & Humanities
+                      </option>
+                      <option value="Business & Management">
+                        Business & Management
+                      </option>
+                      <option value="Information Technology">
+                        Information Technology
+                      </option>
+                      <option value="Engineering & Technology">
+                        Engineering & Technology
+                      </option>
+                      <option value="Health & Medicine">Social Sciences</option>
+                      <option value="Natural Sciences">Natural Sciences</option>
+                      <option value="Education">Education</option>
+                      <option value="Law & Public Policy">
+                        Law & Public Policy
+                      </option>
+                      <option value="Mathematics & Statistics">
+                        Mathematics & Statistics
+                      </option>
+                      <option value="Personal Development">
+                        Personal Development
+                      </option>
+                      <option value="Physical Education">
+                        Physical Education & Sports
+                      </option>
+                      <option value="Environmental Studies">
+                        Environmental Studies
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="input-group mb-3">
+                  <input
+                    type="file"
+                    name="thumbnail[]"
+                    class="form-control"
+                    id="fileupload"
+                    accept="image/*"
+                    required
+                  />
+                </div>
+                <div class="input-group mb-3">
+                  <input
+                    type="file"
+                    name="file[]"
+                    class="form-control"
+                    id="fileupload"
+                    accept="video/*"
+                    required
+                  />
+                </div>
+                <div class="col-md-12">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"
+                      ><i class="bi bi-card-heading"></i
+                    ></span>
+                    <input
+                      class="form-control"
+                      placeholder="Title"
+                      name="title[]"
+                      maxlength="60"
+                      minlength="45"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="input-group mb-3">
+                  <input
+                    type="file"
+                    name="thumbnail[]"
+                    class="form-control"
+                    id="fileupload"
+                    accept="image/*"
+                    required
+                  />
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1"
+                    ><i class="bi bi-list-ol"></i
+                  ></span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    placeholder="Sequence"
+                    name="sequence[]"
+                    min="1"
+                    required
+                  />
+                </div>
+                <div class="input-group mb-3">
+                  <textarea
+                    class="form-control"
+                    placeholder="Write a short description"
+                    name="description[]"
+                    rows="4"
+                    cols="50"
+                    style="resize: none"
+                    required
+                  ></textarea>
+                </div>
+
+                <!-- Dynamic Cards Section -->
+                <div id="additional-courses"></div>
+
+                <!-- Button to Add More Cards -->
+                <div class="d-grid gap-2 text-center col-6">
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary"
+                    id="addCourseBtn"
+                  >
+                    <i class="bi bi-plus-circle"></i> Add Another Course
+                  </button>
+                </div>
+                <div class="d-grid gap-2 text-center col-6">
+                  <button
+                    type="button"
+                    class="btn btn-outline-info"
+                    id="addCourseBtn"
+                  >
+                    <i class="bi bi-plus-circle"></i> Add File
+                  </button>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="d-grid gap-2 text-center mt-3">
+                <button type="submit" class="btn btn-success">Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function toggleInputFields() {
+      const fileType = document.getElementById("fileType").value;
+      const fileInputContainer = document.getElementById("fileInputContainer");
+      const linkInputContainer = document.getElementById("linkInputContainer");
+
+      // Reset visibility
+      fileInputContainer.classList.add("d-none");
+      linkInputContainer.classList.add("d-none");
+
+      if (fileType === "link") {
+        linkInputContainer.classList.remove("d-none");
+      } else if (fileType) {
+        fileInputContainer.classList.remove("d-none");
+      }
+    }
+  </script>
+</main>
+{% endblock body %}

@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+<title>{% block title %}
+Main Dashboard Admin
+{% endblock title %}</title>
+<meta content="" name="description">
+<meta content="" name="keywords">
+
+<!-- Favicons -->
+<link href="/static/images/uiLogo.png" rel="icon">
+<link href="/static/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+<!-- Google Fonts -->
+<link href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>  
+    
+
+<!-- Vendor CSS Files -->
+<link href="/static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+<link href="/static/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+<link href="/static/assets/vendor/quill/quill.snow.css" rel="stylesheet">
+<link href="/static/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+<link href="/static/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+<link href="/static/assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+<!-- Template Main CSS File -->
+<link href="/static/assets/css/style.css" rel="stylesheet">
+
+<!-- =======================================================
+  * Template Name: NiceAdmin
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Updated: Apr 20 2024 with Bootstrap v5.3.3
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+======================================================== -->
+</head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<header id="header" class="header fixed-top d-flex align-items-center">
+
+<div class="d-flex align-items-center justify-content-between">
+    <a href="{{'/Dashboard-Admin'}}" class="logo d-flex align-items-center">
+    <img src="/static/images/uiLogo.png" alt="">
+    <span class="d-none d-lg-block">PhinmaEduHub</span>
+    </a>
+    <i class="bi bi-list toggle-sidebar-btn"></i>
+</div><!-- End Logo -->
+
+<div class="greetings d-flex flex-column align-items-start ms-3">
+    <h3>Welcome Back, {{ admin_records[0][1] }}</h3>
+    <small class="  greetings-small">What’s the priority today?</small>
+</div>
+
+
+<div class="search-bar ms-auto">
+    <form class="search-form d-flex align-items-center" method="POST" action="#">
+    <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+    <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+    </form>
+</div><!-- End Search Bar -->
+
+<nav class="header-nav ms-auto">
+    <ul class="d-flex align-items-center">
+
+    <li class="nav-item d-block d-lg-none">
+        <a class="nav-link nav-icon search-bar-toggle " href="#">
+        <i class="bi bi-search"></i>
+        </a>
+    </li>
+
+    <!-- <li class="nav-item dropdown">
+
+        <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+        <i class="bi bi-bell"></i>
+        <span class="badge bg-primary badge-number">4</span>
+        </a>
+
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+        <li class="dropdown-header">
+            You have 4 new notifications
+            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+        </li>
+        <li>
+            <hr class="dropdown-divider">
+        </li>
+
+        <li class="notification-item">
+            <i class="bi bi-exclamation-circle text-warning"></i>
+            <div>
+            <h4>Lorem Ipsum</h4>
+            <p>Quae dolorem earum veritatis oditseno</p>
+            <p>30 min. ago</p>
+            </div>
+        </li>
+
+        <li>
+            <hr class="dropdown-divider">
+        </li>
+
+        <li class="notification-item">
+            <i class="bi bi-x-circle text-danger"></i>
+            <div>
+            <h4>Atque rerum nesciunt</h4>
+            <p>Quae dolorem earum veritatis oditseno</p>
+            <p>1 hr. ago</p>
+            </div>
+        </li>
+
+        <li>
+            <hr class="dropdown-divider">
+        </li>
+
+        <li class="notification-item">
+            <i class="bi bi-check-circle text-success"></i>
+            <div>
+            <h4>Sit rerum fuga</h4>
+            <p>Quae dolorem earum veritatis oditseno</p>
+            <p>2 hrs. ago</p>
+            </div>
+        </li>
+
+        <li>
+            <hr class="dropdown-divider">
+        </li>
+
+        <li class="notification-item">
+            <i class="bi bi-info-circle text-primary"></i>
+            <div>
+            <h4>Dicta reprehenderit</h4>
+            <p>Quae dolorem earum veritatis oditseno</p>
+            <p>4 hrs. ago</p>
+            </div>
+        </li>
+
+        <li>
+            <hr class="dropdown-divider">
+        </li>
+        <li class="dropdown-footer">
+            <a href="#">Show all notifications</a>
+        </li>
+
+        </ul>
+
+    </li> -->
+
+    <!-- <li class="nav-item dropdown">
+
+        <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+        <i class="bi bi-chat-left-text"></i>
+        <span class="badge bg-success badge-number">3</span>
+        </a>
+
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
+        <li class="dropdown-header">
+            You have 3 new messages
+            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+        </li>
+        <li>
+            <hr class="dropdown-divider">
+        </li>
+
+        <li class="message-item">
+            <a href="#">
+            <img src="/static/assets/img/messages-1.jpg" alt="" class="rounded-circle">
+            <div>
+                <h4>Maria Hudson</h4>
+                <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
+                <p>4 hrs. ago</p>
+            </div>
+            </a>
+        </li>
+        <li>
+            <hr class="dropdown-divider">
+        </li>
+
+        <li class="message-item">
+            <a href="#">
+            <img src="/static/assets/img/messages-2.jpg" alt="" class="rounded-circle">
+            <div>
+                <h4>Anna Nelson</h4>
+                <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
+                <p>6 hrs. ago</p>
+            </div>
+            </a>
+        </li>
+        <li>
+            <hr class="dropdown-divider">
+        </li>
+
+        <li class="message-item">
+            <a href="#">
+            <img src="/static/assets/img/messages-3.jpg" alt="" class="rounded-circle">
+            <div>
+                <h4>David Muldon</h4>
+                <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
+                <p>8 hrs. ago</p>
+            </div>
+            </a>
+        </li>
+        <li>
+            <hr class="dropdown-divider">
+        </li>
+
+        <li class="dropdown-footer">
+            <a href="#">Show all messages</a>
+        </li>
+
+        </ul>
+
+    </li> -->
+
+    <li class="nav-item dropdown pe-3">
+
+        <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+        {% if admin_records and admin_records[0][7] %}
+            <img src="{{ admin_records[0][7] }}" alt="Profile" class="rounded-circle" style="width: 36px; height: 36px;">
+        {% else %}
+            <img src="/static/images/Defaul_Image.png" alt="Profile" class="rounded-circle">
+        {% endif %}
+        <span class="d-none d-md-block dropdown-toggle ps-2">{{ admin_records[0][1]}} {{ admin_records[0][3][0] }}.</span>
+        </a><!-- End Profile Iamge Icon -->
+
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+        <li class="dropdown-header">
+            <h6>{{ admin_records[0][1] }} {{ admin_records[0][3] }}</h6>
+            <span>{{ admin_records[0][5] }}</span>
+        </li>
+        <li>
+            <hr class="dropdown-divider">
+        </li>
+
+        <li>
+            <a class="dropdown-item d-flex align-items-center" href="{{'/Profile-Admin'}}">
+            <i class="bi bi-person"></i>
+            <span>My Profile</span>
+            </a>
+        </li>
+        <li>
+            <hr class="dropdown-divider">
+        </li>
+
+        <li>
+            <a class="dropdown-item d-flex align-items-center" href="{{'/Profile-Admin'}}">
+            <i class="bi bi-gear"></i>
+            <span>Account Settings</span>
+            </a>
+        </li>
+        <li>
+            <hr class="dropdown-divider">
+        </li>
+
+        <li>
+            <form action="{{ url_for('logout') }}" method="post">
+            <button class="dropdown-item d-flex align-items-center submit" href="#">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+            </button>
+            </form>
+        </li>
+
+        </ul><!-- End Profile Dropdown Items -->
+    </li><!-- End Profile Nav -->
+
+    </ul>
+</nav><!-- End Icons Navigation -->
+
+</header><!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+
+<ul class="sidebar-nav" id="sidebar-nav">
+
+    <div class="d-flex flex-column align-items-start ms-3 greetingss">
+        <h3>Welcome Back,{{ user_name }}</h3>
+        <p class="mt-1">What’s the priority today?</p>
+    </div>
+            
+
+    <li class="nav-item">
+    <a class="nav-link " href="{{'/Dashboard-Admin'}}">
+        <i class="bi bi-grid"></i>
+        <span>Dashboard</span>
+    </a>
+    </li><!-- End Dashboard Nav -->
+
+    <li class="nav-item">
+    <a class="nav-link" href="{{'/Profile-Admin'}}">
+        <i class="bi bi-person"></i></i><span>Profile</span><i class=" ms-auto"></i>
+    </a>
+    </li><!-- End Components Nav -->
+
+    <li class="nav-item">
+    <a class="nav-link" href="{{'/Manage-Students/Admin'}}">
+        <i class="bi bi-person-workspace"></i></i></i></i><span>Manage Students</span><i class=" ms-auto"></i>
+    </a>
+    </li><!-- End Forms Nav -->
+
+    <li class="nav-item">
+    <a class="nav-link " href="{{'/Manage-faculty/Admin'}}">
+        <i class="bi bi-person-video3"></i></i><span>Manage Faculty</span><i class="ms-auto"></i>
+    </a>
+    </li><!-- End Tables Nav -->
+
+    <!-- <li class="nav-item">
+        <a class="nav-link " href="{{'/Learning-Materials/Admin'}}">
+        <i class="bi bi-tools"></i></i><span>Manage Materials</span><i class="ms-auto"></i>
+    </a>
+    </li>End Icons Nav -->
+    
+
+    <li class="nav-item">
+    <a class="nav-link " href="{{'/Lesson-Management/Admin'}}">
+        <i class="bi bi-play-btn-fill"></i></i></i><span>Manage Video Lessons</span><i class="ms-auto"></i>
+    </a>
+    </li><!-- End Charts Nav -->
+
+
+    <li class="nav-heading">Settings</li>
+
+    <li class="nav-item">
+    <a class="nav-link " href="{{'/Profile-Admin'}}">
+        <i class="bi bi-gear"></i>
+        <span>Account Settings</span>
+    </a>
+    </li><!-- End Account Settings Page Nav -->
+
+    <!-- <li class="nav-item">
+    <a class="nav-link" href="{{'/Support-Inquiries/Admin'}}">
+        <i class="bi bi-question-circle"></i>
+        <span>Support & Inquiries</span>
+    </a>
+    </li>End Help & Support Page Nav -->
+
+       
+
+</ul>
+
+</aside><!-- End Sidebar-->
+
+<div class="flash-messages">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+
+{% block body %}
+
+
+{% endblock body %}
+
+<!-- Add-Student-Modal -->
+<div class="modal fade" id="AddStudentModal" tabindex="-1" aria-labelledby="AddToolModalLabel" aria-hidden="true">
+<div class="modal-dialog mt-5">
+<form action="/addStudent" method="post" enctype="multipart/form-data">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="AddToolModalLabel">Add student</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="container text-center">
+            <div class="row align-items-start">
+                <div class="col-md-12 .ms-auto">
+                    <img src="/static/images/Defaul_Image.png" class="rounded-circle mb-3 alt=" style="max-width: 100px;">
+                    <div class="mb-3">
+                        <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
+                        <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-12 .ms-auto">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-badge"></i></span>
+                        <input type="text" class="form-control" placeholder="Student Id" aria-label="Student Id" maxlength="14" aria-describedby="basic-addon1" name="studentId" required>
+                    </div>
+                </div>
+                <div class="col-md-6 .ms-auto">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+                        <input type="text" class="form-control" placeholder="First name" aria-label="Student name" aria-describedby="basic-addon1" name="name" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+                        <input type="text" class="form-control" placeholder="Middle name" aria-label="Student name" aria-describedby="basic-addon1" name="middlename" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+                        <input type="text" class="form-control" placeholder="Last name" aria-label="Student name" aria-describedby="basic-addon1" name="lastname" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+                        <select class="form-select" aria-label="Gender" aria-describedby="basic-addon1" name="gender" required>
+                            <option selected disabled>Gender</option> <!-- Default placeholder -->
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
+                    <input type="email" class="form-control" placeholder="Email" name="email" required>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="bi bi-shield-lock-fill"></i></span>
+                    <input type="password" class="form-control" placeholder="Password" name="password" required>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-book-fill"></i></span> <!-- Icon for course -->
+                        <select class="form-select" aria-label="Course" aria-describedby="basic-addon1" name="course" required>
+                            <option selected disabled>Select Course</option> <!-- Placeholder option -->
+                            <option value="BS Information Technology">BS Information Technology</option>
+                            <option value="BS Business Administration">BS Business Administration</option>
+                            <option value="BS Electronics Engineering">BS Electronics Engineering</option>
+                            <option value="BS Education">BS Education</option>
+                            <!-- Add more options as needed -->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+                        <select class="form-select" aria-label="yearlevel" aria-describedby="basic-addon1" name="yearLevel" required>
+                            <option selected disabled>Year level</option> <!-- Default placeholder -->
+                            <option value="1st year">1st year</option>
+                            <option value="2nd year">2nd year</option>
+                            <option value="3rd year">3rd year</option>
+                            <option value="4th year">4th year</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- <div class="col-md">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i class=" bi-diagram-3-fill"></i></span>
+                        <select class="form-select" aria-label="yearlevel" aria-describedby="basic-addon1" name="yearlevel" onchange="document.getElementById('yearLevelForm').submit();">
+                            <option selected disabled>Section</option>
+                            <option value="">FC1-BSIT 1-1</option>
+                            <option value="">FC1-BSIT 1-2</option>
+                            <option value="">FC1-BSIT 1-3</option>
+                            <option value="">FC1-BSIT 1-3</option>
+                        </select>
+                    </div>  
+                </div> -->
+                <div class="col-md">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i class=" bi-diagram-3-fill"></i></span> <!-- Icon for course -->
+                        <select class="form-select" aria-label="section" aria-describedby="basic-addon1" name="section" required>
+                            <option selected disabled>Section</option> <!-- Placeholder option -->
+                            <option value="FC1-BSIT 2-1">FC1-BSIT 2-1</option>
+                            <option value="FC1-BSIT 2-2">FC1-BSIT 2-2</option>
+                            <option value="FC1-BSIT 2-3">FC1-BSIT 2-3</option>
+                            <option value="FC1-BSIT 2-4">FC1-BSIT 2-4</option>
+                            <option value="FC1-BSIT 2-5">FC1-BSIT 2-5</option>
+                            <!-- Add more options as needed -->
+                        </select>
+                    </div>
+                </div>
+
+            <!-- Submit Button -->     
+            <div class="d-grid gap-2 text-center">
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+            </div>
+        </div>
+    </form>
+    </div>
+</div>
+
+
+
+
+
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- Vendor JS Files -->
+<script src="/static/assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="/static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/static/assets/vendor/chart.js/chart.umd.js"></script>
+<script src="/static/assets/vendor/echarts/echarts.min.js"></script>
+<script src="/static/assets/vendor/quill/quill.js"></script>
+<script src="/static/assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="/static/assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="/static/assets/vendor/php-email-form/validate.js"></script>
+
+
+<!-- Template Main JS File -->
+<script src="/static/assets/js/main.js"></script>
+

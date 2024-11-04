@@ -1,0 +1,134 @@
+{% extends 'maindashboard-teachers.html' %} {% block title %} Student
+Performance | Upgraded {% endblock title %} {% block body %}
+
+<main class="main" id="main">
+  <section class="section dashboard">
+    <div class="row">
+      <!-- Student Progress Section -->
+      <div class="col-lg-8">
+        <div class="row">
+          <div class="col-xxl-12">
+            <div class="row">
+              <!-- Third Progress Card -->
+              <div class="col-lg-12">
+                <div class="card info-card sales-card flex-fill">
+                  <div class="card-body">
+                    <!-- student 1 -->
+                    <h5 class="card-title">Student Progress</h5>
+
+                    {% for student_progress in student_progress %}
+                    <div class="d-flex mt-3">
+                      <img
+                        src="{{student_progress [2]}}"
+                        alt=""
+                        class="rounded-circle me-4"
+                        style="max-width: 50px; max-height: 50px"
+                      />
+                      <div
+                        class="col-8 d-flex flex-column align-items-start text-start"
+                      >
+                        <div>
+                          <p class="mb-1">{{student_progress[1]}}</p>
+                          <!-- Added name here -->
+                        </div>
+                        <div
+                          class="progress w-100"
+                          role="progressbar"
+                          aria-label="Animated striped"
+                          aria-valuenow="25"
+                          aria-valuemin="0"
+                          aria-valuemax="100"
+                        >
+                          <div
+                            class="progress-bar progress-bar-striped {% if student_progress[5] == 100 %}bg-success{% else %}bg-primary{% endif %} progress-bar-animated"
+                            style="width: {{ student_progress[5] }}%"
+                          >
+                            {% if student_progress[5] == 100 %} Completed
+                            {%else%} {{ student_progress[5] }} {%endif %}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+
+                    <!-- student  -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-12">
+            <div class="card top-selling overflow-auto mb-3">
+              <div class="card-body pb-0">
+                <h5 class="card-title">Enrollees Table</h5>
+                <table class="table table-borderless text-center">
+                  <thead>
+                    <tr>
+                      <th scope="col">Preview</th>
+                      <th scope="col">Title</th>
+                      <th scope="col">Total Enrollees</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for myenrollees_perlesson in myenrollees_perlesson %}
+                    <tr>
+                      <th scope="row">
+                        <a href="#"
+                          ><img
+                            src="{{ myenrollees_perlesson[0] }}"
+                            alt=""
+                            class="img-fluid"
+                        /></a>
+                      </th>
+                      <td>{{ myenrollees_perlesson[1] }}</td>
+                      <td>{{ myenrollees_perlesson[2] }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Student Progress Section -->
+      <div class="col-lg-4">
+        <!-- Top Students -->
+        <div class="card mb-3">
+          <div class="card-body" style="height: 420px">
+            <h5 class="card-title mb-3">Most Engaged Students</h5>
+            <div class="top-students">
+              {% set rank = 1 %} {# Initialize rank outside the loop #} {% for
+              top_student_viewer in top_student_viewer %}
+              <div class="student-item d-flex align-items-center mb-2">
+                <img
+                  src="{{ top_student_viewer[1] }}"
+                  alt="John Doe"
+                  class="rounded-circle me-2"
+                  width="40"
+                  height="40"
+                />
+                <div class="student-info">
+                  <h6 class="student-name fw-bold">
+                    {{ top_student_viewer[0] }}
+                  </h6>
+                  <small class="text-muted">
+                    Completed: {{ top_student_viewer[2] }} {{ 'activity' if
+                    top_student_viewer[2] <= 1 else 'activities' }}
+                  </small>
+                </div>
+                <!-- <div class="student-rank badge bg-primary ms-2">{{ rank }}</div> -->
+              </div>
+              {% set rank = rank + 1 %} {# Increment rank for the next iteration
+              #} {% endfor %}
+            </div>
+          </div>
+        </div>
+        <!-- End Top Students -->
+      </div>
+    </div>
+  </section>
+</main>
+
+{% endblock body %}

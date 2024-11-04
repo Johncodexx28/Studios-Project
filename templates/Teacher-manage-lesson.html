@@ -1,0 +1,687 @@
+{% extends 'maindashboard-teachers.html' %} {% block title %} Manage Lessons |
+Upgraded {% endblock title %} {% block body %}
+<main class="main" id="main">
+  <section class="section profile">
+    <div class="row">
+     <div class="col-xl-12 d-flex justify-content-between align-items-center">
+        <div class="pagetitle mt-2 mb-0">
+          <h1>Lesson-Management</h1>
+        </div>
+        <!-- Add new lesson button -->
+        <button
+          type="button"
+          class="btn btn-success mb-3"
+          data-bs-toggle="modal"
+          data-bs-target="#fileUploadModal"
+        >
+          <span><i class="bi bi-plus"></i></span> Add new lesson
+        </button>
+        <!-- End of Add new lesson button -->
+      </div>
+
+     
+    <div class="col-xl-8">
+      <div class="card mt-3">
+        <div class="card-body pt-3">
+          <!-- Bordered Tabs -->
+          <ul class="nav nav-tabs nav-tabs-bordered">
+            <li class="nav-item">
+              <button
+                class="nav-link active"
+                data-bs-toggle="tab"
+                data-bs-target="#profile-overview"
+              >
+                All Lessons
+              </button>
+            </li>
+            <li class="nav-item">
+              <!-- <button
+                class="nav-link"
+                data-bs-toggle="tab"
+                data-bs-target="#profile-edit"
+              >
+                Playlist
+              </button> -->
+            </li>
+            <li class="nav-item">
+              <!-- <button
+                class="nav-link"
+                data-bs-toggle="tab"
+                data-bs-target="#profile-settings"
+              >
+                Archive
+              </button> -->
+            </li>
+            
+          </ul>
+
+          <div class="tab-content pt-2">
+            <div
+              class="tab-pane fade show active profile-overview"
+              id="profile-overview"
+            >
+              <!-- Display Lessons -->
+              <div class="col-md-12 col-lg-12">
+                
+              
+
+              {% for my_uploaded_lessons in my_uploaded_lessons %}
+                  <div class="d-flex align-items-center justify-content-between mt-2">
+                      <div class="d-flex align-items-center flex-grow-1 me-3">
+                          <img src="{{ my_uploaded_lessons[11] }}" alt="Lesson Thumbnail"
+                              style="max-width: 90px; height: 80px; border-radius: 10px" class="me-3" />
+                          <div class="col col-6">
+                              <p class="video-p4 mb-0"></p>
+                              <p class="video-p4 m-0 text-muted">{{ my_uploaded_lessons[2] }}</p>
+                              <small class="video-p1">{{ my_uploaded_lessons[15] }} {{ my_uploaded_lessons[16] }}</small>
+                          </div>
+                      </div>
+
+                      <!-- Form for Viewing Lesson -->
+                      <form action="/view_lesson/teacher" method="POST" class="me-2">
+                          <input type="hidden" name="lesson_id" value="{{ my_uploaded_lessons[0] }}" />
+                          <input type="hidden" name="lesson_group_id" value="{{ my_uploaded_lessons[9] }}" />
+                          <div class="d-flex justify-content-end">
+                              <button class="lesson-btn" style="width: 100px" type="submit">
+                                  <i class="bi bi-play"></i>
+                                  play
+                              </button>
+                          </div>
+                      </form>
+
+                      <form action="/Update-Lesson/Teacher" method="post" class="dropdown">
+                          <div class="d-flex justify-content-end me-3">
+                              <button class="btn btn-link" type="button" id="dropdownMenuButton"
+                                      data-bs-toggle="dropdown" aria-expanded="false">
+                                  <i class="bi bi-three-dots-vertical"></i>
+                              </button>
+
+                              <ul class="dropdown-menu dropdown-menu-end text-center m-0"
+                                  aria-labelledby="dropdownMenuButton">
+                                  <li>
+                                      <button class="dropdown-item d-flex align-items-center drp-update"
+                                        type="button"
+                                          data-bs-toggle="modal"
+                                          data-bs-target="#updatelessonModal{{ my_uploaded_lessons[0] }}"
+                                          data-lesson-id="{{ my_uploaded_lessons[0] }}"
+                                          data-group-id="{{ my_uploaded_lessons[10] }}">
+                                          <i class="bi bi-pen"></i>
+                                          <span>Update</span>
+                                          <input type="hidden" name="lesson_id" value="{{ my_uploaded_lessons[0] }}" />
+                                          <input type="hidden" name="lesson_group_id" value="{{ my_uploaded_lessons[10] }}" />
+                                      </button>
+                                  </li>
+                                  <!-- Delete Form -->
+                                  <li>
+                                      <input type="hidden" name="lesson_id" value="{{ my_uploaded_lessons[0] }}" />
+                                      <input type="hidden" name="lesson_group_id" value="{{ my_uploaded_lessons[10] }}" />
+                                      <button class="dropdown-item d-flex align-items-center drp-delete" type="submit" name="action" value="delete">
+                                          <i class="bi bi-trash3"></i>
+                                          <span>Delete</span>
+                                      </button>
+                                  </li>
+
+                                  <!-- Archive Form -->
+                                  <li>
+                                      <input type="hidden" name="lesson_id" value="{{ my_uploaded_lessons[0] }}" />
+                                      <input type="hidden" name="lesson_group_id" value="{{ my_uploaded_lessons[10] }}" />
+                                      <button class="dropdown-item d-flex align-items-center drp-archive" type="submit" name="action" value="archive">
+                                          <i class="bi bi-archive"></i>
+                                          <span>Move to Archive</span>
+                                      </button>
+                                  </li>
+                              </ul>
+                          </div>
+                      </form>
+                      
+                      <!-- Modal -->
+                      <div class="modal fade" id="updatelessonModal{{ my_uploaded_lessons[0] }}" tabindex="-1" aria-labelledby="updatelessonModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-md modal-dialog-centered">
+                              <div class="modal-content">
+                                  <form action="/Update-Lesson/Teacher" method="post" enctype="multipart/form-data">
+                                      <div class="modal-body">
+                                          <input type="hidden" name="lesson_id" value="{{ my_uploaded_lessons[0] }}" />
+                                          <input type="hidden" name="lesson_group_id" value="{{ my_uploaded_lessons[9] }}" />
+                                          <div class="row">
+                                              <div class="col-12">
+                                                  <div>
+                                                      <label for="newtitle" class="form-label">Title</label>
+                                                      <input type="text" class="form-control" name="newtitle" maxlength="45" minlength="35" placeholder="Enter new title" value="{{ my_uploaded_lessons[2] }}">
+                                                      <input type="hidden" name="lesson_id" value="{{ my_uploaded_lessons[0] }}" />
+                                                      <input type="hidden" name="lesson_group_id" value="{{ my_uploaded_lessons[9] }}" />
+                                                  </div>
+                                                  
+                                                  <div class="mt-2">
+                                                      <label for="newdescription" class="form-label">Description</label>
+                                                      <textarea name="newdescription" class="form-control" id="description" rows="6" cols="40" style="resize:none">{{ my_uploaded_lessons[4] }}</textarea>
+                                                        <input type="hidden" name="lesson_id" value="{{ my_uploaded_lessons[0] }}" />
+                                                        <input type="hidden" name="lesson_group_id" value="{{ my_uploaded_lessons[9] }}" />
+                                                  </div>
+                                                  <div class="mt-2">
+                                                      <label for="newdescription" class="form-label">Video file</label>
+                                                      <input type="file" name="file" id="new_video" class="form-control" accept="video/*">
+                                                        <input type="hidden" name="lesson_id" value="{{ my_uploaded_lessons[0] }}" />
+                                                        <input type="hidden" name="lesson_group_id" value="{{ my_uploaded_lessons[9] }}" />
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                          <button type="submit" class="btn btn-primary" name="action" value="update">Save changes</button>
+                                      </div>
+                                  </form>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+
+            <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+            
+              <div class="col-md-12 col-lg-12">
+                <div
+                  class="d-flex align-items-center justify-content-between mt-2"
+                >
+                  <div class="d-flex align-items-center flex-grow-1 me-3">
+                    <img
+                      src=""
+                      alt="Lesson Thumbnail"
+                      style="max-width: 90px; height: 80px; border-radius: 10px"
+                      class="me-3"
+                    />
+                    <div class="col col-6">
+                      <p class="video-p4 mb-0"></p>
+                      <p class="video-p4 m-0 text-muted">ada</p>
+                      <small class="video-p1">asda</small>
+                    </div>
+                  </div>
+
+                  <!-- Form for Viewing Lesson -->
+                  <form
+                    action="/Lessons/Student/Viewing"
+                    method="POST"
+                    class="me-2"
+                  >
+                    <div class="d-flex justify-content-end">
+                      <button
+                        class="lesson-btn"
+                        style="width: 100px"
+                        type="submit"
+                      >
+                        <i class="bi bi-play"></i>
+                        play
+                      </button>
+                      <input type="hidden" name="lesson_id" value="" />
+                      <input type="hidden" name="lesson_group_id" value="" />
+                    </div>
+                  </form>
+
+             
+                  <form
+                    action="/Unenroll-Lesson"
+                    method="post"
+                    class="dropdown"
+                  >
+                    <div class="d-flex justify-content-end me-3">
+                      <button
+                        class="btn btn-link"
+                        type="button"
+                        id="kebabMenuButton"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        <i class="bi bi-three-dots-vertical"></i>
+                      </button>
+                      <input type="hidden" name="lesson_id" value="" />
+                      <input type="hidden" name="lesson_group_id" value="" />
+                      <ul
+                        class="dropdown-menu dropdown-menu-end text-center"
+                        aria-labelledby="kebabMenuButton"
+                        style="height: 50px"
+                      >
+                        <li>
+                          <button
+                            class="dropdown-item fw-semibold unenroll-btn"
+                            type="submit"
+                          >
+                            <i class="bi bi-trash3 mt-0"></i> Unenroll
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-pane fade pt-3" id="profile-settings">
+            
+                <!-- inprogress Lessons -->
+              <div class="col-md-12 col-lg-12">
+                <div
+                  class="d-flex align-items-center justify-content-between mt-2"
+                >
+                  <div class="d-flex align-items-center flex-grow-1 me-3">
+                    <img
+                      src=""
+                      alt="Lesson Thumbnail"
+                      style="max-width: 90px; height: 80px; border-radius: 10px"
+                      class="me-3"
+                    />
+                    <div class="col col-6">
+                      <p class="video-p4 mb-0"></p>
+                      <p class="video-p4 m-0 text-muted"></p>
+                      <small class="video-p1"></small>
+                    </div>
+                  </div>
+
+                  <!-- Form for Viewing Lesson -->
+                  <form
+                    action="/Lessons/Student/Viewing"
+                    method="POST"
+                    class="me-2"
+                  >
+                    <div class="d-flex justify-content-end">
+                      <button
+                        class="lesson-btn"
+                        style="width: 100px"
+                        type="submit"
+                      >
+                        <i class="bi bi-play"></i>  
+                        play
+                      </button>
+                      <input type="hidden" name="lesson_id" value="" />
+                      <input type="hidden" name="lesson_group_id" value="" />
+                    </div>
+                  </form>
+
+                  <!-- Form for Unenroll Lesson -->
+                  <form
+                    action="/Unenroll-Lesson"
+                    method="post"
+                    class="dropdown"
+                  >
+                    <div class="d-flex justify-content-end me-3">
+                      <button
+                        class="btn btn-link"
+                        type="button"
+                        id="kebabMenuButton"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        <i class="bi bi-three-dots-vertical"></i>
+                      </button>
+                      <input type="hidden" name="lesson_id" value="" />
+                      <input type="hidden" name="lesson_group_id" value="" />
+                      <ul
+                        class="dropdown-menu dropdown-menu-end text-center"
+                        aria-labelledby="kebabMenuButton"
+                        style="height: 50px"
+                      >
+                        <li>
+                          <button
+                            class="dropdown-item fw-semibold unenroll-btn"
+                            type="submit"
+                          >
+                            <i class="bi bi-trash3 mt-0"></i> Unenroll
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+           
+          </div>
+          <!-- End Bordered Tabs -->
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4">
+      <div class="col-sm-12 text-end justify-content-end mb-4 mt-1">
+        <div class="card">
+          <div
+            class="card-body profile-card pt-4 d-flex flex-column align-items-center"
+          >
+            <img
+              src="{{ teacher_records[0][7] }}"
+              alt="Profile"
+              class="rounded-circle"
+            />
+            <h2>{{ teacher_records[0][1] }} {{ teacher_records[0][3] }}</h2>
+            <small class="badge bg-warning mt-2">{{ teacher_records[0][6] }}</small>
+            <div class="col-xl-12">
+              <div class="row gap-1 d-flex justify-content-center mt-4">
+                <div class="col-md-5 p-2">
+                  <div
+                    class="my-lesson-label-light d-flex flex-column text-center"
+                  >
+                    <p class="m-0 fs-3">{{ num_lesson[0]}}</p>
+                    <small> Lessons</small>
+                  </div>
+                </div>
+                <div class="col-md-5 p-2">
+                  <div
+                    class="my-lesson-label-primary d-flex flex-column text-center"
+                  > 
+                    <p class="m-0 fs-3">{{ total_enrollees[0] }}</p>
+                    <small>Enrollees</small>
+                  </div>
+                </div>
+                <div class="col-md-10 p-2">
+                  <div
+                    class="my-lesson-label-primary d-flex flex-column text-center"
+                  >
+                    <p class="m-0 fs-3">{{completers_count[0]}}</p>
+                    <small>Completers</small>
+                  </div>
+                </div>
+              
+                <div class="col-xl-12">
+                  <div class="card card-explore mb-1 mt-3">
+                    <div class="text-center card-explore-center">
+                      <div class="mb-2 class-explore-img">
+                        <img src="/static/images/tropy_kid_3d.png" alt=""  />
+                      </div>
+                      <a href="/Student-Performance/Teacher">
+                        <span class="fs-5 fw-bolder card-explore-btn"
+                          >Student Insights</span
+                        >
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+</main>
+
+<!-- MODAL UPLOAD -->
+
+
+<div
+  class="modal fade modal-upload"
+  id="fileUploadModal"
+  tabindex="-1"
+  aria-labelledby="fileUploadModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold fs-4" id="fileUploadModalLabel">
+          Upload Video Lesson
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!-- Tabs Navigation -->
+        <ul
+          class="nav nav-tabs nav-tabs-bordered justify-content-md-around"
+          id="uploadModalTabList"
+          role="tablist"
+        >
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link active"
+              id="uploadFileTab"
+              data-bs-toggle="tab"
+              data-bs-target="#uploadFileTabPane"
+              type="button"
+              role="tab"
+              aria-controls="uploadFileTabPane"
+              aria-selected="true"
+            >
+              File Upload
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="uploadSettingsTab"
+              data-bs-toggle="tab"
+              data-bs-target="#uploadSettingsTabPane"
+              type="button"
+              role="tab"
+              aria-controls="uploadSettingsTabPane"
+              aria-selected="false"
+            >
+              Details
+            </button>
+          </li>
+          <!-- <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="uploadInfoTab"
+              data-bs-toggle="tab"
+              data-bs-target="#uploadInfoTabPane"
+              type="button"
+              role="tab"
+              aria-controls="uploadInfoTabPane"
+              aria-selected="false"
+            >
+              Preview & Confirm
+            </button>
+          </li> -->
+        </ul>
+
+        <form action="/Lesson-Management/Upload" method="post" enctype="multipart/form-data">
+          <!-- Tab Panes -->
+          <div class="tab-content" id="uploadModalTabContent">
+            <!-- File Upload Tab -->
+            <div
+              class="tab-pane fade show active p-3"
+              id="uploadFileTabPane"
+              role="tabpanel"
+              aria-labelledby="uploadFileTab"
+            >
+              <!-- File Drop Area -->
+              <div class="file-drop-area text-center p-3">
+                <div class="rounded-circle upload-file-icon">
+                  <i class="bi bi-cloud-upload-fill imgicon-file-upload"></i>
+                </div>
+                <p class="text-muted">Drop your file here or click to upload</p>
+                <input
+                  type="file"
+                  name="file"
+                  class="file-input mt-3"
+                  accept="video/mp4"
+                  onchange="displayFileNames(this.files, 'video')"
+                />
+              </div>
+              <!-- Container for displaying file names -->
+              <div class="container text-center mt-3">
+                <div class="row video-file-names" id="uploadFileList">
+                  <!-- File items will be dynamically added here -->
+                </div>
+              </div>
+            <div class="d-flex justify-content-end mt-3">
+                <!-- <button 
+                  class="btn btn-primary" 
+                  type="button" 
+                  data-bs-toggle="tab" 
+                  data-bs-target="#uploadSettingsTabPane"
+                  onclick="nextTab()"
+                >
+                  Next
+                </button> -->
+
+          
+            </button>
+              </div>
+
+            </div>
+
+            <!-- Settings Tab -->
+            <div
+              class="tab-pane fade p-3"
+              id="uploadSettingsTabPane"
+              role="tabpanel"
+              aria-labelledby="uploadSettingsTab"
+            >
+              <div class="row">
+                <div class="col-lg-7 col-md-12">
+                  <h2 class="fw-bold fs-5">Details</h2>
+                  <div class="input-group mb-3 input-group-sm">
+                    <span class="input-group-text" id="departmentSelectAddon">
+                      <i class="bi bi-buildings-fill"></i>
+                    </span>
+                    <select
+                      class="form-select"
+                      aria-label="Course"
+                      aria-describedby="departmentSelectAddon"
+                      name="department"
+                      required
+                    >
+                      <option selected disabled>Select Department</option>
+                      <option value="CITE">CITE</option>
+                      <option value="COME">COME</option>
+                      <option value="CAS">CAS</option>
+                      <option value="CAHS">CAHS</option>
+                      <option value="CCJE">CCJE</option>
+                      <option value="COM">COM</option>
+                      <option value="COE">COE</option>
+                      <option value="COA">COA</option>
+                    </select>
+                  </div>
+                  <div class="input-group mb-3 input-group-sm">
+                    <span class="input-group-text" id="categorySelectAddon">
+                      <i class="bi bi-book-fill"></i>
+                    </span>
+                    <select class="form-select" name="category" required>
+                      <option value="Category" disabled selected>Category</option>
+                      <option value="Arts & Humanities">Arts & Humanities</option>
+                      <option value="Business & Management">Business & Management</option>
+                      <option value="Information Technology">Information Technology</option>
+                      <option value="Engineering & Technology">Engineering & Technology</option>
+                      <option value="Health & Medicine">Health & Medicine</option>
+                      <option value="Natural Sciences">Natural Sciences</option>
+                      <option value="Education">Education</option>
+                      <option value="Law & Public Policy">Law & Public Policy</option>
+                      <option value="Mathematics & Statistics">Mathematics & Statistics</option>
+                      <option value="Personal Development">Personal Development</option>
+                      <option value="Physical Education & Sports">Physical Education & Sports</option>
+                      <option value="Environmental Studies">Environmental Studies</option>
+                    </select>
+                  </div>
+                  <div class="input-group mb-3">
+                      <input type="file" name="thumbnail" class="form-control" id="thumbnailUpload" accept="image/*" required>
+                  </div>
+                    <div class="input-group mb-3 input-group-sm">
+                        <span class="input-group-text" id="titleInputAddon"><i class="bi bi-card-heading"></i></span>
+                        <input class="form-control" placeholder="Title" name="title" maxlength="40" minlength="35" required>
+                    </div>  
+                  <div class="input-group mb-3 input-group-sm">
+                    <textarea
+                      class="form-control"
+                      placeholder="Write a short description"
+                      name="description"
+                      rows="4"
+                      cols="50"
+                      style="resize: none"
+                      required
+                    ></textarea>
+                  </div>
+                  <h2 class="fw-bold fs-5">Add files</h2>
+                  <div class="row">
+                    <div class="col-4 ms-auto">
+                      <div class="input-group mb-3 input-group-sm">
+                        <select
+                          id="relatedFileType"
+                          name="relatedFileType"
+                          class="form-select"
+                          name="related-files"
+                          onchange="toggleInputFields()"
+                        >
+                          <option value="" disabled selected>
+                            <small>Select file</small>
+                          </option>
+                          <option value="link">Link</option>
+                          <option value="pdf">PDF</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-sm-8">
+                      <!-- File or Link Input -->
+                      <div id="relatedFileInputContainer" class="d-none mb-3">
+                        <input
+                          type="file"
+                          id="relatedFileInput"
+                          name="relatedFileInput"
+                          class="form-control form-control-sm"
+                          accept="application/pdf"
+                          onchange="displayFileNames(this.files,'pdf')"
+                        />
+                      </div>
+                      <div id="relatedLinkInputContainer" class="d-none mb-3">
+                        <div class="input-group mb-3">
+                          <span class="input-group-text input-group-text-sm" id="linkInputAddon">
+                            <small>https://</small>
+                          </span>
+                          <input
+                            type="url"
+                            id="relatedLinkInput"
+                            name="relatedLinkInput"
+                            class="form-control form-control-sm"
+                            placeholder="Enter file URL"
+                            aria-describedby="linkInputAddon"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-5 col-md-12 mt-4">
+                  <div id="videoPreviewContainer" class="border mb-0">
+                    <!-- Video previews will be appended here -->
+                  </div>
+                </div>
+              </div>
+              <!-- Buttons to move between tabs -->
+              <div class="d-flex justify-content-end mt-3">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+
+            <!-- Information Tab -->
+            <div
+              class="tab-pane fade p-3"
+              id="uploadInfoTabPane"
+              role="tabpanel"
+              aria-labelledby="uploadInfoTab"
+            >
+              <h4>Information Content</h4>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+
+{% endblock body %}
+
+

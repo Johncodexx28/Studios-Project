@@ -1,0 +1,314 @@
+{% extends 'maindashboard-admin.html' %}
+
+
+{% block title %}
+    Manage Faculty | Upgraded
+{% endblock title %}
+
+
+{% block body %}
+
+
+<main id="main" class="main">
+    <section class="section dashboard">
+        <div class="row">
+            <!-- Left side columns -->
+            <div class="pagetitle d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h1>Manage Faculty</h1>
+                </div>
+                <!-- Add Course and Print buttons -->
+                <div>
+                    <button class="btn btn-success btn-sm me-1" data-bs-toggle="modal" data-bs-target="#AddTeacherModal"><i class="bi bi-plus-circle"></i> Add Teacher</button>
+                    <!-- <button class="btn btn-primary btn-sm"><i class="bi bi-printer"></i> Print</button> -->
+                </div>
+            </div><!-- End Page Title -->
+
+
+            <div class="col-lg-12"> 
+                <div class="row">
+                    <!-- List of Teacher -->
+                    <div class="col-12">
+                        <div class="card recent-sales overflow-auto">
+                            <div class="card-body">
+                                <h5 class="card-title">List of Teachers</h5>
+
+                                <!-- Year Level Dropdown -->
+                                <div class="mb-3">
+                                    <label for="yearLevelFilter" class="form-label">Filter by Department</label>
+                                    <select id="yearLevelFilter" class="form-select">
+                                        <option value="">All</option>
+                                        <option value="CITE">CITE</option>
+                                        <option value="COME">COME</option>
+                                        <option value="CAS">CAS</option>
+                                        <option value="CAHS">CAHS</option>
+                                        <option value="CCJE">CCJE</option>
+                                        <option value="COM">COM</option>
+                                        <option value="COE">COE</option>
+                                        <option value="COA">COA</option>
+                                        <option value="SHS">SHS</option>
+                                    </select>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table class="table table-striped datatable text-nowrap">
+                                        <thead class="table-success">
+                                            <tr>
+                                                <th scope="col">ID Number</th>
+                                                <th scope="col">First Name</th>
+                                                <th scope="col">Middle Name</th>
+                                                <th scope="col">Last Name</th>
+                                                <th scope="col">Email</th>
+                                                <th scope="col">Password</th>
+                                                <th scope="col">Department</th>
+                                                <th scope="col">Delete</th>
+                                                <th scope="col">Update</th>
+                                            
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for teacher in teacher %}
+                                                    <tr>
+                                                        <input type="hidden" name="teacher_id" value="{{ teacher[0] }}">
+                                                        <td>
+                                                            <label> {{ teacher[0] }} </label>
+                                                            <input type="hidden" name="teacher_id" value="{{ teacher[0] }}">
+                                                        </td>
+                                                        <td>
+                                                            <label> {{ teacher[1] }} </label>
+                                                            <input type="hidden" name="first_name" value="{{ teacher[1] }}">
+                                                        </td>
+                                                        <td>
+                                                            <label> {{ teacher[2] }} </label>
+                                                            <input type="hidden" name="middle_name" value="{{ teacher[2]}}">
+                                                        </td>
+                                                        <td>
+                                                            <label> {{ teacher[3] }} </label>
+                                                            <input type="hidden" name="last_name" value="{{ teacher[3] }}">
+                                                        </td>
+                                                        <td>
+                                                            <label> {{ teacher[4] }} </label>
+                                                            <input type="hidden" name="email_add" value="{{ teacher[4] }}">
+                                                        </td>
+                                                        <td>
+                                                            <label> {{ '*' * teacher[5]|length }} </label>
+                                                            <input type="hidden" name="password" value="{{ teacher[5] }}">
+                                                        </td>
+                                                        <td>
+                                                            <label> {{ teacher[6] }} </label>
+                                                            <input type="hidden" name="department" value="{{ teacher[6] }}">
+                                                        </td>
+                                                        <td>
+                                                            <form action="/teacherDelete" method="post">
+                                                                <input type="hidden" name="teacher_id" value="{{ teacher[0] }}">
+                                                                <button type="submit" class="btn btn-icon btn-danger" value="Deleter" name="action"><i class="fas fa-trash-alt"></i></button>
+                                                            </form>
+                                                        </td>
+                                                        <td>
+                                                            <a type="button" class="btn btn-icon btn-primary" value="Updater" name="action" data-bs-toggle="modal" data-bs-target="#UpdateTeacherModal{{teacher[0]}}"> <i class="fas fa-edit"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                
+                                                <!-- Update-Teacher-Modal -->
+                                                <div class="modal fade" id="UpdateTeacherModal{{teacher[0]}}" tabindex="-1" aria-labelledby="UpdateStudentModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog mt-5">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="UpdateStudentModalLabel">Update Teacher</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form action="/teacherUpdate_process" method="post">
+                                                                    <input type="hidden" name="new_teacherid" value="{{ teacher[0] }}">
+
+                                                                <div class="container text-center">
+                                                                <div class="row align-items-start">
+                                                                    <div class="col-md-12 .ms-auto">
+                                                                        <img src="{{ teacher[7] }}" class="rounded-circle mb-3 profile_pic" alt="teacher_photo">
+                                                                    </div>
+                                                                    <div class="col-md-12 .ms-auto">
+                                                                        <div class="input-group mb-3">
+                                                                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-badge"></i></span>
+                                                                            <input type="text" class="form-control readonly-input" placeholder="new_teacherid" name="" value="{{teacher[0]}}" maxlength="14" onclick="alert('This section is not editable.')" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div>
+                                                                        <div class="input-group mb-3">
+                                                                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+                                                                            <input type="text" class="form-control" placeholder="First name" value="{{teacher[1]}}" name="new_firstname" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div>
+                                                                        <div class="input-group mb-3">
+                                                                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+                                                                            <input type="text" class="form-control" placeholder="Middle name" value="{{teacher[2]}}" name="new_middlename" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col">
+                                                                        <div class="input-group mb-3">
+                                                                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+                                                                            <input type="text" class="form-control" placeholder="Last name" value="{{teacher[3]}}" name="new_lastname" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="input-group mb-3">
+                                                                        <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
+                                                                        <input type="email" class="form-control" placeholder="Email" name="new_emailadd" value="{{teacher[4]}}" required>
+                                                                    </div>
+                                                                    <div class="input-group mb-3">
+                                                                        <span class="input-group-text"><i class="bi bi-shield-lock-fill"></i></span>
+                                                                        <input type="password" class="form-control readonly-input" placeholder="Password" name="password" id="new_password"  value="{{teacher[5]}}" onclick="alert('This section is not editable.')" readonly>
+                                                                        <span class="input-group-text">
+                                                                            <i class="bi bi-eye-slash" id="togglePassword" style="cursor: pointer;"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <div class="input-group mb-3">
+                                                                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-book-fill"></i></span> <!-- Icon for course -->
+                                                                            <select class="form-select" aria-label="Course" aria-describedby="basic-addon1" name="new_department" required>
+                                                                                <option selected disabled>Select Department</option>
+                                                                                <option value="CITE" {% if teacher[6] == "CITE" %}selected{% endif %} >CITE</option>
+                                                                                <option value="COME" {% if teacher[6] == "COME" %}selected{% endif %}>COME</option>
+                                                                                <option value="CAS"{% if teacher[6] == "CAS" %}selected{% endif %}>CAS</option>
+                                                                                <option value="CAHS" {% if teacher[6] == "CAHS" %}selected{% endif %}>CAHS</option>
+                                                                                <option value="CCJE" {% if teacher[6] == "CCJE" %}selected{% endif %} >CCJE</option>
+                                                                                <option value="COM" {% if teacher[6] == "COM" %}selected{% endif %}>COM</option>
+                                                                                <option value="COE"{% if teacher[6] == "COE" %}selected{% endif %}>COE</option>
+                                                                                <option value="COA" {% if teacher[6] == "COA" %}selected{% endif %}>COA</option>
+                                                                                <option value="SHS" {% if teacher[6] == "SHS" %}selected{% endif %}>SHS</option>
+                                                                                <!-- Add more options as needed -->
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                <!-- Submit Button -->     
+                                                                <div class="d-grid gap-2 text-center">
+                                                                    <button type="submit" class="btn btn-success">Submit</button>
+                                                                </div>
+                                                                </div>
+                                                            </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- End Update Student Modal -->
+                                            {% endfor %}
+                                        </tbody>                                        
+                                    </table>
+                                </div> <!-- End of table-responsive -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <!-- Add-Teacher-Modal -->
+    
+    <div class="modal fade" id="AddTeacherModal" tabindex="-1" aria-labelledby="AddToolModalLabel" aria-hidden="true">
+        <div class="modal-dialog mt-5">
+        <form action="/addTeacher" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="AddToolModalLabel">Add Teacher</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/teacherUpdate_process" method="post">
+
+                    <div class="container text-center">
+                    <div class="row align-items-start">
+                        <div class="col-md-12 .ms-auto">
+                            <img src="/static/images/1_Dong.png" class="rounded-circle mb-3" alt="" style="max-width: 100px;">
+                            <div class="mb-3">
+                                <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
+                                <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-md-12 .ms-auto">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-badge"></i></span>
+                                <input type="text" class="form-control" placeholder="Teacher Id" name="teacher_id"  maxlength="14" required>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+                                <input type="text" class="form-control" placeholder="First name" name="first_name" required>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+                                <input type="text" class="form-control" placeholder="Middle name" name="middle_name" required>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+                                <input type="text" class="form-control" placeholder="Last name"  name="last_name" required>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
+                            <input type="email" class="form-control" placeholder="Email" name="email_add" required>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class="bi bi-shield-lock-fill"></i></span>
+                            <input type="password" class="form-control" placeholder="Password" name="password"  required>
+                        </div>
+                        <div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-book-fill"></i></span> <!-- Icon for course -->
+                                <select class="form-select" aria-label="Course" aria-describedby="basic-addon1" name="department" required>
+                                    <option selected disabled>Select Department</option> <!-- Placeholder option -->
+                                    <option value="CITE">CITE</option>
+                                    <option value="COME">COME</option>
+                                    <option value="CAS">CAS</option>
+                                    <option value="CAHS">CAHS</option>
+                                    <option value="CCJE">CCJE</option>
+                                    <option value="COM">COM</option>
+                                    <option value="COE">COE</option>
+                                    <option value="COA">COA</option>
+                                    <!-- Add more options as needed -->
+                                </select>
+                            </div>
+                        </div>
+                    <!-- Submit Button -->     
+                    <div class="d-grid gap-2 text-center">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                    </div>
+                </form>
+                </div>
+            </form>
+            </div>
+    </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#password');
+
+        togglePassword.addEventListener('click', function (e) {
+            // Toggle the password visibility
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+
+            // Toggle the eye icon
+            if (type === 'password') {
+                togglePassword.classList.remove('bi-eye');
+                togglePassword.classList.add('bi-eye-slash');
+            } else {
+                togglePassword.classList.remove('bi-eye-slash');
+                togglePassword.classList.add('bi-eye');
+            }
+        });
+    });
+</script>
+
+</main>
+
+
+
+
+{% endblock body %}

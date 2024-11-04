@@ -1,0 +1,442 @@
+{% extends 'maindashboard-Teachers.html' %}
+
+{% block title %}
+    Courses | Upgraded
+{% endblock title %}
+
+{% block body %}
+
+<main class="main" id="main">
+
+<section class="section dashboard">
+<div class="row">
+
+    <!-- Left side columns -->
+    <div class="col-lg-8"> <!-- Change from col-lg-12 to col-lg-8 -->
+        <nav style="--bs-breadcrumb-divider: '>';">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/Dashboard/Student"><i class="bi bi-house-door"></i></a></li>
+                <li class="breadcrumb-item active"><a href="/Student/My-Lesson">My Lessons</a></li>
+                <li class="breadcrumb-item"><a href="">Explore courses</li></a>
+            </ol>
+        </nav>
+  
+    <!-- First video -->
+    <div class="ratio ratio-16x9 mb-2 position-relative">
+        <video id="mainVideoPlayer" class="video-radius" controls autoplay allowfullscreen>
+            <source src=" {{ lessons_data[0][2] }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <!-- Icon Overlay -->
+         <div id="videoOverlay" class="video-overlay" onclick="togglePlayPause()">
+            <i id="playIcon" class="bi bi-play-circle" style="font-size: 30px; color: white;"></i> <!-- Play Icon -->
+        </div>
+    </div>
+        <div class="card" style="border-radius: 20px;">
+            <div class="card-body">
+                 <p class="text-start mb-0 fs-5 fw-bolder my-2" ></p>
+                <!-- Uploader Info Section -->
+                    <div id="videoTitle" class="video-title align-items-lg-start">
+                            {{ lessons_data[0][1] }}
+                    </div>
+                <div class="d-flex justify-content-between align-items-center mt-2 mb-2">
+                    <!-- Left Side: Uploader info -->
+                    <div class="d-flex align-items-center"  id="uploaderProfilePic">
+                        <img src="{{ lessons_data[0][9] }}" alt=""   class="rounded-circle me-2" style="width:36px; height:36px">
+                        <div>        
+                            <p class="m-0 video-p2" class="video-uploader-name">{{ lessons_data[0][7] }} {{ lessons_data[0][8] }} </p>
+                            <p class="text-opacity-75 m-0 video-p1"><b>Networking Expert at Google</b></p>
+                            <p class="text-opacity-75 m-0 video-p1">2M Subscribers</p>
+                        
+                        </div>
+                    </div>
+                    <!-- Right Side: Icons -->
+                    <div class="d-flex">
+                        <span class="me-3"><i class="bi bi-share"></i></span>
+                        <span><i class="bi bi-bookmark"></i></span>
+                    </div>
+                </div>
+                <hr class="p-0 m-0">
+                
+                <!-- About Course Section -->
+                <div class="d-flex">
+                    <div class="p-2">
+                        <p class="video-p4">About this course</p>
+                        <small id="videoDescription">
+                            {{lessons_data[0][3]}}
+                        </small>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <a class="btn btn-link p-0 related-doc" data-bs-toggle="collapse" href="#relatedDocsCollapse" role="button" aria-expanded="false" aria-controls="relatedDocsCollapse">
+                        <button class="btn btn-info docs">
+                            <span><i class="bi bi-file-earmark-fill"></i></span>
+                            Related Files
+                        </button>
+                    </a>
+                    <div class="collapse" id="relatedDocsCollapse">
+                        <ul class="list-group mt-2">
+                                <!-- Loop through the files if available -->
+                                {% for files in related_files_vl %}
+                                    <!-- Check for file existence -->
+                                    {% if files[0] and files[0] != None %}
+                                        <li class="list-group-item">
+                                            <span><i class="bi bi-file-earmark-arrow-down-fill" style="color:#007bff;"></i></span>
+                                            <a href="{{ files[0] }}" download>{{ files[0].split('/')[-1] }}</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="list-group-item">
+                                            <p>No related file available.</p>
+                                        </li>
+                                    {% endif %}
+
+                                    <!-- Check for link existence -->
+                                    {% if files[1] and files[1] != '' %}
+                                        <li class="list-group-item">
+                                            <span><i class="bi bi-link-45deg" style="color:#ff0606;"></i></span>
+                                            <a href="{{ files[1] }}" target="_blank">{{ files[1] }}</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="list-group-item">
+                                            <p>No related link available.</p>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                <form id="commentForm" action="{{ url_for('send_comment') }}" method="POST">
+                    <div class="mt-3 d-flex justify-content-center position-relative">
+                        <textarea name="comments" id="comments" rows="4" class="form-control"
+                            style="width: 100%; max-width:auto; resize: none; font-size: 12px;"
+                            placeholder="Enter your comments here..."></textarea>
+                        <span class="position-absolute" style="bottom: 10px; right: 10px; cursor: pointer;">
+                            <button class="btn btn-light" type="submit" name="action" value="submit_comment">
+                                <i class="bi bi-send"></i>
+                            </button>
+                        </span>
+                        <input type="hidden" name="lesson_id" value="{{ lessons_data[0][0] }}">
+                       
+                    </div>
+                </form>
+
+               
+        
+               <div class="mt-4">
+                    <h6>Comments: <b>{{comments_count[0]}}</b></h6>
+                    <ul id="commentsList" class="list-group">
+                    {% for comments in comments_data[:10] %}
+                        
+                        <li class="list-group-item d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <div class=" me-2">
+                                    <img src="{{ comments[4] }}" alt="user_photo" class="profilepic_nav rounded-circle">
+                                </div>
+                                <div>
+                                    <strong>{{ comments[2] }} {{ comments[3][0] }}.</strong>
+                                    <span class="fw-bold text-muted ms-2" style="font-size: 12px;">{{ comments[1] }}</span><br>
+                                    <small class="mt-2">{{ comments[0] }}</small>
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-link" type="button" id="kebabMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-three-dots-vertical"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="kebabMenuButton">
+                                    <li>
+                                        <button class="dropdown-item d-flex align-items-center drp-delete" type="button"  data-comment-id="{{ comments[5]}}" >
+                                            <i class="bi bi-trash"></i><span>Delete</span>
+                                        </button>
+                                        
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        
+                    {% endfor %}
+                </div>
+                
+            </div>
+        </div>
+        <!-- End Default Card -->
+    </div><!-- End Left side columns -->
+    
+
+    <!-- Right side columns -->
+    <div class="col-lg-4">
+
+       <div class="col-12 col-md-12 col-lg-12">
+            <!-- <div class="card h-100" style="border-radius: 20px;">
+                <div class="card-body pb-0">
+                    <h5 class="card-title mb-3">Video Course Progress Overview</h5>
+                    
+                    <div class="mb-4">
+                        <p><strong>Total Enrollments:</strong> 150 students</p>
+                        <p><strong>Videos Released:</strong> 10 videos</p>
+                        <p><strong>Average Completion Rate:</strong> 75%</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6>Engagement Statistics</h6>
+                        <p><strong>Active Learners:</strong> 120 students</p>
+                        <p><strong>Average Watch Time:</strong> 30 minutes per video</p>
+                        <p><strong>Top Performing Video:</strong> "Router Configuration Basics" (90% completion)</p>
+                    </div>
+
+                    <div class="mt-4">
+                        <h6>Actionable Insights</h6>
+                        <p>
+                            📈 Consider hosting a Q&A session to address common questions. Engaging with students can help improve completion rates!
+                        </p>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+        <div class="col-12 col-md-12 col-lg-12">
+            <div class="card-body">
+                <div class="page-title d-flex justify-content-between align-items-center">  
+                    <h5 class="card-title mt-0 p-0">Lesson count</h5>
+                    <h5 class="card-title mt-0 p-0">{{group_lessons_data | length}}</h5> 
+                </div>
+            </div> 
+           
+
+            <div class="col-lg-12 col-md-12">
+                <div class="card" style="background-color: rgb(216, 250, 240);">
+                    {% for group_lessons_data in group_lessons_data %}    
+                    <!-- Video Item -->
+                    <a href="#" class="list-group-item list-group-item-action d-flex align-items-start p-3" 
+                    onclick="changeVideo('{{ group_lessons_data[3] }}', '{{ group_lessons_data[2] }}', '{{ group_lessons_data[4] }}', '{{ group_lessons_data[13] }}', '{{ group_lessons_data[14] }}')">
+                        <video src="{{ group_lessons_data[3] }}" class="video-choices me-3" title=" {{ group_lessons_data[2] }}" muted loop></video>
+                        <div>
+                            <p title=" {{ group_lessons_data[2] }}" class="video-p4 mb-0" onmouseenter="this.play()" 
+                            onmouseleave="this.pause(); this.currentTime = 0;">
+                                {{ group_lessons_data[2] }}
+                            </p>
+                            <small class="video-p1 t-0 video-uploader-name">
+                                {{ group_lessons_data[15] }} {{ group_lessons_data[16] }}
+                            </small>
+                        </div>
+                    </a>                                                                                            
+                    {% endfor %}
+                </div>
+            </div>
+
+
+    
+<script>
+   // Get the main video player and the details elements
+const mainVideoPlayer = document.getElementById('mainVideoPlayer');
+const videoTitle = document.getElementById('videoTitle');
+const uploaderProfilePic = document.getElementById('uploaderProfilePic');
+const videoDescription = document.getElementById('videoDescription');
+const videoUploaderName = document.querySelector('.video-uploader-name');
+
+const videoList = {{ group_lessons_data | tojson }};
+let currentVideoIndex = 0;
+
+// Function to play the selected video and update its details
+function playSelectedVideo(videoUrl, index) {
+    currentVideoIndex = index;
+    mainVideoPlayer.src = videoUrl;
+    mainVideoPlayer.play();
+    updateVideoDetails(index);
+}
+
+// Function to update the video details
+function updateVideoDetails(index) {
+    videoTitle.textContent = videoList[index][2]; 
+    uploaderProfilePic.src = videoList[index][4]; 
+    videoDescription.textContent = videoList[index][4]; 
+    videoUploaderName.textContent = `${videoList[index][15]} ${videoList[index][16]}`; 
+}
+
+
+// Event listener to play the next video when the current one ends
+mainVideoPlayer.addEventListener('ended', () => {
+    playNextVideo();
+});
+
+// Function to play the next video in the list
+function playNextVideo() {
+    if (currentVideoIndex < videoList.length - 1) {
+        currentVideoIndex++;
+        playSelectedVideo(videoList[currentVideoIndex][3], currentVideoIndex);
+    } else {
+        console.log('End of playlist');
+    }
+}
+
+// Function to play the previous video in the list
+function playPreviousVideo() {
+    if (currentVideoIndex > 0) {
+        currentVideoIndex--;
+        playSelectedVideo(videoList[currentVideoIndex][4], currentVideoIndex);
+    } else {
+    }
+}
+
+
+// Get the main video player and the overlay icon
+const mainVideoPlayer2 = document.getElementById('mainVideoPlayer');
+const videoOverlay = document.getElementById('videoOverlay');
+const playIcon = document.getElementById('playIcon');
+
+// Function to play/pause the video
+function togglePlayPause() {
+    if (mainVideoPlayer2.paused) {
+        mainVideoPlayer2.play();
+        videoOverlay.classList.add('hidden'); // Hide overlay when playing
+    } else {
+        mainVideoPlayer.pause();
+        videoOverlay.classList.remove('hidden'); // Show overlay when paused
+    }
+}
+
+// Event listener to show the overlay when the video is paused
+mainVideoPlayer2.addEventListener('pause', () => {
+    videoOverlay.classList.remove('hidden'); // Show overlay when paused
+});
+
+// Event listener to hide the overlay when the video plays
+mainVideoPlayer2.addEventListener('play', () => {
+    videoOverlay.classList.add('hidden'); // Hide overlay when playing
+});
+
+
+
+function changeVideo(videoSrc, title, description, uploaderFirstName, uploaderLastName) {
+    // Update the main video player
+    var mainVideoPlayer = document.getElementById("mainVideoPlayer");
+    mainVideoPlayer.src = videoSrc; // Change the video source
+    mainVideoPlayer.play(); // Start playing the new video
+
+    // Update video details
+    document.getElementById("videoTitle").innerText = title; // Update title
+    document.getElementById("videoDescription").innerText = description; // Update description
+    // Assuming you have the uploader profile pic path in your database:
+    document.getElementById("uploaderProfilePic").src = `path/to/profile_pics/${uploaderFirstName}_${uploaderLastName}.jpg`; // Update profile picture path
+}
+
+
+
+document.getElementById('commentForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    const formData = new FormData(this);
+
+    fetch('{{ url_for('send_comment') }}', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Get the created_at time from the response
+            const createdAt = new Date(data.created_at);
+
+            // Calculate time_ago based on the created_at timestamp
+            const timeDifference = new Date() - createdAt;
+            let timeAgo;
+            if (timeDifference >= 31536000000) { // 1 year
+                timeAgo = `${Math.floor(timeDifference / 31536000000)} year${Math.floor(timeDifference / 31536000000) > 1 ? 's' : ''} ago`;
+            } else if (timeDifference >= 2592000000) { // 1 month
+                timeAgo = `${Math.floor(timeDifference / 2592000000)} month${Math.floor(timeDifference / 2592000000) > 1 ? 's' : ''} ago`;
+            } else if (timeDifference >= 604800000) { // 1 week
+                timeAgo = `${Math.floor(timeDifference / 604800000)} week${Math.floor(timeDifference / 604800000) > 1 ? 's' : ''} ago`;
+            } else if (timeDifference >= 86400000) { // 1 day
+                timeAgo = `${Math.floor(timeDifference / 86400000)} day${Math.floor(timeDifference / 86400000) > 1 ? 's' : ''} ago`;
+            } else if (timeDifference >= 3600000) { // 1 hour
+                timeAgo = `${Math.floor(timeDifference / 3600000)} hour${Math.floor(timeDifference / 3600000) > 1 ? 's' : ''} ago`;
+            } else {
+                timeAgo = `${Math.floor(timeDifference / 60000)} minute${Math.floor(timeDifference / 60000) > 1 ? 's' : ''} ago`;
+            }
+
+            // Update the comments list
+            const commentsList = document.getElementById('commentsList');
+            const newComment = `
+                <li class="list-group-item d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <div class=" me-2">
+                            <img src="${data.photo_url}" alt="user_photo" class="profilepic_nav rounded-circle">
+                        </div>
+                        <div>
+                            <strong>${data.user_name}</strong>
+                            <span class="fw-bold text-muted ms-2" style="font-size: 12px;">${timeAgo}</span><br>
+                            <small class="mt-2">${data.comment}</small>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-link" type="button" id="kebabMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-three-dots-vertical"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="kebabMenuButton">
+                            <li>
+                                <button class="dropdown-item d-flex align-items-center drp-delete" type="button" data-comment-id="new_id">
+                                    <i class="bi bi-trash"></i><span>Delete</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            `;
+
+            // Insert the new comment at the top of the list
+            commentsList.insertAdjacentHTML('afterbegin', newComment);
+
+            // Clear the textarea input
+            document.getElementById('comments').value = '';
+
+            // Optionally, refresh the comments count
+            const commentsCountElement = document.querySelector('.mt-4 h6 b');
+            commentsCountElement.textContent = parseInt(commentsCountElement.textContent) + 1; // Increment the comments count
+        } else {
+            alert('Error: ' + data.message); // Display the error message
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
+
+// delete comment js 
+document.addEventListener('DOMContentLoaded', () => {
+    // Add event listener for delete buttons
+    const deleteButtons = document.querySelectorAll('.drp-delete');
+
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const commentId = this.getAttribute('data-comment-id');
+
+            // Send a request to delete the comment directly
+            fetch('{{ url_for('comment_del') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({ comment_id: commentId }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    
+                    this.closest('li').remove(); 
+                    window.location.reload();
+                } else {
+                    alert('Failed to delete comment: ' + data.message);
+                }
+            })
+            .catch(err => {
+                alert('An error occurred: ' + err);
+            });
+        });
+    });
+});
+
+
+
+</script>
+
+</div>
+</section>
+
+{% endblock body %}

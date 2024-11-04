@@ -1,0 +1,486 @@
+{% extends 'maindashboard-students.html' %} {% block title %} Student Profile |
+Upgraded {% endblock title %} {% block body %}
+<body>
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Profile</h1>
+    </div>
+    <!-- End Page Title -->
+
+    <section class="section profile">
+      <div class="row">
+        <div class="col-xl-4">
+          <div class="card">
+            <div
+              class="card-body profile-card pt-4 d-flex flex-column align-items-center"
+            >
+              <img
+                src="{{ student_records[0][10]}}"
+                alt="Profile"
+                class="rounded-circle profile_pic"
+              />
+              <h2>{{ student_records[0][1]}} {{ student_records[0][3]}}</h2>
+              <p>{{ student_records[0][7]}}</p>
+              <!-- <div class="social-links mt-2">
+                <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+                <a href="#" class="instagram"
+                  ><i class="bi bi-instagram"></i
+                ></a>
+                <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+              </div> -->
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-8">
+          <div class="card">
+            <div class="card-body pt-3">
+              <!-- Bordered Tabs -->
+              <ul class="nav nav-tabs nav-tabs-bordered">
+                <li class="nav-item">
+                  <button
+                    class="nav-link active"
+                    data-bs-toggle="tab"
+                    data-bs-target="#profile-overview"
+                  >
+                    Overview
+                  </button>
+                </li>
+
+                <li class="nav-item">
+                  <button
+                    class="nav-link"
+                    data-bs-toggle="tab"
+                    data-bs-target="#profile-edit"
+                  >
+                    Edit Profile
+                  </button>
+                </li>
+
+                <li class="nav-item">
+                  <button
+                    class="nav-link"
+                    data-bs-toggle="tab"
+                    data-bs-target="#profile-settings"
+                  >
+                    Settings
+                  </button>
+                </li>
+
+                <li class="nav-item">
+                  <button
+                    class="nav-link"
+                    data-bs-toggle="tab"
+                    data-bs-target="#profile-change-password"
+                  >
+                    Change Password
+                  </button>
+                </li>
+              </ul>
+              <div class="tab-content pt-2">
+                <div
+                  class="tab-pane fade show active profile-overview"
+                  id="profile-overview"
+                >
+                  <h5 class="card-title">Profile Details</h5>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Student Id</div>
+                    <div class="col-lg-9 col-md-8">
+                      {{ student_records[0][0]}}
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Full Name</div>
+                    <div class="col-lg-9 col-md-8">
+                      {{ student_records[0][1]}} {{ student_records[0][2]}} {{
+                      student_records[0][3]}}
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Course</div>
+                    <div class="col-lg-9 col-md-8">
+                      {{ student_records[0][7]}}
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Section</div>
+                    <div class="col-lg-9 col-md-8">
+                      {{ student_records[0][9]}}
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Year level</div>
+                    <div class="col-lg-9 col-md-8">
+                      {{ student_records[0][8]}}
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Email</div>
+                    <div class="col-lg-9 col-md-8">
+                      {{ student_records[0][5] }}
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Phone</div>
+                    <div class="col-lg-9 col-md-8">
+                      {% if student_records[0][11] == "" or
+                      student_records[0][11] is none %} N/A {% else %} {{
+                      student_records[0][11] }} {% endif %}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+                  <!-- Profile Edit Form -->
+                  <form
+                    action="/studentUpdate_profile"
+                    method="post"
+                    enctype="multipart/form-data"
+                  >
+                    <div class="row mb-3">
+                      <label
+                        for="profileImage"
+                        class="col-md-4 col-lg-3 col-form-label"
+                        >Profile Image</label
+                      >
+                      <div class="col-md-8 col-lg-9">
+                        <!-- Add id="profile-preview" here -->
+                        <img
+                          src="{{ student_records[0][10] }}"
+                          id="profile-preview"
+                          class="rounded-circle profile_pic"
+                          alt="Profile"
+                        />
+                        <div class="pt-2">
+                          <!-- Upload button with a file input -->
+                          <label
+                            for="file-upload_account_settings"
+                            class="btn btn-primary btn-sm"
+                            title="Upload new profile image"
+                          >
+                            <i class="bi bi-upload" style="color: white"></i>
+                          </label>
+                          <input
+                            id="file-upload_account_settings"
+                            type="file"
+                            name="file"
+                            accept="image/*"
+                            style="display: none"
+                          />
+
+                          <!-- Button for deleting the profile image using AJAX -->
+                          <button
+                            type="button"
+                            class="btn btn-danger btn-sm"
+                            id="delete-image-btn"
+                            title="Remove my profile image"
+                          >
+                            <i class="bi bi-trash"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label
+                        for="stud_id"
+                        class="col-md-4 col-lg-3 col-form-label"
+                        >Student Id</label
+                      >
+                      <div class="col-md-8 col-lg-9">
+                        <input
+                          name="stud_id"
+                          type="text"
+                          class="form-control readonly-input"
+                          id="stud_id"
+                          value="{{ student_records[0][0] }}"
+                          onclick="alert('This section is not editable.')"
+                          readonly
+                        />
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label
+                        for="fullName"
+                        class="col-md-4 col-lg-3 col-form-label"
+                        >First Name</label
+                      >
+                      <div class="col-md-8 col-lg-9">
+                        <input
+                          name="firstname"
+                          type="text"
+                          class="form-control"
+                          id="firstname"
+                          value="{{ student_records[0][1] }} "
+                        />
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label
+                        for="middlename"
+                        class="col-md-4 col-lg-3 col-form-label"
+                        >Middle Name</label
+                      >
+                      <div class="col-md-8 col-lg-9">
+                        <input
+                          name="middlename"
+                          type="text"
+                          class="form-control"
+                          id="middlename"
+                          value="{{ student_records[0][2] }}"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label
+                        for="lastname"
+                        class="col-md-4 col-lg-3 col-form-label"
+                        >Last Name</label
+                      >
+                      <div class="col-md-8 col-lg-9">
+                        <input
+                          name="lastname"
+                          type="text"
+                          class="form-control"
+                          id="lastname"
+                          value="{{ student_records[0][3] }}"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label
+                        for="email"
+                        class="col-md-4 col-lg-3 col-form-label"
+                        >Email</label
+                      >
+                      <div class="col-md-8 col-lg-9">
+                        <input
+                          name="email"
+                          type="email"
+                          class="form-control"
+                          id="email"
+                          value="{{ student_records[0][5]}}"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label
+                        for="Phone"
+                        class="col-md-4 col-lg-3 col-form-label"
+                        >Phone</label
+                      >
+                      <div class="col-md-8 col-lg-9">
+                        <input
+                          name="phone"
+                          type="tel"
+                          class="form-control"
+                          pattern="63\+\d{3}-\d{4}-\d{3}"
+                          placeholder="63+123-4567-890"
+                          id="phone"
+                          value="{{ student_records[0][11]}}"
+                          placeholder="Enter your contact number"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary">
+                        Save Changes
+                      </button>
+                    </div>
+                  </form>
+                  <!-- End Profile Edit Form -->
+                </div>
+
+                <div class="tab-pane fade pt-3" id="profile-settings">
+                  <!-- Settings Form -->
+                  <form>
+                    <div class="row mb-3">
+                      <label
+                        for="fullName"
+                        class="col-md-4 col-lg-3 col-form-label"
+                        >Email Notifications</label
+                      >
+                      <div class="col-md-8 col-lg-9">
+                        <div class="form-check">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            id="changesMade"
+                            checked
+                          />
+                          <label class="form-check-label" for="changesMade">
+                            Changes made to your account
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            id="newcourse"
+                            checked
+                          />
+                          <label class="form-check-label" for="newcourse">
+                            New course uploaded
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            id="updates"
+                          />
+                          <label class="form-check-label" for="updates">
+                            Performance Update
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            id="securityNotify"
+                            checked
+                            disabled
+                          />
+                          <label class="form-check-label" for="securityNotify">
+                            Security alerts
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary">
+                        Save Changes
+                      </button>
+                    </div>
+                  </form>
+                  <!-- End settings Form -->
+                </div>
+
+                <div class="tab-pane fade pt-3" id="profile-change-password">
+                  <!-- Change Password Form -->
+                  <form action="/passwordUpdate/student" method="post">
+                    <div class="row mb-3">
+                      <label
+                        for="currentPassword"
+                        class="col-md-4 col-lg-3 col-form-label"
+                        >Current Password</label
+                      >
+                      <div class="col-md-8 col-lg-9">
+                        <input
+                          name="password"
+                          stype="password"
+                          class="form-control"
+                          id="currentPassword"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label
+                        for="newPassword"
+                        class="col-md-4 col-lg-3 col-form-label"
+                        >New Password</label
+                      >
+                      <div class="col-md-8 col-lg-9">
+                        <input
+                          name="newpassword"
+                          type="password"
+                          class="form-control"
+                          id="newPassword"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label
+                        for="renewPassword"
+                        class="col-md-4 col-lg-3 col-form-label"
+                        >Re-enter New Password</label
+                      >
+                      <div class="col-md-8 col-lg-9">
+                        <input
+                          name="renewpassword"
+                          type="password"
+                          class="form-control"
+                          id="renewPassword"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary">
+                        Change Password
+                      </button>
+                    </div>
+                  </form>
+                  <!-- End Change Password Form -->
+                </div>
+              </div>
+              <!-- End Bordered Tabs -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <!-- End #main -->
+
+  <script>
+    document
+      .getElementById("file-upload_account_settings")
+      .addEventListener("change", function (event) {
+        var file = event.target.files[0]; // Get the selected file
+        if (file) {
+          var reader = new FileReader(); // Create a FileReader object
+          reader.onload = function (e) {
+            // Set the src attribute of the image to the file content
+            document.getElementById("profile-preview").src = e.target.result;
+          };
+          reader.readAsDataURL(file); // Convert the file to a data URL
+        }
+      });
+
+    document
+      .getElementById("delete-image-btn")
+      .addEventListener("click", function () {
+        if (confirm("Are you sure you want to delete your profile image?")) {
+          fetch("/delete_profile_image", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ student_id: "{{ student_records[0][0] }}" }), // Send student ID
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                location.reload();
+                document.getElementById("profile-preview").src =
+                  "/static/images/Defaul_Image.png"; // Set to default image
+              } else {
+                location.reload();
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+        }
+      });
+  </script>
+</body>
+{% endblock body %}

@@ -1,0 +1,129 @@
+{% extends 'maindashboard-teachers.html' %} {% block title %} Lesson Library |
+Upgraded {% endblock title %} {% block body %}
+<main class="main" id="main">
+  <!-- New section with background image and centered text -->
+  <div class="col-12 explore-section">
+    <div class="uiLogo_image ms-3">
+      <img
+        src="/static/images/PEN-White.png"
+        class="img-fluid"
+        alt="Pen Logo"
+      />
+      <img
+        src="/static/images/UI-LOGO-FINAL-white-1.png"
+        class="img-fluid"
+        alt="UI Logo"
+      />
+    </div>
+    <h1 class="text-center">Explore New Lessons</h1>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <section class="section dashboard">
+        <div class="row justify-content-between align-items-center mt-5">
+          <div class="col-auto">
+            <p class="text-center">
+              Lessons Available
+              <span class="fw-bold"> {{ recent_uploads|length }} </span>
+            </p>
+          </div>
+      <div class="col-auto">
+        <div class="input-group mb-4" style="position: relative;">
+          <input
+            type="text"
+            id="lessonSearch"
+            onkeyup="searchLessons()"
+            placeholder="Search for lessons..."
+            class="form-control"
+            style="padding-left: 2.5rem;" 
+            aria-label="Search for lessons"
+          />
+          <span 
+            class="position-absolute"
+            style="top: 50%; left: 1rem; transform: translateY(-50%); pointer-events: none; color: #6c757d;"
+            id="search-icon"
+          >
+            <i class="bi bi-search"></i>
+          </span>
+        </div>
+      </div>
+
+
+      
+
+        <div class="text-success">
+          <hr class="border border-dark border-1 opacity-50" />
+        </div>
+
+        <div class="row justify-content-center mt-3" id="lessonsList">
+          {% for lesson in recent_uploads %}
+          <!-- Changed to 'lesson' -->
+          <div class="col-auto">
+              <div class="card info-card card-suggestion lesson-card rounded-1">
+                <!-- Image for the lesson -->
+                <img src="{{ lesson[2] }}" class="card-img-top img-fluid lesson-card rounded-1 p-0 mb-2" alt="..."/>
+
+                <div class="card-body card-suggest">
+                 
+                    <a href="#" class="card-title fw-5 suggest-title">
+                        {{lesson[1] }}
+                    </a>
+
+                    <!-- Flexbox layout for consistent alignment -->
+                    <div class="d-flex align-items-center mt-3">
+                        <!-- Profile image with fixed size -->
+                        <img src="{{lesson[6] }}" alt="" 
+                            class="rounded-circle me-2" 
+                            style="width:36px; height:36px;">
+
+                        <!-- Teacher details -->
+                        <div>
+                            <p class="m-0 video-p1 text-opacity-75">
+                                <b>{{lesson[3] }} {{ lesson[5] }}</b>
+                            </p>
+                            <p class="text-opacity-75 m-0 video-p1">Teacher</p>
+                        </div>
+                    </div>
+
+                    <!-- Buttons: Save and Start -->
+                    <form action="{{ url_for('view_as_teacher') }}" method="POST">
+                      <div class="container mt-4">
+                          <div class="d-flex">
+                              <input type="hidden" name="lesson_id" value="{{lesson[7] }}">
+                              <input type="hidden" name="lesson_group_id" value="{{ lesson[0] }}">
+                              <button type="submit" class="lesson-btn w-100" name="action" value="start" >
+                                  <i class="bi bi-play"></i> Watch
+                              </button>
+                          </div>
+                    </form>
+                  </div>
+                </div>
+            </div>
+        </div>
+          {% endfor %}
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script>
+  function searchLessons() {
+    var input = document.getElementById("lessonSearch");
+    var filter = input.value.toLowerCase();
+    var lessons = document.getElementsByClassName("lesson-card"); // Ensure this targets the correct class
+
+    for (var i = 0; i < lessons.length; i++) {
+      var card = lessons[i];
+      var title = card.getElementsByClassName("card-title")[0].textContent;
+
+      if (title.toLowerCase().indexOf(filter) > -1) {
+        card.style.display = "";
+      } else {
+        card.style.display = "none";
+      }
+    }
+  }
+</script>
+{% endblock body %}

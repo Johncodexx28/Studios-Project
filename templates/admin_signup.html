@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Use only Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" 
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="icon" href="/static/images/teamlogo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://kit.fontawesome.com/4a68012418.js" crossorigin="anonymous"></script>
+    <title>Admin Signup</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light custom-color fixed-top nav-main">
+        <div class="container">
+            <a class="navbar-brand m-2 fw-bolder" href="{{url_for('homepage')}}">PhinmaEduHUB</a>
+            
+            <!-- Navbar Toggler -->
+            <button class="navbar-toggler" type="button" 
+                    data-bs-toggle="collapse" 
+                    data-bs-target="#navbarTogglerDemo02" 
+                    aria-controls="navbarTogglerDemo02" 
+                    aria-expanded="false" 
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>   
+    
+            <!-- Navbar Links -->
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{url_for('homepage')}}">
+                            Home <span class="sr-only"></span>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="{{url_for('courses')}}">
+                            Courses
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Blogs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">About us</a>
+                    </li>
+                </ul>
+    
+                <!-- Sign up or Join -->
+                <div class="d-flex">
+                    <a  href="{{url_for('role')}}" class="btn me-2" id="customLoginbtn" type="button">Login</a>
+                    <a  href="{{url_for('signup')}}" class="btn" id="customJointbn" type="button">Join for free</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="flash-messages text-center">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+<!----------------------- Main Container -------------------------->
+
+<div class="container d-flex justify-content-center align-items-center mt-5">
+
+<!----------------------- Login Container -------------------------->
+
+<div class="row border rounded-5 p-3 bg-white shadow box-area">
+
+<!--------------------------- Left Box ----------------------------->
+
+<div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box" style="background-image: url('static/images/.jpg')";>
+    <div class="featured-image mb-3">
+    <img src="/static/images/admin.jpg" class="img-fluid" style="width: 450px;">
+    </div>
+</div> 
+
+
+<!-------------------- ------ Right Box ---------------------------->
+<div class="col-md-6 right-box">
+    <div class="row align-items-center top-0">
+    </div>
+    <div class="header-text mb-4">
+        <h2 class="text-center h2">Sign up</h2>
+        <h6 class="text-center">Please complete all the Information below.</h6>
+    </div>
+    <form action="{{url_for('admin_signup')}}" method="post">
+        <!-- Teacher Name -->
+        <div class="mb-3">
+            <label for="studentName" class="form-label">Admin Name</label>
+            <div class="row">
+                <div class="col">
+                    <input type="text" class="form-control" name="first_name" placeholder="First Name" required>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" name="middle_name" placeholder="Middle Name" style required>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" name="last_name" placeholder="Last Name" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <div class="col">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" placeholder="Email" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Admin ID -->
+            <div class="col-md-6 mb-3">
+                <label for="teacherId" class="form-label">Admin ID</label>
+                <input type="text" class="form-control" id="teacherId" name="admin_id" maxlength="14" placeholder="04-2324-xxxxxx"  required>
+            </div>
+
+            <!-- Role -->
+            <div class="col-md-6 mb-3">
+                <label for="department" class="form-label">Role</label>
+                <select class="form-select" id="admin_role" name="role" required>
+                    <option value="" selected disabled class="disabled" >Please Select</option>
+                    <option value="Master Admin">Master Admin</option>
+                    <option value="Dean">Dean</option>
+                    <option value="Facilitator">Facilitator</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="row">
+            <!-- Admin username -->
+            <div class="col-md-6 mb-3">
+                <label for="teacherId" class="form-label">Username</label>
+                <input type="text" class="form-control" id="admin-username" name="user_name" maxlength="14"   required>
+            </div>
+            <!-- Admin password -->
+            <div class="col-md-6 mb-3">
+                <label for="teacherId" class="form-label">Password</label>
+                <input type="password" class="form-control" id="admin-username" placeholder="" name="password" maxlength="12"   required>
+            </div>
+    
+
+        <!-- Submit Button -->
+        <div class="d-grid gap-2 text-center">
+            <small class="text-center">Sign up as :</small>
+            <div class="container text-center  mt-1">
+                <a href="{{url_for('teacher_signup')}}" class="btn btn-primary">Teacher</a>
+                <a href="{{url_for('signup')}}" class="btn btn-primary">Student</a>
+                <a class="btn btn-primary">Admin</a>
+            </div>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+        <div class="text-center mt-3">
+            <small>Already have an account? <a href="{{url_for('admin_login')}}">Login</a></small>
+        </div>
+    </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

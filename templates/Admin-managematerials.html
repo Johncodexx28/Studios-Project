@@ -1,0 +1,276 @@
+{% extends 'maindashboard-admin.html' %}
+
+
+{% block title %}
+    Manage Materials | Upgraded
+{% endblock title %}
+
+
+{% block body %}
+<main class="main" id="main">
+    <section class="section dashboard">
+        <div class="row">
+            <!-- Left side columns -->
+            <div class="pagetitle d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h1>Materials Management</h1>
+                </div>
+                <!-- Add Course and Print buttons -->
+                <div>
+                    <button class="btn btn-success btn-sm me-1" data-bs-toggle="modal" data-bs-target="#AddToolModal"><i class="bi bi-plus-circle"></i> Add Tool</button>
+                    <!-- <button class="btn btn-primary btn-sm"><i class="bi bi-printer"></i> Print</button> -->
+                </div>
+            </div><!-- End Page Title -->
+        
+
+            <div class="col-lg-12"> 
+                <div class="row">
+                    <!-- List of Tools -->
+                    <div class="col-12">
+                        <div class="card recent-sales overflow-auto">
+                            <div class="card-body">
+                                <h5 class="card-title">List of Tools</h5>
+
+                                <!-- Year Level Dropdown -->
+                                <div class="mb-3">
+                                    <label for="yearLevelFilter" class="form-label">Filter by Status</label>
+                                    <select id="yearLevelFilter" class="form-select">
+                                        <option value="">All</option>
+                                        <option value="Available">Available</option>
+                                        <option value=" Not Available">Not Available</option>
+                                        <option value="Pending">Pending</option>
+                                    </select>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table class="table table-striped datatable text-nowrap">
+                                        <thead class="table-success">
+                                            <tr class="text-center">
+                                                <th scope="col">Tool Id</th>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Description</th>
+                                                <th scope="col">Type</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Delete</th>
+                                                <th scope="col">Update</th>
+                                        </thead>
+                                        <tbody>
+                                            {% for material in material %}
+                                                <tr>
+                                                    <input type="hidden" name="teacher_id" value="{{ material[0] }}">
+                                                    <td>
+                                                        <label> {{ material[0] }} </label>
+                                                        <input type="hidden" name="tool_id" value="{{ material[0] }}">
+                                                    </td>
+                                                    <td>
+                                                        <label> {{ material[3] }} </label>
+                                                        <input type="hidden" name="toolname" value="{{ material[3] }}">
+                                                    </td>
+                                                    <td>
+                                                        <label> {{ material[4] }} </label>
+                                                        <input type="hidden" name="description" value="{{ material[4] }}">
+                                                    </td>
+                                                    <td>
+                                                        <label> {{ material[5] }} </label>
+                                                        <input type="hidden" name="tooltype" value="{{ material[5] }}">
+                                                    </td>
+                                                    <td>
+                                                        <span class="{% if material[6] == 'Available' %}badge bg-success{% elif material[6] == 'Unavailable' %}badge bg-danger{% else %}badge bg-warning{% endif %}">
+                                                            {{ material[6] }}
+                                                        </span>
+                                                        <input type="hidden" name="status" value="{{ material[6] }}">
+                                                    </td>
+                                                    <td>
+                                                        <form action="/deletetool" method="post">
+                                                            <input type="hidden" name="tool_id" value="{{ material[0] }}">
+                                                            <button  type="submit" class="btn btn-icon btn-danger"><i class="fas fa-trash-alt"></i></button>     
+                                                        </form>                                                   
+                                                    </td>
+                                                    <td>
+                                                        <button  class="btn btn-icon btn-primary" data-bs-toggle="modal" data-bs-target="#UpdateToolModal{{material[0]}}"> <i class="fas fa-edit"></i></button>
+                                                    </td>
+                                                </tr>
+                                                
+                                                <!-- Update-Tool-Modal -->
+                                                <div class="modal fade" id="UpdateToolModal{{material[0]}}" tabindex="-1" aria-labelledby="UpdateToolModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog mt-5">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="UpdateToolModalLabel">Update Teacher</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form action="/updatetool_process" method="post">
+                                                                    <input type="hidden" name="new_teacherid" value="{{ material[0] }}">
+                                                                    
+                                                                <div class="container text-center">
+                                                                <div class="row align-items-start">
+                                                                    <div class="col-md-12 .ms-auto">
+                                                                        <img src="/static/images/html.jpg"  class="rounded-0 mb-3" alt="" style="max-width: 120px;">
+                                                                        <div class="mb-3">
+                                                                            <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
+                                                                            <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-12 .ms-auto"></div>
+                                                                        <div class="input-group mb-3">
+                                                                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-badge"></i></span>
+                                                                            <input type="text" class="form-control" placeholder="Tool Id" name="tool_id" value="{{material[0]}}" maxlength="14" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-12 .ms-auto">
+                                                                        <div class="input-group mb-3">
+                                                                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-badge"></i></span>
+                                                                            <input type="text" class="form-control" placeholder="Tool name" name="new_toolname" value="{{material[3]}}" maxlength="503r" >
+                                                                        </div>
+                                                                    </div>
+                                                                    <div>
+                                                                        <div class="input-group mb-3">
+                                                                            <textarea class="form-control" placeholder="Write a short description about this Tool" name="description" rows="4" cols="50" required>{{ material[4] }}</textarea>
+                                                                        </div>
+                                                                    </div>                                                                    
+                                                                    <div class="input-group mb-3">
+                                                                        <span class="input-group-text" id="basic-addon1">
+                                                                            <i class="bi bi-person-fill"></i>
+                                                                        </span>
+                                                                        <select class="form-select" name="new_type" required>
+                                                                            <option value="Pdf" {% if material[5] == 'Pdf' %}selected{% endif %}>PDF</option>
+                                                                            <option value="Powerpoint" {% if material[5] == 'Powerpoint' %}selected{% endif %}>PowerPoint</option>
+                                                                            <option value="Video" {% if material[5] == 'Video' %}selected{% endif %}>Video</option>
+                                                                            <option value="eBook" {% if material[5] == 'eBook' %}selected{% endif %}>eBook</option>
+                                                                            <option value="Worksheet" {% if material[5] == 'Worksheet' %}selected{% endif %}>Worksheet</option>
+                                                                            <option value="Quiz" {% if material[5] == 'Quiz' %}selected{% endif %}>Quiz</option>
+                                                                            <option value="Interactive Module" {% if material[5] == 'Interactive Module' %}selected{% endif %}>Interactive Module</option>
+                                                                            <option value="Image" {% if material[5] == 'Image' %}selected{% endif %}>Image</option>
+                                                                            <option value="Document" {% if material[5] == 'Document' %}selected{% endif %}>Document</option>
+                                                                            <option value="Spreadsheet" {% if material[5] == 'Spreadsheet' %}selected{% endif %}>Spreadsheet</option>
+                                                                            <option value="Web Link" {% if material[5] == 'Web Link' %}selected{% endif %}>Web Link</option>
+                                                                            <option value="Lecture Notes" {% if material[5] == 'Lecture Notes' %}selected{% endif %}>Lecture Notes</option>
+                                                                            <option value="Other" {% if material[5] == 'Other' %}selected{% endif %}>Other</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    
+                                                                    <div class="col">
+                                                                        <div class="input-group mb-3">
+                                                                            <span class="input-group-text" id="basic-addon1">
+                                                                                <i class="bi bi-person-fill"></i>
+                                                                            </span>
+                                                                            <select class="form-select" name="new_status" required>
+                                                                                <option value="Available" {% if material[6] == 'Available' %}selected{% endif %}>Available</option>
+                                                                                <option value="Unavailable" {% if material[6] == 'Unavailable' %}selected{% endif %}>Unavailable</option>
+                                                                                <option value="Pending" {% if material[6] == 'Pending' %}selected{% endif %}>Pending</option>
+                                                                            </select>
+                                                                        </div>
+                                                                        
+                                                                    </div>
+            
+                                                                <!-- Submit Button -->     
+                                                                <div class="d-grid gap-2 text-center">
+                                                                    <button type="submit" class="btn btn-success">Submit</button>
+                                                                </div>
+                                                                </div>
+                                                            </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- End Update Student Modal -->
+                                            {% endfor %}
+                                        </tbody>                                        
+                                    </table>
+                                </div> <!-- End of table-responsive -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <!-- Add-Tool-Modal -->
+    
+    <div class="modal fade" id="AddToolModal" tabindex="-1" aria-labelledby="AddToolModalLabel" aria-hidden="true">
+        <div class="modal-dialog mt-5">
+        <form action="/addtools" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="AddToolModalLabel">Add Tool</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    
+                        
+                    <div class="container text-center">
+                    <div class="row align-items-start">
+                        <div class="col-md-12 .ms-auto">
+                            <img src="/static/images/html.jpg"  class="rounded-0 mb-3" alt="" style="max-width: 120px;">
+                            <div class="mb-3">
+                                <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
+                                <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-md-12 .ms-auto">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-badge"></i></span>
+                                <input type="text" class="form-control" placeholder="Tool name" name="tool_name"  maxlength="50" required>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="file" name="file" id="toolfile">
+                        </div>
+                        <div>
+                            <div class="input-group mb-3">
+                                <textarea class="form-control" placeholder="Write a short description about this Tool" name="description" rows="4" cols="50" required></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="bi bi-person-fill"></i>
+                            </span>
+                            <select class="form-select" name="tool_type" required>
+                                <option value="Pdf">PDF</option>
+                                <option value="Powerpoint">PowerPoint</option>
+                                <option value="Video">Video</option>
+                                <option value="eBook">eBook</option>
+                                <option value="Worksheet">Worksheet</option>
+                                <option value="Quiz">Quiz</option>
+                                <option value="Interactive Module">Interactive Module</option>
+                                <option value="Image">Image</option>
+                                <option value="Document">Document</option>
+                                <option value="Spreadsheet">Spreadsheet</option>
+                                <option value="Web Link">Web Link</option>
+                                <option value="Lecture Notes">Lecture Notes</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="bi bi-person-fill"></i>
+                                </span>
+                                <select class="form-select" name="status" required>
+                                    <option value="Available">Available</option>
+                                    <option value="Unavailable">Unavailable</option>
+                                    <option value="Pending">Pending</option>
+                                </select>
+                            </div>
+                            
+                        </div>
+
+                    <!-- Submit Button -->     
+                    <div class="d-grid gap-2 text-center">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                    </div>
+                
+                </div>
+            </form>
+            </div>
+    </div>
+
+    </main>    
+
+{% endblock body %}
+

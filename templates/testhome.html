@@ -1,0 +1,431 @@
+{% extends 'mainbasehome-upgraded.html' %}
+{% block Title %}
+  PHINMAEDUHUB | Homepage
+{% endblock Title %}
+
+{% block mainsection %}
+  
+
+
+    <section class="hero mt-5 background-img">
+      <div class="container" data-aos="fade-down" data-aos-duration="2000">
+        <div class="row">
+          <div class="col-6">
+            <div class="text-hero-bold" id="hometext">
+              Empowering Education Through Innovative Video Learning.
+            </div>
+            <div class="text-hero-regular">
+              Our platform connects teachers and students, making it easy to
+              share video lessons and educational resources. Experience a
+              seamless learning journey that enhances engagement and knowledge
+              retention.
+            </div>
+            <div class="cta">
+              <a href="#" class="btn btn-primary me-2"
+              class="btn btn-primary"
+              class="btn btn-secondary me-2"
+              class="btn btn-primary"
+              data-bs-target="#SignupSelection"
+              data-bs-toggle="modal"
+              
+              >Get Started</a>
+              <a href="#" class="btn btn-secondary">Learn More</a>
+            </div>
+          </div>
+          <div class="col-md-6 hero_image" >
+            <img src="/static/images/Group 3.png" alt="img" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="upload-process">
+      <div class="container">
+        <div data-aos="fade-up" data-aos-duration="2000">
+          <div class="row">
+            <div class="col-12 mt-5 mb-2 text-center">
+              <div class="text-hero-semi-bold">
+                Easily Share Your Knowledge with Students
+              </div>
+              <div class="text-hero-regular">
+                Teachers can seamlessly upload video lessons and educational
+                resources to our platform. <br />
+                This process enhances student learning and engagement through
+                accessible content.
+              </div>
+            </div>
+            <div class="col-12 d-flex justify-content-center flex-wrap mb-5 text-center">
+              <div class="process-img me-4 mb-4">
+                <img src="/static/images/Steps.jpg" alt="" class="img-fluid" style="width: 300px; height: 200px; object-fit: cover;" />
+                <div class="card-text-semi-bold">
+                  Step-by-Step Uploading Process for Teachers
+                </div>
+                <div>
+                  <small>
+                    Follow these simple steps to get started quickly.
+                  </small>
+                </div>
+              </div>
+
+              <div class="process-img me-4 mb-4">
+                <img src="/static/images/step2.png" alt="" class="img-fluid" style="width: 300px; height: 200px; object-fit: cover;" />
+                <div class="card-text-semi-bold">
+                  Select Your Content and Format It
+                </div>
+                <div>
+                  <small>
+                    Choose the video or resource you want to upload.
+                  </small>
+                </div>
+              </div>
+
+              <div class="process-img mb-4">
+                <img src="/static/images/step3.png" alt="" class="img-fluid" style="width: 300px; height: 200px; object-fit: cover;" />
+                <div class="card-text-semi-bold">
+                  Upload and Publish Your Materials
+                </div>
+                <div>
+                  <small>
+                    Click the upload button and share your knowledge.
+                  </small>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- Button Group -->
+            <div class="text-center mt-3 mb-5">
+              <button class="btn btn-primary me-2"
+              href="#hometext"
+              class="btn btn-primary"
+              class="btn btn-secondary me-2"
+              class="btn btn-primary"
+              data-bs-target="#SignupSelection"
+              data-bs-toggle="modal"
+              >Upload</button>
+              <button class="btn btn-arrow">
+                Learn More <span class="arrow-icon">&gt;</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="seamless-content">
+      <div class="container t-5 " data-aos="fade-right">
+        <div class="row">
+          <div class="col-lg-4">
+            <!-- Adjusted width for text content -->
+            <div class="text-hero-semi-bold">
+              Seamless Content Management for Educators
+            </div>
+            <div class="text-hero-regular">
+              Our platform offers an intuitive interface that simplifies the
+              process of uploading and managing educational content. Teachers
+              can easily share video lessons and resources, enhancing the
+              learning experience for students.
+            </div>
+            <div class="d-flex justify-content-between mt-4">
+              <div class="text-start">
+                <div class="text-hero-medium">Easy</div>
+                <small
+                  >Upload videos and resources with just a few clicks.</small
+                >
+              </div>
+              <div class="text-start">
+                <div class="text-hero-medium">Efficient</div>
+                <small
+                  >Manage your content effortlessly and focus on
+                  teaching.</small
+                >
+              </div>
+            </div>
+            <!-- Button Group -->
+            <div class="text-start mt-5 mb-5">
+              <button class="btn btn-primary me-2"
+              class="btn btn-primary"
+              class="btn btn-secondary me-2"
+              class="btn btn-primary"
+              data-bs-target="#SignupSelection"
+              data-bs-toggle="modal">Upload</button>
+              <button class="btn btn-arrow">
+                Learn More <span class="arrow-icon">&gt;</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Right Column for the image -->
+          <div class="col-lg-8 text-end" data-aos="fade-up"
+          data-aos-anchor-placement="center-bottom"
+          data-aos-duration="1000">
+            <!-- Adjusted width for image -->
+            <img
+              src="/static/images/instructor.png"
+              alt=""
+              class="img-fluid"
+              style="
+                width: 550px;
+                box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px,
+                  rgba(0, 0, 0, 0.23) 0px 6px 6px;
+              "
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="top-video-lessons" id="Lessons-section">
+    <div class="container mb-4 mt-4" data-aos="zoom-in-up" data-aos-duration="1000">
+      <div class="row gy-4 justify-content-center">
+        <h2 class="text-center text-hero-semi-bold mb-3">Top Video Lessons</h2>
+
+        <div class="col-auto">
+          <div class="card" style="width: 16rem; background-color: azure">
+            <img src="/static/images/crud_flask.jpg" class="card-img-top img-fluid" alt="CRUD Operations in Flask" />
+            <div class="card-body">
+              <h5 class="card-title fw-bold fs-6">CRUD Operations: Insert Data in Flask</h5>
+              <p class="card-text fs-6">
+                Learn how to implement the INSERT operation in your Flask applications to add new data to a database.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-auto">
+          <div class="card" style="width: 16rem; background-color: azure">
+            <img src="/static/images/oop2.jpg" class="card-img-top img-fluid" alt="Retrieve/Read in Flask" />
+            <div class="card-body">
+              <h5 class="card-title fw-bold">CRUD Operations: Retrieve/Read in Flask</h5>
+              <p class="card-text">
+                Explore how to implement the READ operation in your Flask applications. This lesson covers setting up routes to retrieve data from a database and display it on a web page.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-auto">
+          <div class="card" style="width: 16rem; background-color: azure">
+            <img src="/static/images/pyflask.jpeg" class="card-img-top img-fluid" alt="Update Data in Flask" />
+            <div class="card-body">
+              <h5 class="card-title fw-bold">CRUD Operations: Update Data in Flask</h5>
+              <p class="card-text">
+                Understand how to implement the UPDATE operation to modify existing records in your Flask applications.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-auto">
+          <div class="card" style="width: 16rem; background-color: azure">
+            <img src="/static/images/oop2.jpg" class="card-img-top img-fluid" alt="Delete Data in Flask" />
+            <div class="card-body">
+              <h5 class="card-title fw-bold">CRUD Operations: Delete Data in Flask</h5>
+              <p class="card-text">
+                Learn how to implement the DELETE operation to remove data from your database in Flask applications.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-auto">
+          <div class="card" style="width: 16rem; background-color: azure">
+            <img src="/static/images/pyflask.jpeg" class="card-img-top img-fluid" alt="Flask Authentication" />
+            <div class="card-body">
+              <h5 class="card-title fw-bold">Flask User Authentication</h5>
+              <p class="card-text">
+                Discover how to implement user authentication in Flask applications using session management.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-auto">
+          <div class="card" style="width: 16rem; background-color: azure">
+            <img src="/static/images/oop2.jpg" class="card-img-top img-fluid" alt="Flask REST API" />
+            <div class="card-body">
+              <h5 class="card-title fw-bold">Creating a REST API with Flask</h5>
+              <p class="card-text">
+                Learn how to build RESTful APIs using Flask and how to handle HTTP requests effectively.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-auto">
+          <div class="card" style="width: 16rem; background-color: azure">
+            <img src="/static/images/pyflask.jpeg" class="card-img-top img-fluid" alt="Flask and SQLAlchemy" />
+            <div class="card-body">
+              <h5 class="card-title fw-bold">Flask and SQLAlchemy</h5>
+              <p class="card-text">
+                Explore how to integrate SQLAlchemy with Flask for advanced database management and ORM capabilities.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-auto">
+          <div class="card" style="width: 16rem; background-color: azure">
+            <img src="/static/images/oop2.jpg" class="card-img-top img-fluid" alt="Flask Deployment" />
+            <div class="card-body">
+              <h5 class="card-title fw-bold">Deploying Flask Applications</h5>
+              <p class="card-text">
+                Understand the steps involved in deploying your Flask application to a cloud service for public access.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="empower-cta">
+    <div class="container">
+      <div class="row justify-content-center text-center">
+        <div class="col-12">
+          <div class="text-hero-semi-bold mb-0">Empower Your Teaching Journey</div>
+          <div class="text-hero-regular" style="line-height: 0">
+            Join us to share your knowledge with students today!
+          </div>
+        </div>
+        <div class="col-12">
+          <div>
+            <button class="btn btn-primary me-2" data-bs-target="#SignupSelection" data-bs-toggle="modal">Sign up</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+    <section class="blogs" id="Blogs">
+      <div class="container" data-aos="zoom-in-down"
+      data-aos-duration="1000">
+        <div class="row mb-4 d-flex justify-content-between align-items-center">
+          <!-- Flex container -->
+          <div class="col-auto">
+            <div class="text-hero-semi-bold">Our Blogs</div>
+            <!-- Aligns to the left -->
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-primary">View all</button>
+            <!-- Aligns to the right -->
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <!-- Centered cards -->
+          <div class="col-auto">
+            <div class="card" style="width: 16rem; background-color: azure">
+              <img
+                src="/static/images/oop2.jpg"
+                class="card-img-top img-fluid"
+                alt="..."
+              />
+              <div class="card-body">
+                <h5 class="card-title fw-bold">Card title</h5>
+                <p class="card-text">
+                  Some quick example text to make up the bulk of the card's
+                  content.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-auto">
+            <div class="card" style="width: 16rem; background-color: azure">
+              <img
+                src="/static/images/oop2.jpg"
+                class="card-img-top img-fluid"
+                alt="..."
+              />
+              <div class="card-body">
+                <h5 class="card-title fw-bold">Card title</h5>
+                <p class="card-text">
+                  Some quick example text to make up the bulk of the card's
+                  content.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-auto">
+            <div class="card" style="width: 16rem; background-color: azure">
+              <img
+                src="/static/images/oop2.jpg"
+                class="card-img-top img-fluid"
+                alt="..."
+              />
+              <div class="card-body">
+                <h5 class="card-title fw-bold">Card title</h5>
+                <p class="card-text">
+                  Some quick example text to make up the bulk of the card's
+                  content.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+
+<section class="footer" style="background-color: #e9f7f8;">
+  <div class="container">
+    <footer class="py-5">
+      <div class="row">
+
+        <!-- Logo Section -->
+        <div class="col-4 col-md-2 mb-3 text-center">
+          <img src="/static/images/uiLogo.png" style="width: 36px; height: 36px;" class="rounded" alt="">
+          <span style="font-weight: bold; color:#037d70">PhinmaEduHub</span>
+        </div>
+
+        <!-- Quick Links Section -->
+        <div class="col-4 col-md-2 mb-3">
+          <h5>Quick Links</h5>
+          <ul class="nav flex-column">
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary"></a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Video Lessons</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Student Portal</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Contact Us</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Support Center</a></li>
+          </ul>
+        </div>
+
+        <!-- Resources Section -->
+        <div class="col-4 col-md-2 mb-3">
+          <h5>Resources</h5>
+          <ul class="nav flex-column">
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Resources</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Blog Posts</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Webinars</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Events Calendar</a></li>
+          </ul>
+        </div>
+
+
+      <!-- Subscription Form Section -->
+      <div class="col-md-5 offset-md-1 mb-3">
+        <form>
+          <h5>Subscribe to our newsletter</h5>
+          <p>Monthly digest of what's new and exciting from us.</p>
+          <div class="d-flex flex-column flex-sm-row w-100 gap-2">
+            <div class="flex-fill">
+              <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
+            </div>
+            <button class="btn btn-primary" type="button">Subscribe</button>
+          </div>
+        </form>
+      </div>
+
+
+      <div class="d-flex flex-column flex-sm-row justify-content-center mt-5">
+        <p>&copy; 2024 Phinma University of Iloilo. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+</section>
+
+{% endblock mainsection %}
